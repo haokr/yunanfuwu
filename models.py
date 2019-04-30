@@ -8,14 +8,14 @@ from datetime import datetime
 parent_child_user_relationship = db.Table('parent_child_user_relationship',
         db.Column('parent_id', db.String(30), db.ForeignKey('user.id'), primary_key=True),
         db.Column('child_id', db.String(30), db.ForeignKey('user.id'), primary_key=True),
-        create_time = db.Column(db.DateTime, default=datetime.now)
+        db.Column('create_time', db.DateTime, default=datetime.now)
     )
 
 # 设备分组关系中间表
 equipment_group_relationship = db.Table('equipment_group_relationship',
         db.Column('group_id', db.String(30), db.ForeignKey('group.id'), primary_key=True),
         db.Column('equipment_id', db.String(30), db.ForeignKey('equipment.id'), primary_key=True),
-        create_time = db.Column(db.DateTime, default=datetime.now)
+        db.Column('create_time', db.DateTime, default=datetime.now)
     )
 
 # 用户
@@ -33,18 +33,18 @@ class User(db.Model):
     address = db.Column(db.String(50))
     describe = db.Column(db.String(100))
     create_time = db.Column(db.DateTime, default=datetime.now)
-    modify_time = db.Column(db.DateTime, default=datetime.now, update=datetime.now)
+    modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
 # 用户操作记录
-class user_record(db.Model):
+class User_record(db.Model):
     __tablename__ = 'user_record'
     id = db.Column(db.String(30), primary_key=True, nullable=False, default='ur_'+shortuuid.uuid())
-    user_id = db.Column(db.String(30), db.ForeignKey=(user.id))
+    user_id = db.Column(db.String(30), db.ForeignKey('user.id'))
     user = db.relationship('User', backref='record')
     ip = db.Column(db.Integer, default=0)
     operation = db.Column(db.String(20), nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
-    modify_time = db.Column(db.DateTime, default=datetime.now, update=datetime.now)
+    modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
 # 分组管理
 class Group(db.Model):
@@ -59,7 +59,7 @@ class Group(db.Model):
     admin = db.relationship('User', backref='group')
 
     create_time = db.Column(db.DateTime, default=datetime.now)
-    modify_time = db.Column(db.DateTime, default=datetime.now, update=datetime.now)
+    modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
 # 设备
 class Equipment(db.Model):
@@ -69,7 +69,7 @@ class Equipment(db.Model):
     model = db.Column(db.String(15))
     status = db.Column(db.String(15), default='off')
     create_time = db.Column(db.DateTime, default=datetime.now)
-    modify_time = db.Column(db.DateTime, default=datetime.now, update=datetime.now)
+    modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
 # 报警记录
 class Alarm_record(db.Model):
@@ -80,4 +80,4 @@ class Alarm_record(db.Model):
     class_ = db.Column(db.String(10), nullable=False)
     describe = db.Column(db.String(30))
     create_time = db.Column(db.DateTime, default=datetime.now)
-    modify_time = db.Column(db.DateTime, default=datetime.now, update=datetime.now)
+    modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
