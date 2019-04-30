@@ -7,7 +7,15 @@ from datetime import datetime
 # 父子账号关系中间表
 parent_child_user_relationship = db.Table('parent_child_user_relationship',
         db.Column('parent_id', db.String(30), db.ForeignKey('user.id'), primary_key=True),
-        db.Column('child_id', db.String(30), db.ForeignKey('user.id'), primary_key=True)
+        db.Column('child_id', db.String(30), db.ForeignKey('user.id'), primary_key=True),
+        create_time = db.Column(db.DateTime, default=datetime.now)
+    )
+
+# 设备分组关系中间表
+equipment_group_relationship = db.Table('equipment_group_relationship',
+        db.Column('group_id', db.String(30), db.ForeignKey('group.id'), primary_key=True),
+        db.Column('equipment_id', db.String(30), db.ForeignKey('equipment.id'), primary_key=True),
+        create_time = db.Column(db.DateTime, default=datetime.now)
     )
 
 # 用户
@@ -21,9 +29,6 @@ class User(db.Model):
     # 将 父子账号 通过中间表关联起来
     parent = db.relationship('User', secondary=parent_child_user_relationship, backref=db.backref('child'))
     childs = db.relationship('User', secondary=parent_child_user_relationship, backref=db.backref('parent'))
-
-    group_id = db.Column(db.String(30), db.ForeignKey(group.id))
-    group = db.relationship('Group', backref='user')
 
     address = db.Column(db.String(50))
     describe = db.Column(db.String(100))
@@ -41,4 +46,38 @@ class user_record(db.Model):
     create_time = db.Column(db.DateTime, default=datetime.now)
     modify_time = db.Column(db.DateTime, default=datetime.now, update=datetime.now)
 
+# 分组管理
+class Group(db.Model):
+    __tablename__ = 'group'
+    id = db.Column(db.String(30), primary_key=True, nullable=False, default='g_'+shortuuid.uuid())
+    name = db.Column(db.String(30), nullable=False, default='GROUPNAME')
 
+    # 将 设备分组 通过中间表关联起来
+    equipments = db.relationship('Equipment', secondary=equipment_group_relationship, backref=db.backref('group'))
+
+    admin_id = db.Column(db.String(30), db.ForeignKey('user.id'))
+    admin = db.relationship('User', backref='group')
+
+    create_time = db.Column(db.DateTime, default=datetime.now)
+    modify_time = db.Column(db.DateTime, default=datetime.now, update=datetime.now)
+
+# 设备
+class Equipment(db.Model):
+    __equipment__ = 'equipment'
+    id = db.Column(db.String(30), primary_key=True, nullable=False, default='e_'+shortuuid.uuid())
+    manufacturer = db.Column(db.String(30))
+    model = db.Column(db.String(15))
+    status = db.Column(db.String(15), default='off')
+    create_time = db.Column(db.DateTime, default=datetime.now)
+    modify_time = db.Column(db.DateTime, default=datetime.now, update=datetime.now)
+
+# 报警记录
+class Alarm_record(db.Model):
+    __tablename__ = 'alarm_record'
+    id = db.Column(db.String(30), primary_key=True, nullable=False, default='ar_'+shortuuid.uuid())
+    equipment_id = db.Column(db.String(30), db.ForeignKey('equipment.id'))
+    equipment = db.relationship('Equipment', backref='alarm_record')
+    class_ = db.Column(db.String(10), nullable=False)
+    describe = db.Column(db.String(30))
+    create_time = db.Column(db.DateTime, default=datetime.now)
+    modify_time = db.Column(db.DateTime, default=datetime.now, update=datetime.now)

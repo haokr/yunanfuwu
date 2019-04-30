@@ -17,7 +17,8 @@
 - password      # 密码
 - parent        # 父账号 -> 用户
 - child         # 子账号 -> 用户
-- group_id         # 组 -> 组表；分管的设备组
+- group         # 组 -> 组表；分管的设备组
+- record        # 操作记录
 - address       # 地址
 - describe      # 用户描述
 - create_time
@@ -52,7 +53,7 @@
 - create_time 
 - modify_time
 
-## 设备分组中间表 gruop_equipment_link
+## 设备分组中间表 gruop_equipment_relationship
 
 - id
 - group         # 指向组表
