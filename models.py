@@ -19,8 +19,8 @@ class User(db.Model):
     username = db.Column(db.String(30), nullable=False)
     password = db.Column(db.String(40), nullable=False)
 
-    parent_id = db.Column(db.String(30), db.ForeignKey('user.id'))
-    parent = db.relationship('User', backref=db.backref('childs'))
+    child_id = db.Column(db.String(30), db.ForeignKey('user.id'))
+    childs = db.relationship('User',remote_side=[id], backref=db.backref('parent', lazy='dynamic'))
 
     address = db.Column(db.String(50))
     describe = db.Column(db.String(100))
