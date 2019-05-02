@@ -4,13 +4,6 @@ from db import db
 import shortuuid
 from datetime import datetime
 
-# 父子账号关系中间表
-parent_child_user_relationship = db.Table('parent_child_user_relationship',
-        db.Column('parent_id', db.String(30), db.ForeignKey('user.id'), primary_key=True),
-        db.Column('child_id', db.String(30), db.ForeignKey('user.id'), primary_key=True),
-        db.Column('create_time', db.DateTime, default=datetime.now)
-    )
-
 # 设备分组关系中间表
 equipment_group_relationship = db.Table('equipment_group_relationship',
         db.Column('group_id', db.String(30), db.ForeignKey('group.id'), primary_key=True),
@@ -26,9 +19,8 @@ class User(db.Model):
     username = db.Column(db.String(30), nullable=False)
     password = db.Column(db.String(40), nullable=False)
 
-    # 将 父子账号 通过中间表关联起来
-    parent = db.relationship('User', secondary=parent_child_user_relationship, backref=db.backref('child'))
-    childs = db.relationship('User', secondary=parent_child_user_relationship, backref=db.backref('parent'))
+    parent_id = db.Column(db.String(30), db.ForeignKey('user.id'))
+    parent = db.relationship('User', backref='childs')
 
     address = db.Column(db.String(50))
     describe = db.Column(db.String(100))
