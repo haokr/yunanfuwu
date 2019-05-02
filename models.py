@@ -20,7 +20,7 @@ class User(db.Model):
     password = db.Column(db.String(40), nullable=False)
 
     parent_id = db.Column(db.String(30), db.ForeignKey('user.id'))
-    parent = db.relationship('User', backref='childs')
+    parent = db.relationship('User', backref=db.backref('childs'))
 
     address = db.Column(db.String(50))
     describe = db.Column(db.String(100))
@@ -32,7 +32,7 @@ class User_record(db.Model):
     __tablename__ = 'user_record'
     id = db.Column(db.String(30), primary_key=True, nullable=False, default='ur_'+shortuuid.uuid())
     user_id = db.Column(db.String(30), db.ForeignKey('user.id'))
-    user = db.relationship('User', backref='record')
+    user = db.relationship('User', backref=db.backref('record'))
     ip = db.Column(db.Integer, default=0)
     operation = db.Column(db.String(20), nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
@@ -48,7 +48,7 @@ class Group(db.Model):
     equipments = db.relationship('Equipment', secondary=equipment_group_relationship, backref=db.backref('group'))
 
     admin_id = db.Column(db.String(30), db.ForeignKey('user.id'))
-    admin = db.relationship('User', backref='group')
+    admin = db.relationship('User', backref=db.backref('group'))
 
     create_time = db.Column(db.DateTime, default=datetime.now)
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
@@ -68,7 +68,7 @@ class Alarm_record(db.Model):
     __tablename__ = 'alarm_record'
     id = db.Column(db.String(30), primary_key=True, nullable=False, default='ar_'+shortuuid.uuid())
     equipment_id = db.Column(db.String(30), db.ForeignKey('equipment.id'))
-    equipment = db.relationship('Equipment', backref='alarm_record')
+    equipment = db.relationship('Equipment', backref=db.backref('alarm_record'))
     class_ = db.Column(db.String(10), nullable=False)
     describe = db.Column(db.String(30))
     create_time = db.Column(db.DateTime, default=datetime.now)
