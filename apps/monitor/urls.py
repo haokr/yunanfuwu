@@ -1,8 +1,9 @@
 from flask import Blueprint, request, session
 from flask_socketio import send, emit
-from app import socketio
+from socketIO import socketio
 from apps.monitor import view
-from . import monitor
+
+monitor = Blueprint('monitor', __name__) 
 
 @monitor.route('/')
 def monitorPage():
@@ -11,6 +12,11 @@ def monitorPage():
 @monitor.route('/jump', methods=['POST'])
 def jump():
     return view.sendJump()
+
+@monitor.route('/report/<eid>', methods=['POST'])
+def report(eid):
+    return view.report(eid)
+
 
 @socketio.on('connect')
 def connect():

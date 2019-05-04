@@ -11,7 +11,7 @@ from apps.equipment.urls import equipment
 from apps.group.urls import group
 from apps.record.urls import record
 from apps.user.urls import user
-from apps.monitor import monitor
+from apps.monitor.urls import monitor
 
 app = Flask(__name__)
 
