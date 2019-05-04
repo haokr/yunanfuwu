@@ -1,4 +1,4 @@
-from flask import request, render_template, jsonify
+from flask import request, render_template, jsonify, session
 from app import socketio
 
 
@@ -7,5 +7,11 @@ def monitorPage():
 
 def sendJump():
     data = request.form.get('data')
-    socketio.emit('jump', data)
+    sid = session.get('sid')
+    print(session)
+    socketio.emit(
+        'jump', 
+        {'data': data, 'sid': sid},
+        room=sid
+    )
     return jsonify({'msg': 'success', 'data': data})

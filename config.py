@@ -23,4 +23,7 @@ JSON_AS_ASCII = False
 # session 过期时间
 PERMANENT_SESSION_LIFETIME = timedelta(days = 1)
 
+
+SESSION_TYPE = 'filesystem'
+
 SECRET_KEY = os.urandom(24)

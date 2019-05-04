@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, session
 from flask_socketio import send, emit
 from app import socketio
 from apps.monitor import view
@@ -14,7 +14,10 @@ def jump():
 
 @socketio.on('connect')
 def connect():
+    sid = request.sid
+    session['sid'] = sid
     socketio.emit(
         'start',
-        {'data': 'server connect success'}
+        {'data': 'server connect success', 'sid': sid},
+        room=sid
     )
