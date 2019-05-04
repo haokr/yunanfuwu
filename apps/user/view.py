@@ -1,5 +1,5 @@
 from flask import request, session, render_template, redirect, url_for, jsonify
-from models import User
+from models import User, Group
 from db import db
 
 def root():
@@ -40,6 +40,11 @@ def register():
         user = User(**registerData)
         db.session.add(user)
         db.session.commit()
+        user_id = User.query.filter(User.username == username).first().id
+        group = Group(admin_id=user_id, name=username)
+        db.session.add(group)
+        db.session.commit()
+        session['id'] = user_id
         session['username'] = username
     return redirect(url_for('user.root'))
 
