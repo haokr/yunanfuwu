@@ -35,17 +35,21 @@ def register():
         'username': username,
         'password': password
     }
-    isExisted = User.query.filter(User.username==username)
+    isExisted = User.query.filter(User.username==username).all()
     if not isExisted:
-        user = User(**registerData)
-        db.session.add(user)
-        db.session.commit()
-        user_id = User.query.filter(User.username == username).first().id
-        group = Group(admin_id=user_id, name=username)
-        db.session.add(group)
-        db.session.commit()
-        session['id'] = user_id
-        session['username'] = username
+        try:
+            user = User(**registerData)
+            db.session.add(user)
+            db.session.commit()
+            user_id = User.query.filter(User.username == username).first().id
+            group = Group(admin_id=user_id, name=username)
+            db.session.add(group)
+            db.session.commit()
+            session['id'] = user_id
+            session['username'] = username
+        except Exception as e:
+            print(e)
+            return {'msg': 'fail', 'data': 'commit fail'}
     return redirect(url_for('user.root'))
 
 def showChilds():
@@ -62,14 +66,26 @@ def addChild():
         'describe': '太原理工大学明向校区大数据学院802',
         'parent_id': session.get('id')
     }
-    try:
-        user = User(**childData)
-        db.session.add(user)
-        db.session.commit()
-        user_id = User.query.filter(User.username == childData.username).fister().id
-        group = Group(admin_id=user_id, name=childData.username)
-        db.session.add(group)
-        db.session.commit()
-    except Exception as e:
-        return jsonify({'msg': 'fail', 'data': 'create child error when commit database'})
+    isUserExisted = User.query.filter(User.username==childData['username']).all()
+    if not isUserExisted:
+        try:
+            user = User(**childData)
+            db.session.add(user)
+            db.session.commit()
+            
+        except Exception as e:
+            print(e)
+            return jsonify({'msg': 'fail', 'data': 'create child error when commit database'})
+    else:
+        user = User.query.filter(User.username == childData['username']).first()
+        user_id = user.id
+        isGroupExisted = Group.query.filter(Group.admin_id == user_id).all()
+        if not isGroupExisted:
+            try:
+                group = Group(admin_id=user_id, name=childData['username'])
+                db.session.add(group)
+                db.session.commit()
+            except Exception as e:
+                return jsonify({'msg': 'fail', 'data': 'create gruop fail when commit database'})
+        return jsonify({'msg': 'fail', 'data': 'the username is existed'})
     return jsonify(childData)
