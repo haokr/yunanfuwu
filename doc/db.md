@@ -2,12 +2,7 @@
 
 ## 数据库配置
 
-- root@139.196.94.212:3306
-
-## 父子账号关系中间表 parent_child_user_relationship
-
-- parent_id
-- child_id
+- MySQL
 
 ## 用户 User
 
@@ -16,7 +11,6 @@
 - username      # 登陆名
 - password      # 密码
 - parent        # 父账号 -> 用户
-- child         # 子账号 -> 用户
 - group         # 组 -> 组表；分管的设备组
 - record        # 操作记录
 - address       # 地址
@@ -30,7 +24,6 @@
 - user          # -> 用户表
 - ip            # 登陆IP
 - operation     # 登陆/查看/处理报警信息
-- # alarm_record  # 被处理的报警信息
 - create_time
 - modify_time
 
