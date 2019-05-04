@@ -8,7 +8,6 @@ def monitorPage():
 def sendJump():
     data = request.form.get('data')
     sid = session.get('sid')
-    print(session)
     socketio.emit(
         'jump', 
         {'data': data, 'sid': sid},

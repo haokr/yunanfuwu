@@ -127,3 +127,6 @@ migrations/
 
 # vscode setting
 .vscode/
+
+# flask-seession dir
+flask_session/
