@@ -17,6 +17,10 @@ def jump():
 def report(eid):
     return view.report(eid)
 
+@monitor.route('/join/<eid>', methods=['POST'])
+def join(eid):
+    return view.joinRoom(eid)
+
 
 @socketio.on('connect')
 def connect():
