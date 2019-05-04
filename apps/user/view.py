@@ -14,8 +14,8 @@ def root():
 def login():
     username = request.form.get('username')
     password = request.form.get('password')
-    if username == 'wanghao' and password  == 'wanghao':
-        user = User.query.filter(User.username == username).first()
+    user = User.query.filter(User.username == username, User.password==password).first()
+    if user:
         session['id'] = user.id
         session['username'] = username
         return redirect(url_for('user.root'))
@@ -23,10 +23,7 @@ def login():
         return redirect(url_for('user.login'))
 
 def getlogin():
-    if session.get('username'):
-        return redirect(url_for('user.root'))
-    else:
-        return render_template('login.html')
+    return render_template('login.html')
 
 def registerPage():
     return render_template('register.html')
