@@ -62,7 +62,14 @@ def addChild():
         'describe': '太原理工大学明向校区大数据学院802',
         'parent_id': session.get('id')
     }
-    user = User(**childData)
-    db.session.add(user)
-    db.session.commit()
+    try:
+        user = User(**childData)
+        db.session.add(user)
+        db.session.commit()
+        user_id = User.query.filter(User.username == childData.username).fister().id
+        group = Group(admin_id=user_id, name=childData.username)
+        db.session.add(group)
+        db.session.commit()
+    except Exception as e:
+        return jsonify({'msg': 'fail', 'data': 'create child error when commit database'})
     return jsonify(childData)
