@@ -9,25 +9,15 @@ monitor = Blueprint('monitor', __name__)
 def monitorPage():
     return view.monitorPage()
 
-@monitor.route('/jump', methods=['POST'])
-def jump():
-    return view.sendJump()
-
 @monitor.route('/report/<eid>', methods=['POST'])
 def report(eid):
     return view.report(eid)
+
+@socketio.on('connect')
+def connect():
+    return view.connect()
 
 @monitor.route('/join/<eid>', methods=['POST'])
 def join(eid):
     return view.joinRoom(eid)
 
-
-@socketio.on('connect')
-def connect():
-    sid = request.sid
-    session['sid'] = sid
-    socketio.emit(
-        'start',
-        {'data': 'server connect success', 'sid': sid},
-        room=sid
-    )

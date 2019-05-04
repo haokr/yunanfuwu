@@ -1,8 +1,12 @@
-from flask import Blueprint
+from flask import Blueprint, request
 import apps.equipment.view as view
 
 equipment = Blueprint('equipment', __name__)
 
-@equipment.route('/')
+@equipment.route('/', methods=['GET', 'POST'])
 def root():
-    return view.root()
+    if request.method == 'GHT':
+        return view.getEquipments()
+    elif request.method == 'POST':
+        return view.addEquipment()
+

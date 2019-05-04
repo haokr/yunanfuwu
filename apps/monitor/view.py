@@ -1,23 +1,49 @@
 from flask import request, render_template, jsonify, session
 from app import socketio
-from models import Equipment
+from models import Equipment, User
 from flask_socketio import join_room
+
+# 回调
+def callback(flag):
+    print(flag)
+    return flag
 
 def monitorPage():
     return render_template('monitor.html') 
 
-def sendJump():
-    data = request.form.get('data')
-    sid = session.get('sid')
-    socketio.emit(
-        'jump', 
-        {'data': data, 'sid': sid},
-        room=sid
-    )
-    return jsonify({'msg': 'success', 'data': data})
+def connect():
+    sid = request.sid
+    session['sid'] = sid
+    uid = session.get('id')
+    user = User.query.filter(User.id == uid).first()
+    if not user:
+        return {'msg': 'fail', 'data': 'Not the user'}
+    usersEquipments = user.group.equipments
+    if not usersEquipments:
+        return {'msg': 'success', 'data': 'Havent equipment in this user'}
+    for e in usersequipments:
+        join_room(e.id, sid=sid, namespace='/')
+        socketio.emit(
+            'join', 
+            {'data': 'OK', 'joiner': session.get('username')}, 
+            room=e.id,
+            callable=callback
+        )
+    return {'msg': 'success', 'data': 'OK, The user {} has joined equipments room'.format(session.get('username'))}
 
 def report(eid):
-    socketio.emit('jump', {'data': 'OK', 'reporter': session.get('username')}, room=eid)
+    reportData = request.form.get('data')
+    dateTime = request.form.get('datetime')
+    socketio.emit(
+        'jump', 
+        {
+            'data': reportData, 
+            'reporter': session.get('username'),
+            'datetime': dateTime
+        }, 
+        room=eid,
+        callable=callable
+    )
     return 'fine'
 
 def joinRoom(eid):
