@@ -8,6 +8,8 @@ def getEquipments():
 def addEquipment():
     name = request.form.get('name')
     user_id = session.get('id')
+    if not user_id:
+        return jsonify({'msg': 'fail', 'data': 'please to login'})
     user = User.query.filter(User.id == user_id).first()
     try:
         equipment = Equipment(name=name)

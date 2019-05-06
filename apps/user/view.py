@@ -58,18 +58,31 @@ def showChilds():
     print(childs)
     return 'OK'
 def addChild():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    name = request.form.get('name')
+    address = request.form.get('address')
+    describe = request.form.get('describe')
+    parent_id = session.get('id')
+    
+    if not ( username and password and parent_id ) :
+        return jsonify({'msg': 'fail', 'data': 'parm error'})
+
     childData = {
-        'username': 'wanghaosChild1',
-        'password': 'wanghaosChild1',
-        'name': '王浩的第一个子节点',
-        'address': '山西太原',
-        'describe': '太原理工大学明向校区大数据学院802',
+        'username': username,
+        'password': password,
+        'name': name,
+        'address': address,
+        'describe': describe,
         'parent_id': session.get('id')
     }
     isUserExisted = User.query.filter(User.username==childData['username']).all()
     if not isUserExisted:
         try:
             user = User(**childData)
+            print(user)
+            group = Group(admin_id=user.id, name=childData['username'])
+            db.session.add(group)
             db.session.add(user)
             db.session.commit()
             
