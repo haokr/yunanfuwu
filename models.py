@@ -23,6 +23,8 @@ class User(db.Model):
     parent_id = db.Column(db.String(30), db.ForeignKey('user.id'))
     parent = db.relationship('User',remote_side=[id], backref=db.backref('childs', lazy='dynamic'))
 
+    group = db.relationship('Group', uselist=False)
+
     address = db.Column(db.String(50))
     describe = db.Column(db.String(100))
     create_time = db.Column(db.DateTime, default=datetime.now)
@@ -46,10 +48,10 @@ class Group(db.Model):
     name = db.Column(db.String(30), nullable=False, default='GROUPNAME')
 
     # 将 设备分组 通过中间表关联起来
-    equipments = db.relationship('Equipment', secondary=equipment_group_relationship, backref=db.backref('group'))
+    equipments = db.relationship('Equipment', secondary=equipment_group_relationship, backref=db.backref('group', lazy='dynamic'))
 
     admin_id = db.Column(db.String(30), db.ForeignKey('user.id'))
-    admin = db.relationship('User', backref=db.backref('group'))
+    admin = db.relationship('User', uselist=False)
 
     create_time = db.Column(db.DateTime, default=datetime.now)
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)

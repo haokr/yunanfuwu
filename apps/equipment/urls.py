@@ -5,8 +5,8 @@ equipment = Blueprint('equipment', __name__)
 
 @equipment.route('/', methods=['GET', 'POST'])
 def root():
-    if request.method == 'GHT':
+    if request.method == 'GET':
         return view.getEquipments()
-    elif request.method == 'POST':
+    else:
         return view.addEquipment()
 

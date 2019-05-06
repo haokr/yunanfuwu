@@ -21,8 +21,6 @@ Session(app)
 db.init_app(app)
 socketio.init_app(app, manage_session=False)
 
-app.debug = False
-
 
 @app.before_request
 def before_request():
@@ -42,4 +40,4 @@ app.register_blueprint(monitor, url_prefix='/monitor')
 
 
 if __name__ == '__main__':
-    socketio.run(app)
+    socketio.run(app, debug=True)
