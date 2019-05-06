@@ -40,12 +40,11 @@ def register():
         try:
             user = User(**registerData)
             db.session.add(user)
-            db.session.commit()
-            user_id = User.query.filter(User.username == username).first().id
-            group = Group(admin_id=user_id, name=username)
+            db.session.flush()
+            group = Group(admin_id=user.id, name=username)
             db.session.add(group)
             db.session.commit()
-            session['id'] = user_id
+            session['id'] = user.id
             session['username'] = username
         except Exception as e:
             print(e)
@@ -80,10 +79,10 @@ def addChild():
     if not isUserExisted:
         try:
             user = User(**childData)
-            print(user)
+            db.session.add(user)
+            db.session.flush()
             group = Group(admin_id=user.id, name=childData['username'])
             db.session.add(group)
-            db.session.add(user)
             db.session.commit()
             
         except Exception as e:
