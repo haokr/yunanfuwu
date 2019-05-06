@@ -21,13 +21,13 @@ def connect():
     usersEquipments = user.group.equipments
     if not usersEquipments:
         return {'msg': 'success', 'data': 'Havent equipment in this user'}
-    for e in usersequipments:
+    for e in usersEquipments:
         join_room(e.id, sid=sid, namespace='/')
         socketio.emit(
             'join', 
             {'data': 'OK', 'joiner': session.get('username')}, 
             room=e.id,
-            callable=callback
+            callback=callback
         )
     return {'msg': 'success', 'data': 'OK, The user {} has joined equipments room'.format(session.get('username'))}
 
@@ -42,7 +42,7 @@ def report(eid):
             'datetime': dateTime
         }, 
         room=eid,
-        callable=callable
+        callback=callback
     )
     return 'fine'
 
