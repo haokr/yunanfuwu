@@ -26,7 +26,8 @@ socketio.init_app(app, manage_session=False)
 def before_request():
     user_id = session.get("id")
     ignore = ['/user/login', '/user/register']
-    if not user_id and request.path not in ignore:
+    isReport = request.path.startswith('/monitor/report/')
+    if not user_id and request.path not in ignore and not isReport:
         return redirect('/user/login')
 
 # blueprint
