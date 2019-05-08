@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>监控-云安服务</title>
+</head>
+<body>
+    
+</body>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+    socket.on('connect', function(data) {
+        console.log('--> Client connect successed', data)
+    });
+    socket.on('report', function(data, callback) {
+        console.log(data);
+        callback(1)
+    })
+    socket.on('join', function(data, callback) {
+        console.log(data)
+        callback(1)
+    })
+    socket.on('jump', function(data, callback) {
+        console.log(data)
+        callback(1)
+    })
+</script>
+</html>

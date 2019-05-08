@@ -1,4 +1,4 @@
-from flask import request, session, jsonify
+from flask import request, session, jsonify, render_template
 from models import User, Group, Equipment
 from db import db
 
@@ -23,3 +23,60 @@ def addEquipment():
         print(e)
         return jsonify({'msg': 'fail', 'data': 'add equipment error when commit database'})
     return jsonify({'msg': 'success', 'data': 'add success'})
+
+def showEquipments():
+    data = {
+        'base':{
+            'pageTitle': '设备信息-云安服务',
+            'avatarImgUrl': '/static/img/yunan_logo_1.png'
+            # 'tipCount': None,
+            # 'tips': []
+        },
+        'equipments': [
+            {
+                'name': 'wanghao1',
+                'status': 'off',
+                'use_department': 'dashujv',
+                'location': 'mingxiang',
+                'remark': '',
+                'manufacturer': 'ni',
+                'model': 'wu',
+                'create_time': '2019-2-2',
+                'id': 'e_21312easdsa'
+            },
+            {
+                'name': 'wanghao1',
+                'status': 'off',
+                'use_department': 'dashujv',
+                'location': 'mingxiang',
+                'remark': '',
+                'manufacturer': 'ni',
+                'model': 'wu',
+                'create_time': '2019-2-2',
+                'id': 'e_21312easdsa'
+            },
+            {
+                'name': 'wanghao1',
+                'status': 'off',
+                'use_department': 'dashujv',
+                'location': 'mingxiang',
+                'remark': '',
+                'manufacturer': 'ni',
+                'model': 'wu',
+                'create_time': '2019-2-2',
+                'id': 'e_21312easdsa'
+            },
+            {
+                'name': 'wanghao1',
+                'status': 'off',
+                'use_department': 'dashujv',
+                'location': 'mingxiang',
+                'remark': '',
+                'manufacturer': 'ni',
+                'model': 'wu',
+                'create_time': '2019-2-2',
+                'id': 'e_21312easdsa'
+            }
+        ]
+    }
+    return render_template('equipments.html', **data)

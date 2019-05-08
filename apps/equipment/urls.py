@@ -10,3 +10,7 @@ def root():
     else:
         return view.addEquipment()
 
+@equipment.route('/show')
+def showEquipments():
+    return view.showEquipments()
+

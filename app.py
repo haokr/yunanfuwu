@@ -13,7 +13,7 @@ from apps.record.urls import record
 from apps.user.urls import user
 from apps.monitor.urls import monitor
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 app.config.from_object(config)
 
