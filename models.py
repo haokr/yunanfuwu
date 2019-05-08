@@ -60,8 +60,12 @@ class Group(db.Model):
 class Equipment(db.Model):
     __equipment__ = 'equipment'
     id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda : 'e_' + shortuuid.uuid())
-    name = db.Column(db.String(30))
-    local = db.Column(db.String(30))
+    name = db.Column(db.String(30), nullable=False)
+    gaode_longitude = db.Column(db.Float())
+    gaode_latitude = db.Column(db.Float())
+    location = db.Column(db.String(30))
+    ip = db.Column(db.Integer)
+    user_department = db.Column(db.String(30))
     remarks = db.Column(db.String(50))
     manufacturer = db.Column(db.String(30))
     model = db.Column(db.String(15))
