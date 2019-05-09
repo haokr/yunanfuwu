@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="animated fadeIn">
+    <div class="row">
+
+        <div class="col-md-11">
+            <div class="card">
+                <div class="card-header">
+                    <strong class="card-title">修改设备信息</strong>
+                </div>
+                <div class="card-body card-block">
+                    <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        <!-- ID -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label class=" form-control-label">ID</label></div>
+                            <div class="col-12 col-md-9">
+                                <p class="form-control-static">{{ equipment.id }}</p>
+                            </div>
+                        </div>
+                        <!-- name -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="name-input" class=" form-control-label">名称</label></div>
+                            <div class="col-6 col-md-7">
+                                    <input type="text" id="name-input" name="name" style='display: none' value="{{ equipment.name }}" class="form-control">
+                                    <p class="form-control-static" id='name-p' style='display: block'>{{ equipment.name }}</p>
+                                
+                            </div>
+                            <div class='col-4 col-md-2'>
+                                    <button id='name-modify' type="button" onclick='clickModify(this)' class="btn btn-link" style="color:gray">修改</button>
+                                    <button id='name-sure' style='display: none' onclick='clickSure(this)' type="button" class="btn btn-outline-primary">确定</button>
+                                    <button id='name-cancel' style='display: none' onclick='clickCancel(this)' type="button" class="btn btn-outline-danger">取消</button>
+                            </div>
+                        </div>
+                        <!-- use_department -->
+                        <div class="row form-group">
+                                <div class="col col-md-3"><label for="use_department-input" class=" form-control-label">使用单位</label></div>
+                                <div class="col-6 col-md-7">
+                                        <input type="text" id="use_department-input" name="use_department" style='display: none' value="{{ equipment.use_department }}" class="form-control">
+                                        <p class="form-control-static" id='use_department-p' style='display: block'>{{ equipment.use_department }}</p>
+                                    
+                                </div>
+                                <div class='col-4 col-md-2'>
+                                        <button id='use_department-modify' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='use_department-sure' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='use_department-cancel' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                </div>
+                        </div>
+                        <!-- 位置 -->
+                        <div class="row form-group">
+                                <div class="col col-md-3"><label for="location-input" class=" form-control-label">位置</label></div>
+                                <div class="col-6 col-md-7">
+                                        <input type="text" id="location-input" name="location" style='display: none' value="{{ equipment.location }}" class="form-control">
+                                        <p class="form-control-static" id='location-p' style='display: block'>{{ equipment.location }}</p>
+                                    
+                                </div>
+                                <div class='col-4 col-md-2'>
+                                        <button id='location-modify' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='location-sure' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='location-cancel' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                </div>
+                        </div>
+                        <!-- 状态 -->
+                        <div class="row form-group">
+                                <div class="col col-md-3"><label for="status-input" class=" form-control-label">状态</label></div>
+                                <div class="col-6 col-md-7">
+                                        <input type="text" id="status-input" name="status" style='display: none' value="{{ equipment.status }}" class="form-control">
+                                        <p class="form-control-static" id='status-p' style='display: block'>{{ equipment.status }}</p>
+                                    
+                                </div>
+                                <div class='col-4 col-md-2'>
+                                        <button id='status-modify' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='status-sure' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='status-cancel' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                </div>
+                        </div>
+                        <!-- ip -->
+                        <div class="row form-group">
+                                <div class="col col-md-3"><label for="ip-input" class=" form-control-label">IP</label></div>
+                                <div class="col-6 col-md-7">
+                                        <input type="text" id="ip" name="ip-input" style='display: none' value="{{ equipment.ip }}" class="form-control">
+                                        <p class="form-control-static" id='ip-p' style='display: block'>{{ equipment.ip }}</p>
+                                    
+                                </div>
+                                <div class='col-4 col-md-2'>
+                                        <button id='ip-modify' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='ip-sure' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='ip-cancel' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                </div>
+                        </div>
+                        <!-- gaode_longitude -->
+                        <div class="row form-group">
+                                <div class="col col-md-3"><label for="gaode_longitude-input" class=" form-control-label">经度</label></div>
+                                <div class="col-6 col-md-7">
+                                        <input type="text" id="gaode_longitude-input" name="gaode_longitude" style='display: none' value="{{ equipment.gaode_longitude }}" class="form-control">
+                                        <p class="form-control-static" id='gaode_longitude-p' style='display: block'>{{ equipment.gaode_longitude }}</p>
+                                    
+                                </div>
+                                <div class='col-4 col-md-2'>
+                                        <button id='gaode_longitude-modify' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='gaode_longitude-sure' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='gaode_longitude-cancel' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                </div>
+                        </div>
+                        <!-- 纬度 -->
+                        <div class="row form-group">
+                                <div class="col col-md-3"><label for="gaode_latitude-input" class=" form-control-label">纬度</label></div>
+                                <div class="col-6 col-md-7">
+                                        <input type="text" id="gaode_latitude-input" name="gaode_latitude" style='display: none' value="{{ equipment.gaode_latitude }}" class="form-control">
+                                        <p class="form-control-static" id='gaode_latitude-p' style='display: block'>{{ equipment.gaode_latitude }}</p>
+                                    
+                                </div>
+                                <div class='col-4 col-md-2'>
+                                        <button id='gaode_latitude-modify' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='gaode_latitude-sure' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='gaode_latitude-cancel' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                </div>
+                        </div>
+                        <!-- 生产商 -->
+                        <div class="row form-group">
+                                <div class="col col-md-3"><label for="manufacturer-input" class=" form-control-label">生产商</label></div>
+                                <div class="col-6 col-md-7">
+                                        <input type="text" id="manufacturer-input" name="manufacturer" style='display: none' value="{{ equipment.manufacturer }}" class="form-control">
+                                        <p class="form-control-static" id='manufacturer-p' style='display: block'>{{ equipment.manufacturer }}</p>
+                                    
+                                </div>
+                                <div class='col-4 col-md-2'>
+                                        <button id='manufacturer-modify' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='manufacturer-sure' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='manufacturer-cancel' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                </div>
+                        </div>
+                        <!-- model -->
+                        <div class="row form-group">
+                                <div class="col col-md-3"><label for="model-input" class=" form-control-label">型号</label></div>
+                                <div class="col-6 col-md-7">
+                                        <input type="text" id="model-input" name="model" style='display: none' value="{{ equipment.model }}" class="form-control">
+                                        <p class="form-control-static" id='model-p' style='display: block'>{{ equipment.model }}</p>
+                                    
+                                </div>
+                                <div class='col-4 col-md-2'>
+                                        <button id='model-modify' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='model-sure' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='model-cancel' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                </div>
+                        </div>
+
+                        <!-- remarks -->
+                        <div class="row form-group">
+                                <div class="col col-md-3"><label for="remarks-input" class=" form-control-label">备注</label></div>
+                                <div class="col-6 col-md-7">
+                                        <input type="text" id="remarks-input" name="remarks" style='display: none' value="{{ equipment.remarks }}" class="form-control">
+                                        <p class="form-control-static" id='remarks-p' style='display: block'>{{ equipment.remarks }}</p>
+                                    
+                                </div>
+                                <div class='col-4 col-md-2'>
+                                        <button id='remarks-modify' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='remarks-sure' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='remarks-cancel' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                </div>
+                        </div>
+                        <div class="row form-group">
+                                <div class="col col-md-3"><label class=" form-control-label">创建时间</label></div>
+                                <div class="col-12 col-md-9">
+                                    <p class="form-control-static">{{ equipment.create_time }}</p>
+                                </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div><!-- .animated -->
+
+<script>
+    function clickModify(e) {
+        let id = e.id.split('-')[0]
+        document.getElementById(id+'-input').style.display="inline";
+        document.getElementById(id+'-p').style.display="none";
+        document.getElementById(id+'-modify').style.display="none";
+        document.getElementById(id+'-sure').style.display="inline";
+        document.getElementById(id+'-cancel').style.display="inline";
+    }
+    function clickSure(e) {
+        let id = e.id.split('-')[0]
+        
+        document.getElementById(id+'-input').style.display="none";
+        document.getElementById(id+'-p').style.display="inline";
+        document.getElementById(id+'-modify').style.display="inline";
+        document.getElementById(id+'-sure').style.display="none";
+        document.getElementById(id+'-cancel').style.display="none";
+
+        let content = document.getElementById(id+'-input').value;
+        document.getElementById(id+'-p').innerText = content;
+        
+        console.log(content)
+    }
+    function clickCancel(e) {
+        let id = e.id.split('-')[0]
+        document.getElementById(id+'-input').style.display="none";
+        document.getElementById(id+'-p').style.display="inline";
+        document.getElementById(id+'-modify').style.display="inline";
+        document.getElementById(id+'-sure').style.display="none";
+        document.getElementById(id+'-cancel').style.display="none";
+
+        let content = document.getElementById(id+'-p').innerText;
+        document.getElementById(id+'-input').value = content;
+    }
+</script>
+
+{% endblock %}

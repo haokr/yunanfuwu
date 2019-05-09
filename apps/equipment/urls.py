@@ -10,6 +10,10 @@ def root():
     else:
         return view.addEquipment()
 
+@equipment.route('/show/<eid>')
+def showEditEquipment(eid):
+    return view.showEditEquipment(eid)
+
 @equipment.route('/show')
 def showEquipments():
     return view.showEquipments()

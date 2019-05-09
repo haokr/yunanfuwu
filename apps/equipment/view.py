@@ -48,3 +48,27 @@ def showEquipments():
         ]
     }
     return render_template('equipments.html', **data)
+
+def showEditEquipment(eid):
+    e = Equipment.query.filter(Equipment.id == eid).first()
+    data = {
+        'base':{
+            'pageTitle': '设备信息-云安服务',
+            'avatarImgUrl': '/static/img/yunan_logo_1.png'
+        },
+        'equipment': {
+                'name': e.name,
+                'status': e.status,
+                'use_department': e.use_department,
+                'location': e.location,
+                'remarks': e.remarks,
+                'manufacturer': e.manufacturer,
+                'model': e.model,
+                'create_time': e.create_time,
+                'id': e.id,
+                'ip': e.ip,
+                'gaode_longitude': e.gaode_longitude,
+                'gaode_latitude': e.gaode_latitude
+            }
+    }
+    return render_template('editEquipment.html', **data)
