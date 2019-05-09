@@ -25,58 +25,26 @@ def addEquipment():
     return jsonify({'msg': 'success', 'data': 'add success'})
 
 def showEquipments():
+    user_id = session.get('id')
+    equipments = User.query.filter(User.id == user_id).first().group.equipments
     data = {
         'base':{
             'pageTitle': '设备信息-云安服务',
             'avatarImgUrl': '/static/img/yunan_logo_1.png'
-            # 'tipCount': None,
-            # 'tips': []
         },
         'equipments': [
             {
-                'name': 'wanghao1',
-                'status': 'off',
-                'use_department': 'dashujv',
-                'location': 'mingxiang',
-                'remark': '',
-                'manufacturer': 'ni',
-                'model': 'wu',
-                'create_time': '2019-2-2',
-                'id': 'e_21312easdsa'
-            },
-            {
-                'name': 'wanghao1',
-                'status': 'off',
-                'use_department': 'dashujv',
-                'location': 'mingxiang',
-                'remark': '',
-                'manufacturer': 'ni',
-                'model': 'wu',
-                'create_time': '2019-2-2',
-                'id': 'e_21312easdsa'
-            },
-            {
-                'name': 'wanghao1',
-                'status': 'off',
-                'use_department': 'dashujv',
-                'location': 'mingxiang',
-                'remark': '',
-                'manufacturer': 'ni',
-                'model': 'wu',
-                'create_time': '2019-2-2',
-                'id': 'e_21312easdsa'
-            },
-            {
-                'name': 'wanghao1',
-                'status': 'off',
-                'use_department': 'dashujv',
-                'location': 'mingxiang',
-                'remark': '',
-                'manufacturer': 'ni',
-                'model': 'wu',
-                'create_time': '2019-2-2',
-                'id': 'e_21312easdsa'
+                'name': e.name,
+                'status': e.status,
+                'use_department': e.use_department,
+                'location': e.location,
+                'remark': e.remarks,
+                'manufacturer': e.manufacturer,
+                'model': e.model,
+                'create_time': e.create_time,
+                'id': e.id
             }
+            for e in equipments
         ]
     }
     return render_template('equipments.html', **data)

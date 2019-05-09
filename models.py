@@ -65,7 +65,7 @@ class Equipment(db.Model):
     gaode_latitude = db.Column(db.Float())
     location = db.Column(db.String(30))
     ip = db.Column(db.Integer)
-    user_department = db.Column(db.String(30))
+    use_department = db.Column(db.String(30))
     remarks = db.Column(db.String(50))
     manufacturer = db.Column(db.String(30))
     model = db.Column(db.String(15))
