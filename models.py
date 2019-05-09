@@ -36,10 +36,11 @@ class User_record(db.Model):
     id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda : 'ur_' + shortuuid.uuid())
     user_id = db.Column(db.String(30), db.ForeignKey('user.id'))
     user = db.relationship('User', backref=db.backref('record'))
-    ip = db.Column(db.Integer, default=0)
+    ip = db.Column(db.String(24))
     operation = db.Column(db.String(20), nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+
 
 # 分组管理
 class Group(db.Model):
@@ -64,7 +65,7 @@ class Equipment(db.Model):
     gaode_longitude = db.Column(db.Float())
     gaode_latitude = db.Column(db.Float())
     location = db.Column(db.String(30))
-    ip = db.Column(db.Integer)
+    ip = db.Column(db.String(20), unique=True)
     use_department = db.Column(db.String(30))
     remarks = db.Column(db.String(50))
     manufacturer = db.Column(db.String(30))

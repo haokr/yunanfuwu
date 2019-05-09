@@ -29,8 +29,9 @@ def modifyEquipment(eid):
     key = request.form.get('key')
     value = request.form.get('value')
     try:
+        print(key, value)
         equipment = Equipment.query.filter(Equipment.id == eid)
-        equipment.update({key:value})
+        equipment.update({key:value} )
         db.session.commit()
         return jsonify({'msg': 'success', 'data': 'modify equipment success'})
     except Exception as e:

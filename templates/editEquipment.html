@@ -42,9 +42,9 @@
                                     
                                 </div>
                                 <div class='col-4 col-md-2'>
-                                        <button id='use_department-modify' type="button" class="btn btn-link" style="color:gray">修改</button>
-                                        <button id='use_department-sure' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
-                                        <button id='use_department-cancel' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                        <button id='use_department-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='use_department-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='use_department-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
                                 </div>
                         </div>
                         <!-- 位置 -->
@@ -56,9 +56,9 @@
                                     
                                 </div>
                                 <div class='col-4 col-md-2'>
-                                        <button id='location-modify' type="button" class="btn btn-link" style="color:gray">修改</button>
-                                        <button id='location-sure' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
-                                        <button id='location-cancel' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                        <button id='location-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='location-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='location-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
                                 </div>
                         </div>
                         <!-- 状态 -->
@@ -70,23 +70,23 @@
                                     
                                 </div>
                                 <div class='col-4 col-md-2'>
-                                        <button id='status-modify' type="button" class="btn btn-link" style="color:gray">修改</button>
-                                        <button id='status-sure' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
-                                        <button id='status-cancel' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                        <button id='status-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='status-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='status-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
                                 </div>
                         </div>
                         <!-- ip -->
                         <div class="row form-group">
                                 <div class="col col-md-3"><label for="ip-input" class=" form-control-label">IP</label></div>
                                 <div class="col-6 col-md-7">
-                                        <input type="text" id="ip" name="ip-input" style='display: none' value="{{ equipment.ip }}" class="form-control">
+                                        <input type="text" id="ip-input" name="ip" style='display: none' value="{{ equipment.ip }}" class="form-control">
                                         <p class="form-control-static" id='ip-p' style='display: block'>{{ equipment.ip }}</p>
                                     
                                 </div>
                                 <div class='col-4 col-md-2'>
-                                        <button id='ip-modify' type="button" class="btn btn-link" style="color:gray">修改</button>
-                                        <button id='ip-sure' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
-                                        <button id='ip-cancel' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                        <button id='ip-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='ip-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='ip-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
                                 </div>
                         </div>
                         <!-- gaode_longitude -->
@@ -98,9 +98,9 @@
                                     
                                 </div>
                                 <div class='col-4 col-md-2'>
-                                        <button id='gaode_longitude-modify' type="button" class="btn btn-link" style="color:gray">修改</button>
-                                        <button id='gaode_longitude-sure' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
-                                        <button id='gaode_longitude-cancel' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                        <button id='gaode_longitude-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='gaode_longitude-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='gaode_longitude-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
                                 </div>
                         </div>
                         <!-- 纬度 -->
@@ -112,9 +112,9 @@
                                     
                                 </div>
                                 <div class='col-4 col-md-2'>
-                                        <button id='gaode_latitude-modify' type="button" class="btn btn-link" style="color:gray">修改</button>
-                                        <button id='gaode_latitude-sure' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
-                                        <button id='gaode_latitude-cancel' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                        <button id='gaode_latitude-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='gaode_latitude-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='gaode_latitude-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
                                 </div>
                         </div>
                         <!-- 生产商 -->
@@ -126,9 +126,9 @@
                                     
                                 </div>
                                 <div class='col-4 col-md-2'>
-                                        <button id='manufacturer-modify' type="button" class="btn btn-link" style="color:gray">修改</button>
-                                        <button id='manufacturer-sure' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
-                                        <button id='manufacturer-cancel' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                        <button id='manufacturer-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='manufacturer-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='manufacturer-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
                                 </div>
                         </div>
                         <!-- model -->
@@ -140,9 +140,9 @@
                                     
                                 </div>
                                 <div class='col-4 col-md-2'>
-                                        <button id='model-modify' type="button" class="btn btn-link" style="color:gray">修改</button>
-                                        <button id='model-sure' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
-                                        <button id='model-cancel' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                        <button id='model-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='model-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='model-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
                                 </div>
                         </div>
 
@@ -155,9 +155,9 @@
                                     
                                 </div>
                                 <div class='col-4 col-md-2'>
-                                        <button id='remarks-modify' type="button" class="btn btn-link" style="color:gray">修改</button>
-                                        <button id='remarks-sure' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
-                                        <button id='remarks-cancel' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                        <button id='remarks-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='remarks-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='remarks-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
                                 </div>
                         </div>
                         <div class="row form-group">
