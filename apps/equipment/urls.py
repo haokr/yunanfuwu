@@ -3,6 +3,10 @@ import apps.equipment.view as view
 
 equipment = Blueprint('equipment', __name__)
 
+@equipment.route('/<eid>', methods=['POST'])
+def modify(eid):
+    return view.modifyEquipment(eid)
+
 @equipment.route('/', methods=['GET', 'POST'])
 def root():
     if request.method == 'GET':

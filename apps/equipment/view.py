@@ -24,6 +24,20 @@ def addEquipment():
         return jsonify({'msg': 'fail', 'data': 'add equipment error when commit database'})
     return jsonify({'msg': 'success', 'data': 'add success'})
 
+
+def modifyEquipment(eid):
+    key = request.form.get('key')
+    value = request.form.get('value')
+    try:
+        equipment = Equipment.query.filter(Equipment.id == eid)
+        equipment.update({key:value})
+        db.session.commit()
+        return jsonify({'msg': 'success', 'data': 'modify equipment success'})
+    except Exception as e:
+        print(e)
+        return jsonify({'msg': 'fail', 'data': 'modify equipment error when select equipments'})
+
+
 def showEquipments():
     user_id = session.get('id')
     equipments = User.query.filter(User.id == user_id).first().group.equipments

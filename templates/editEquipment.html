@@ -16,7 +16,7 @@
                         <div class="row form-group">
                             <div class="col col-md-3"><label class=" form-control-label">ID</label></div>
                             <div class="col-12 col-md-9">
-                                <p class="form-control-static">{{ equipment.id }}</p>
+                                <p id='eid' class="form-control-static">{{ equipment.id }}</p>
                             </div>
                         </div>
                         <!-- name -->
@@ -196,7 +196,35 @@
         let content = document.getElementById(id+'-input').value;
         document.getElementById(id+'-p').innerText = content;
         
-        console.log(content)
+        let eid = document.getElementById('eid').innerText;
+        let url = '../'+eid
+        $.ajax({
+            url: url,    //请求的url地址
+            dataType:"json",   //返回格式为json
+            async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+            data:{"key":id, 'value': content},    //参数值,键值对
+            type:"POST",   //请求方式
+            beforeSend:function(){
+                //请求前的处理
+            },
+            success:function(data){
+                //请求成功时处理
+                if(data['msg'] == 'success'){
+                    
+                    alert('修改成功')
+
+                } else {
+                    alert('修改失败')
+                }
+            },
+            complete:function(){
+                //请求完成的处理
+            },
+            error:function(){
+                //请求出错处理
+                alert('请检查网络...')
+            }
+        });
     }
     function clickCancel(e) {
         let id = e.id.split('-')[0]
