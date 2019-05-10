@@ -24,7 +24,7 @@
                             <div class="col col-md-3"><label for="name-input" class=" form-control-label">名称</label></div>
                             <div class="col-6 col-md-7">
                                     <input type="text" id="name-input" name="name" style='display: none' value="{{ equipment.name }}" class="form-control">
-                                    <p class="form-control-static" id='name-p' style='display: block'>{{ equipment.name }}</p>
+                                    <p class="form-control-static" id='name-p' style='display: block'>{{ equipment.name or '' }}</p>
                                 
                             </div>
                             <div class='col-4 col-md-2'>
@@ -38,7 +38,7 @@
                                 <div class="col col-md-3"><label for="use_department-input" class=" form-control-label">使用单位</label></div>
                                 <div class="col-6 col-md-7">
                                         <input type="text" id="use_department-input" name="use_department" style='display: none' value="{{ equipment.use_department }}" class="form-control">
-                                        <p class="form-control-static" id='use_department-p' style='display: block'>{{ equipment.use_department }}</p>
+                                        <p class="form-control-static" id='use_department-p' style='display: block'>{{ equipment.use_department or '' }}</p>
                                     
                                 </div>
                                 <div class='col-4 col-md-2'>
@@ -52,7 +52,7 @@
                                 <div class="col col-md-3"><label for="location-input" class=" form-control-label">位置</label></div>
                                 <div class="col-6 col-md-7">
                                         <input type="text" id="location-input" name="location" style='display: none' value="{{ equipment.location }}" class="form-control">
-                                        <p class="form-control-static" id='location-p' style='display: block'>{{ equipment.location }}</p>
+                                        <p class="form-control-static" id='location-p' style='display: block'>{{ equipment.location or '' }}</p>
                                     
                                 </div>
                                 <div class='col-4 col-md-2'>
@@ -66,7 +66,7 @@
                                 <div class="col col-md-3"><label for="status-input" class=" form-control-label">状态</label></div>
                                 <div class="col-6 col-md-7">
                                         <input type="text" id="status-input" name="status" style='display: none' value="{{ equipment.status }}" class="form-control">
-                                        <p class="form-control-static" id='status-p' style='display: block'>{{ equipment.status }}</p>
+                                        <p class="form-control-static" id='status-p' style='display: block'>{{ equipment.status or 'off' }}</p>
                                     
                                 </div>
                                 <div class='col-4 col-md-2'>
@@ -80,7 +80,7 @@
                                 <div class="col col-md-3"><label for="ip-input" class=" form-control-label">IP</label></div>
                                 <div class="col-6 col-md-7">
                                         <input type="text" id="ip-input" name="ip" style='display: none' value="{{ equipment.ip }}" class="form-control">
-                                        <p class="form-control-static" id='ip-p' style='display: block'>{{ equipment.ip }}</p>
+                                        <p class="form-control-static" id='ip-p' style='display: block'>{{ equipment.ip or '' }}</p>
                                     
                                 </div>
                                 <div class='col-4 col-md-2'>
@@ -94,7 +94,7 @@
                                 <div class="col col-md-3"><label for="gaode_longitude-input" class=" form-control-label">经度</label></div>
                                 <div class="col-6 col-md-7">
                                         <input type="text" id="gaode_longitude-input" name="gaode_longitude" style='display: none' value="{{ equipment.gaode_longitude }}" class="form-control">
-                                        <p class="form-control-static" id='gaode_longitude-p' style='display: block'>{{ equipment.gaode_longitude }}</p>
+                                        <p class="form-control-static" id='gaode_longitude-p' style='display: block'>{{ equipment.gaode_longitude or '' }}</p>
                                     
                                 </div>
                                 <div class='col-4 col-md-2'>
@@ -108,7 +108,7 @@
                                 <div class="col col-md-3"><label for="gaode_latitude-input" class=" form-control-label">纬度</label></div>
                                 <div class="col-6 col-md-7">
                                         <input type="text" id="gaode_latitude-input" name="gaode_latitude" style='display: none' value="{{ equipment.gaode_latitude }}" class="form-control">
-                                        <p class="form-control-static" id='gaode_latitude-p' style='display: block'>{{ equipment.gaode_latitude }}</p>
+                                        <p class="form-control-static" id='gaode_latitude-p' style='display: block'>{{ equipment.gaode_latitude or '' }}</p>
                                     
                                 </div>
                                 <div class='col-4 col-md-2'>
@@ -122,7 +122,7 @@
                                 <div class="col col-md-3"><label for="manufacturer-input" class=" form-control-label">生产商</label></div>
                                 <div class="col-6 col-md-7">
                                         <input type="text" id="manufacturer-input" name="manufacturer" style='display: none' value="{{ equipment.manufacturer }}" class="form-control">
-                                        <p class="form-control-static" id='manufacturer-p' style='display: block'>{{ equipment.manufacturer }}</p>
+                                        <p class="form-control-static" id='manufacturer-p' style='display: block'>{{ equipment.manufacturer or '' }}</p>
                                     
                                 </div>
                                 <div class='col-4 col-md-2'>
@@ -136,7 +136,7 @@
                                 <div class="col col-md-3"><label for="model-input" class=" form-control-label">型号</label></div>
                                 <div class="col-6 col-md-7">
                                         <input type="text" id="model-input" name="model" style='display: none' value="{{ equipment.model }}" class="form-control">
-                                        <p class="form-control-static" id='model-p' style='display: block'>{{ equipment.model }}</p>
+                                        <p class="form-control-static" id='model-p' style='display: block'>{{ equipment.model or '' }}</p>
                                     
                                 </div>
                                 <div class='col-4 col-md-2'>
@@ -151,7 +151,7 @@
                                 <div class="col col-md-3"><label for="remarks-input" class=" form-control-label">备注</label></div>
                                 <div class="col-6 col-md-7">
                                         <input type="text" id="remarks-input" name="remarks" style='display: none' value="{{ equipment.remarks }}" class="form-control">
-                                        <p class="form-control-static" id='remarks-p' style='display: block'>{{ equipment.remarks }}</p>
+                                        <p class="form-control-static" id='remarks-p' style='display: block'>{{ equipment.remarks or '' }}</p>
                                     
                                 </div>
                                 <div class='col-4 col-md-2'>
