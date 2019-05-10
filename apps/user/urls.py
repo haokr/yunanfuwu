@@ -14,6 +14,10 @@ def login():
     else:
         return view.getlogin()
 
+@user.route('/logout', methods=['POST'])
+def logout():
+    return view.logout()
+
 @user.route('/register', methods=['GET','POST'])
 def register():
     if request.method == 'GET':
@@ -27,4 +31,5 @@ def child():
         return view.showChilds()
     else:
         return view.addChild()
+
 

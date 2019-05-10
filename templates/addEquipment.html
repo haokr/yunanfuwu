@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="animated fadeIn">
+    <div class="row">
+
+        <div class="col-md-11">
+            <div class="card">
+                <div class="card-header">
+                    <strong class="card-title">添加设备</strong>
+                </div>
+                <div class="card-body card-block">
+                    <form action="/equipment/" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+                        <!-- name -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="name-input" class=" form-control-label">名称</label>
+                            </div>
+                            <div class="col-6 col-md-7">
+                                <input type="text" id="name" name="name" class="form-control">
+                            </div>
+                        </div>
+                        <!-- use_department -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="use_department"
+                                    class=" form-control-label">使用单位</label></div>
+                            <div class="col-6 col-md-7">
+                                <input type="text" id="use_department" name="use_department" class="form-control">
+                            </div>
+                        </div>
+                        <!-- 位置 -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="location" class=" form-control-label">位置</label>
+                            </div>
+                            <div class="col-6 col-md-7">
+                                <input type="text" id="location" name="location" class="form-control">
+                            </div>
+                        </div>
+                        <!-- ip -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="ip" class=" form-control-label">IP</label></div>
+                            <div class="col-6 col-md-7">
+                                <input type="text" id="ip" name="ip" class="form-control">
+                            </div>
+                        </div>
+                        <!-- gaode_longitude -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="gaode_longitude"
+                                    class=" form-control-label">经度</label></div>
+                            <div class="col-6 col-md-7">
+                                <input type="text" id="gaode_longitude" name="gaode_longitude" class="form-control">
+                            </div>
+                        </div>
+                        <!-- 纬度 -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="gaode_latitude"
+                                    class=" form-control-label">纬度</label></div>
+                            <div class="col-6 col-md-7">
+                                <input type="text" id="gaode_latitude" name="gaode_latitude" class="form-control">
+                            </div>
+                        </div>
+                        <!-- 生产商 -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="manufacturer"
+                                    class=" form-control-label">生产商</label></div>
+                            <div class="col-6 col-md-7">
+                                <input type="text" id="manufacturer" name="manufacturer" class="form-control">
+                            </div>
+                        </div>
+                        <!-- model -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="model" class=" form-control-label">型号</label>
+                            </div>
+                            <div class="col-6 col-md-7">
+                                <input type="text" id="model" name="model" class="form-control">
+                            </div>
+                        </div>
+
+                        <!-- remarks -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="remarks" class=" form-control-label">备注</label>
+                            </div>
+                            <div class="col-6 col-md-7">
+                                <input type="text" id="remarks" name="remarks" class="form-control">
+                            </div>
+                        </div>
+                        <div class='col-md-6 offset-md-3'>
+                            <br><br>
+                            <button type="button" id='submit' onclick="addEquipment()" class="btn btn-primary btn-lg btn-block">添加</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div><!-- .animated -->
+
+<script>
+    function addEquipment() {
+
+	    document.getElementById("submit").disabled=false;
+
+        let name = document.getElementById('name').value;
+        let use_department = document.getElementById('use_department').value;
+        let location = document.getElementById('location').value;
+        let ip = document.getElementById('ip').value;
+        let gaode_longitude = document.getElementById('gaode_longitude').value;
+        let gaode_latitude = document.getElementById('gaode_latitude').value;
+        let manufacturer = document.getElementById('manufacturer').value;
+        let model = document.getElementById('model').value;
+        let remarks = document.getElementById('remarks').value;
+
+        name = name == '' ? null : name;
+        use_department = use_department == '' ? null : use_department;
+        location = location == '' ? null : location;
+        ip = ip == '' ? null : ip;
+        gaode_latitude = gaode_latitude == '' ? null : gaode_latitude;
+        gaode_longitude = gaode_longitude == '' ? null : gaode_longitude;
+        manufacturer = manufacturer == '' ? null : manufacturer;
+        model = model == '' ? null : model;
+        remarks = remarks == '' ? null : remarks;
+
+
+        $.ajax({
+            url: '/equipment/add',    //请求的url地址
+            dataType: "json",   //返回格式为json
+            async: true,//请求是否异步，默认为异步，这也是ajax重要特性
+            data: {
+                name,
+                use_department,
+                location,
+                ip,
+                gaode_latitude,
+                gaode_longitude,
+                manufacturer,
+                model,
+                remarks
+            },    //参数值,键值对
+            type: "POST",   //请求方式
+            beforeSend: function () {
+                //请求前的处理
+            },
+            success: function (data) {
+                //请求成功时处理
+                if (data['msg'] == 'success') {
+                    alert('添加成功')
+                    window.location.href="/equipment/show";
+                } else {
+                    alert('添加失败')
+                }
+            },
+            complete: function () {
+                //请求完成的处理
+
+	            document.getElementById("submit").disabled=true;
+            },
+            error: function () {
+                //请求出错处理
+                alert('请检查网络...')
+            }
+        });
+    }
+</script>
+
+{% endblock %}

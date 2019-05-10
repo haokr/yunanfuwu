@@ -1,9 +1,9 @@
-from flask import request, session, jsonify, render_template
+from flask import request, session, jsonify, render_template, url_for, redirect
 from models import User, Group, Equipment
 from db import db
 
 def getEquipments():
-    return jsonify({'msg': 'ok', 'data': 'This root of equipment'})
+    return redirect('/monitor')
 
 def addEquipment():
     name = request.form.get('name')
@@ -47,7 +47,9 @@ def showEquipments():
     data = {
         'base':{
             'pageTitle': '设备信息-云安服务',
-            'avatarImgUrl': '/static/img/yunan_logo_1.png'
+            'avatarImgUrl': '/static/img/yunan_logo_1.png',
+            'pageNow': '设备信息',
+            'username': session.get('username')
         },
         'equipments': [
             {
@@ -71,7 +73,9 @@ def showEditEquipment(eid):
     data = {
         'base':{
             'pageTitle': '设备信息-云安服务',
-            'avatarImgUrl': '/static/img/yunan_logo_1.png'
+            'avatarImgUrl': '/static/img/yunan_logo_1.png',
+            'pageNow': '设备信息',
+            'username': session.get('username')
         },
         'equipment': {
                 'name': e.name,
@@ -89,3 +93,14 @@ def showEditEquipment(eid):
             }
     }
     return render_template('editEquipment.html', **data)
+
+def showAddEquipment():
+    data = {
+        'base':{
+            'pageTitle': '添加设备-云安服务',
+            'avatarImgUrl': '/static/img/yunan_logo_1.png',
+            'pageNow': '添加设备',
+            'username': session.get('username')
+        }
+    }
+    return render_template('addEquipment.html', **data)

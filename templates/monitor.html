@@ -1,14 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>监控-云安服务</title>
-</head>
-<body>
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+        <div class="content">
+            <div class="animated fadeIn">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="Vector-map-js">
+                                <div id="vmap" class="vmap">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <table id="" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope='col' style='display: none'>id</th>
+                                            <th scope='col'>#</th>
+                                            <th scope='col'>接收时间</th>
+                                            <th scope='col'>设备名称</th>
+                                            <th scope='col'>状态</th>
+                                            <th scope='col'>单位</th>
+                                            <th scope='col'>系统类型</th>
+                                            <th scope='col'>信息类型</th>
+                                            <th scope='col'>部件地址</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for e in equipments %}
+                                        <tr>
+                                            <td scope='row'>{{ loop.index}}</td>
+                                            <td id='{{ e.id }}' style="display: none">{{ e.id }}</td>
+                                            <td id='{{ e.id }}-datetime'>{{ e.datetime }}</td>
+                                            <td id='{{ e.id }}-name'>{{ e.name or '' }}</td>
+                                            <td id='{{ e.id }}-status'>{{ e.status or 'off' }}</td>
+                                            <td id='{{ e.id }}-use_department'>{{ e.use_department or ''}}</td>
+                                            <td id='{{ e.id }}-eequipment_class'>{{ e.equipment_class  or ''}}</td>
+                                            <td id='{{ e.id }}-info_class'>{{ e.info_class or '' }}</td>
+                                            <td id='{{ e.id }}-location'>{{ e.location or '' }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div><!-- .animated -->
+        </div><!-- .content -->
+
     
-</body>
+{% endblock %}
+
+{% block js%}
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
 <script type="text/javascript" charset="utf-8">
     var socket = io.connect('http://' + document.domain + ':' + location.port);
@@ -17,15 +68,29 @@
     });
     socket.on('report', function(data, callback) {
         console.log(data);
+        let eid = data['reporter']
+        document.getElementById(eid+'-datetime').innerHTML = data.datetime
+        document.getElementById(eid+'-info_class').innerHTML = data.describe
+        if (data.code.startsWith('0')) {
+            document.getElementById(eid+'-info_class').style.color = 'green'
+        } else if (data.code.startsWith('1')) {
+            document.getElementById(eid+'-info_class').style.color = 'red'
+        }
         callback(1)
     })
     socket.on('join', function(data, callback) {
         console.log(data)
-        callback(1)
+        
     })
     socket.on('jump', function(data, callback) {
         console.log(data)
         callback(1)
     })
 </script>
-</html>
+ <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.8&key=efb66f1d0e0a897af3702fdb233c0812"></script>
+ <script>
+     window.onload = function(){
+         var map = new AMap.Map('vmap');
+     }
+ </script>
+{% endblock %}

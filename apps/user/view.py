@@ -18,9 +18,13 @@ def login():
     if user:
         session['id'] = user.id
         session['username'] = username
-        return redirect(url_for('user.root'))
+        return redirect(url_for('monitor.monitorPage'))
     else:
         return redirect(url_for('user.login'))
+
+def logout():
+    session.clear()
+    return redirect(url_for('user.login'))
 
 def getlogin():
     return render_template('login.html')

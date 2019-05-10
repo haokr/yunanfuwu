@@ -9,36 +9,45 @@
                 <div class="card">
                     <div class="card-header">
                         <strong class="card-title">设备列表</strong>
+                        <a href="/equipment/show/add">
+                            <button type="button" class="float-right btn btn-outline-primary btn-sm">
+                                <i class="fa fa-plus"></i>
+                                &nbsp; 添加设备
+                            </button>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;
                     </div>
                     <div class="card-body">
                         <table id="bootstrap-data-table" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
-                                    <th style="display: none;">id</th>
-                                    <th>设备名称</th>
-                                    <th>状态</th>
-                                    <th>使用单位</th>
-                                    <th>设备地址</th>
-                                    <th>备注</th>
-                                    <th>生产商</th>
-                                    <th>型号</th>
-                                    <th>安装时间</th>
-                                    <th>操作</th>
+                                    <th scope='col' >#</th>
+                                    <th scope='col' style="display: none;">id</th>
+                                    <th scope='col' >设备名称</th>
+                                    <th scope='col' >状态</th>
+                                    <th scope='col' >使用单位</th>
+                                    <th scope='col' >设备地址</th>
+                                    <th scope='col' >备注</th>
+                                    <th scope='col' >生产商</th>
+                                    <th scope='col' >型号</th>
+                                    <th scope='col' >安装时间</th>
+                                    <th scope='col' >操作</th>
                                 </tr>
                             </thead>
                             <tbody>
                                
                                 {% for equipment in equipments %}
                                     <tr>
+                                        <td scope='row'>{{ loop.index }}</td>
                                         <td  style="display: none;">{{ equipment.id }}</td>
-                                        <td>{{ equipment.name }}</td>
-                                        <td>{{ equipment.status }}</td>
-                                        <td>{{ equipment.use_department }}</td>
-                                        <td>{{ equipment.location }}</td>
-                                        <td>{{ equipment.remark }}</td>
-                                        <td>{{ equipment.manufacturer }}</td>
-                                        <td>{{ equipment.model }}</td>
-                                        <td>{{ equipment.create_time }}</td>
+                                        <td>{{ equipment.name or '' }}</td>
+                                        <td>{{ equipment.status or '' }}</td>
+                                        <td>{{ equipment.use_department or '' }}</td>
+                                        <td>{{ equipment.location or '' }}</td>
+                                        <td>{{ equipment.remark or '' }}</td>
+                                        <td>{{ equipment.manufacturer or '' }}</td>
+                                        <td>{{ equipment.model or '' }}</td>
+                                        <td>{{ equipment.create_time or '' }}</td>
                                         <td><a href="./show/{{ equipment.id }}">修改</a></td>
                                     </tr>
                                 {% endfor %}
