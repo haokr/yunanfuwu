@@ -27,7 +27,8 @@ def before_request():
     user_id = session.get("id")
     ignore = ['/user/login', '/user/register']
     isReport = request.path.startswith('/monitor/report/')
-    if not user_id and request.path not in ignore and not isReport:
+    isStatic = request.path.startswith('/static')
+    if not user_id and request.path not in ignore and not isReport and not isStatic:
         return redirect('/user/login')
 
 # blueprint
