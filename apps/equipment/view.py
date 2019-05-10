@@ -28,6 +28,8 @@ def addEquipment():
 def modifyEquipment(eid):
     key = request.form.get('key')
     value = request.form.get('value')
+    if value == '':
+        value = None
     try:
         print(key, value)
         equipment = Equipment.query.filter(Equipment.id == eid)
