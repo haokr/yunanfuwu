@@ -12,6 +12,7 @@ equipment_group_relationship = db.Table('equipment_group_relationship',
         db.Column('create_time', db.DateTime, default=datetime.now)
     )
 
+
 # 用户
 class User(db.Model):
     __tablename__ = 'user'
@@ -29,6 +30,7 @@ class User(db.Model):
     describe = db.Column(db.String(100))
     create_time = db.Column(db.DateTime, default=datetime.now)
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+
 
 # 用户操作记录
 class User_record(db.Model):
@@ -57,6 +59,7 @@ class Group(db.Model):
     create_time = db.Column(db.DateTime, default=datetime.now)
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
+
 # 设备
 class Equipment(db.Model):
     __equipment__ = 'equipment'
@@ -73,6 +76,7 @@ class Equipment(db.Model):
     status = db.Column(db.String(15), default='off')
     create_time = db.Column(db.DateTime, default=datetime.now)
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+
 
 # 报警记录
 class Alarm_record(db.Model):

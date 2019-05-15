@@ -31,6 +31,7 @@ def before_request():
     if not user_id and request.path not in ignore and not isReport and not isStatic:
         return redirect('/user/login')
 
+
 # blueprint
 app.register_blueprint(equipment)
 app.register_blueprint(api, url_prefix='/api')
