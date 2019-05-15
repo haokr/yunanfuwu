@@ -151,3 +151,55 @@ def addChild():
                 return jsonify({'msg': 'fail', 'data': 'create gruop fail when commit database'})
         return jsonify({'msg': 'fail', 'data': 'the username is existed'})
     return jsonify(childData)
+
+
+def ShowUser(uid):
+    '''
+        展示账号信息
+    :return:
+    '''
+    e = User.query.filter(User.id == uid).first()
+    if e.parent == None:
+        parent = '这是个顶级账号'
+    else:
+        parent = e.parent.username
+    data = {
+        'base': {
+            'pageTitle': '设备信息-云安服务',
+            'avatarImgUrl': '/static/img/yunan_logo_1.png',
+            'pageNow': '用户信息',
+            'username': session.get('username'),
+            'userid': session.get('id')
+        },
+        'user': {
+                'name': e.name,
+                'username': e.username,
+                'parent': parent,
+                'address': e.address,
+                'create_time': e.create_time,
+                'modify_time': e.modify_time
+            }
+    }
+    return render_template('editUser.html', **data)
+
+
+def modifyUser(uid):
+    '''
+        获取用户提交要修改的设备信息
+        修改设备信息并存储
+    :param eid: 用户ID
+    :return: 设备信息修改状态
+    '''
+    key = request.form.get('key')
+    value = request.form.get('value')
+    if value == '':
+        value = None
+    try:
+        print(key, value)
+        user = User.query.filter(User.id == uid)
+        user.update({key: value})
+        db.session.commit()
+        return jsonify({'msg': 'success', 'data': 'modify equipment success'})
+    except Exception as e:
+        print(e)
+        return jsonify({'msg': 'fail', 'data': 'modify equipment error when select equipments'})

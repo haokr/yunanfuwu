@@ -28,7 +28,8 @@ def monitorPage():
             'pageTitle': '监控-云安服务',
             'pageNow': '设备监控',
             'avatarImgUrl': '/static/img/yunan_logo_1.png',
-            'username': session.get('username')
+            'username': session.get('username'),
+            'userid': session.get('id')
         },
         'equipments': [
             {

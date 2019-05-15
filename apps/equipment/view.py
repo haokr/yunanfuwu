@@ -72,7 +72,8 @@ def showEquipments():
             'pageTitle': '设备信息-云安服务',
             'avatarImgUrl': '/static/img/yunan_logo_1.png',
             'pageNow': '设备信息',
-            'username': session.get('username')
+            'username': session.get('username'),
+            'userid': session.get('id')
         },
         'equipments': [
             {
@@ -101,11 +102,12 @@ def showEditEquipment(eid):
     '''
     e = Equipment.query.filter(Equipment.id == eid).first()
     data = {
-        'base':{
+        'base': {
             'pageTitle': '设备信息-云安服务',
             'avatarImgUrl': '/static/img/yunan_logo_1.png',
             'pageNow': '设备信息',
-            'username': session.get('username')
+            'username': session.get('username'),
+            'userid': session.get('id')
         },
         'equipment': {
                 'name': e.name,
@@ -135,7 +137,8 @@ def showAddEquipment():
             'pageTitle': '添加设备-云安服务',
             'avatarImgUrl': '/static/img/yunan_logo_1.png',
             'pageNow': '添加设备',
-            'username': session.get('username')
+            'username': session.get('username'),
+            'userid': session.get('id')
         }
     }
     return render_template('addEquipment.html', **data)

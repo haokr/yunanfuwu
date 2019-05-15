@@ -43,3 +43,10 @@ def child():
         return view.addChild()
 
 
+# 账号信息展示及修改
+@user.route('/edit/<uid>', methods=['GET', 'POST'])
+def massage(uid):
+    if request.method == 'GET':
+        return view.ShowUser(uid)
+    else:
+        return view.addChild()
