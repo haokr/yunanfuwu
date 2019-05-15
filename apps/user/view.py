@@ -2,7 +2,13 @@ from flask import request, session, render_template, redirect, url_for, jsonify
 from models import User, Group
 from db import db
 
+
 def root():
+    '''
+        获取登陆用户
+        未登录返回登陆页面
+    :return:
+    '''
     if session.get('username'):
         templateData = {
             'username': session.get('username')
@@ -11,7 +17,13 @@ def root():
     else:
         return redirect(url_for('user.login'))
 
+
 def login():
+    '''
+        获取用户用户名及密码
+        验证用户
+    :return:
+    '''
     username = request.form.get('username')
     password = request.form.get('password')
     user = User.query.filter(User.username == username, User.password==password).first()
@@ -22,17 +34,38 @@ def login():
     else:
         return redirect(url_for('user.login'))
 
+
 def logout():
+    '''
+        用户登出
+    :return:
+    '''
     session.clear()
     return redirect(url_for('user.login'))
 
+
 def getlogin():
+    '''
+        返回登陆页面
+    :return:
+    '''
     return render_template('login.html')
 
+
 def registerPage():
+    '''
+        用户注册
+    :return:
+    '''
     return render_template('register.html')
 
+
 def register():
+    '''
+        获取用户提交信息
+        实现用户注册及存储
+    :return:
+    '''
     username = request.form.get('username')
     password = request.form.get('password')
     registerData = {
@@ -55,12 +88,25 @@ def register():
             return {'msg': 'fail', 'data': 'commit fail'}
     return redirect(url_for('user.root'))
 
+
 def showChilds():
+    '''
+        获取当前用户ID
+        展示用户的子账号
+    :return:
+    '''
     id = session.get('id')
     childs = User.query.filter(User.parent_id == id).all()
     print(childs)
     return 'OK'
+
+
 def addChild():
+    '''
+        获取用户提交信息
+        实现用户子账号的创建并存储
+    :return:
+    '''
     username = request.form.get('username')
     password = request.form.get('password')
     name = request.form.get('name')
