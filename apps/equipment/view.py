@@ -2,9 +2,13 @@ from flask import request, session, jsonify, render_template, url_for, redirect
 from models import User, Group, Equipment
 from db import db
 
+
+# 设备获取
 def getEquipments():
     return redirect('/monitor')
 
+
+# 新增设备方法
 def addEquipment():
     name = request.form.get('name')
     user_id = session.get('id')
@@ -25,6 +29,7 @@ def addEquipment():
     return jsonify({'msg': 'success', 'data': 'add success'})
 
 
+# 修改设备信息方法
 def modifyEquipment(eid):
     key = request.form.get('key')
     value = request.form.get('value')
@@ -33,7 +38,7 @@ def modifyEquipment(eid):
     try:
         print(key, value)
         equipment = Equipment.query.filter(Equipment.id == eid)
-        equipment.update({key:value} )
+        equipment.update({key: value})
         db.session.commit()
         return jsonify({'msg': 'success', 'data': 'modify equipment success'})
     except Exception as e:
@@ -41,6 +46,7 @@ def modifyEquipment(eid):
         return jsonify({'msg': 'fail', 'data': 'modify equipment error when select equipments'})
 
 
+# 设备信息展示方法
 def showEquipments():
     user_id = session.get('id')
     equipments = User.query.filter(User.id == user_id).first().group.equipments
@@ -68,6 +74,8 @@ def showEquipments():
     }
     return render_template('equipments.html', **data)
 
+
+# 设备信息修改方法
 def showEditEquipment(eid):
     e = Equipment.query.filter(Equipment.id == eid).first()
     data = {
@@ -94,6 +102,8 @@ def showEditEquipment(eid):
     }
     return render_template('editEquipment.html', **data)
 
+
+# 新增设备展示方法
 def showAddEquipment():
     data = {
         'base':{
