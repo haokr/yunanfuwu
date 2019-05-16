@@ -1,6 +1,7 @@
 from flask import request, session, render_template, redirect, url_for, jsonify
 from models import User, Group
 from db import db
+import time
 
 
 def root():
@@ -159,10 +160,11 @@ def ShowUser(uid):
     :return:
     '''
     e = User.query.filter(User.id == uid).first()
+    children = User.query.filter(User.parent_id == uid).all()
     if e.parent == None:
-        parent = '这是个顶级账号'
+        parentname = '无'
     else:
-        parent = e.parent.username
+        parentname = e.parent.username
     data = {
         'base': {
             'pageTitle': '设备信息-云安服务',
@@ -172,13 +174,26 @@ def ShowUser(uid):
             'userid': session.get('id')
         },
         'user': {
+                'id': e.id,
                 'name': e.name,
                 'username': e.username,
-                'parent': parent,
+                'parent': parentname,
                 'address': e.address,
                 'create_time': e.create_time,
                 'modify_time': e.modify_time
+            },
+        'children': [
+            {
+                'id': c.id,
+                'name': c.name,
+                'username': c.username,
+                'parent': c.parent.username,
+                'address': c.address,
+                'create_time': c.create_time,
+                'modify_time': c.modify_time
             }
+            for c in children
+        ]
     }
     return render_template('editUser.html', **data)
 
@@ -198,6 +213,7 @@ def modifyUser(uid):
         print(key, value)
         user = User.query.filter(User.id == uid)
         user.update({key: value})
+        user.modify_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         db.session.commit()
         return jsonify({'msg': 'success', 'data': 'modify equipment success'})
     except Exception as e:

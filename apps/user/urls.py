@@ -49,4 +49,4 @@ def massage(uid):
     if request.method == 'GET':
         return view.ShowUser(uid)
     else:
-        return view.addChild()
+        return view.modifyUser(uid)

@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="animated fadeIn">
+    <div class="row">
+
+        <div class="col-md-11">
+            <div class="card">
+                <div class="card-header">
+                    <strong class="card-title">修改设备信息</strong>
+                </div>
+                <div class="card-body card-block">
+                    <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        <!-- ID -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label class=" form-control-label">ID</label></div>
+                            <div class="col-12 col-md-9">
+                                <p id='uid' class="form-control-static">{{ user.id }}</p>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="name-input" class=" form-control-label">名称</label></div>
+                            <div class="col-6 col-md-7">
+                                    <input type="text" id="name-input" name="name" style='display: none' value="{{ user.name }}" class="form-control">
+                                    <p class="form-control-static" id='name-p' style='display: block'>{{ user.name or '' }}</p>
+                                
+                            </div>
+                            <div class='col-4 col-md-2'>
+                                    <button id='name-modify' type="button" onclick='clickModify(this)' class="btn btn-link" style="color:gray">修改</button>
+                                    <button id='name-sure' style='display: none' onclick='clickSure(this)' type="button" class="btn btn-outline-primary">确定</button>
+                                    <button id='name-cancel' style='display: none' onclick='clickCancel(this)' type="button" class="btn btn-outline-danger">取消</button>
+                            </div>
+                        </div>
+                        <!-- parent.name -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label class=" form-control-label">上层账号</label></div>
+                            <div class="col-12 col-md-9">
+                                <p class="form-control-static">{{ user.parent }}</p>
+                            </div>
+                        </div>
+                        <!-- address -->
+                        <div class="row form-group">
+                                <div class="col col-md-3"><label for="address-input" class=" form-control-label">位置</label></div>
+                                <div class="col-6 col-md-7">
+                                        <input type="text" id="address-input" name="address" style='display: none' value="{{ user.address }}" class="form-control">
+                                        <p class="form-control-static" id='address-p' style='display: block'>{{ user.address or '' }}</p>
+                                    
+                                </div>
+                                <div class='col-4 col-md-2'>
+                                        <button id='address-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='address-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='address-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                </div>
+                        </div>
+                        <!-- discribe -->
+                        <div class="row form-group">
+                                <div class="col col-md-3"><label for="discribe-input" class=" form-control-label">简介</label></div>
+                                <div class="col-6 col-md-7">
+                                        <input type="text" id="discribe-input" name="status" style='display: none' value="{{ user.discribe }}" class="form-control">
+                                        <p class="form-control-static" id='discribe-p' style='display: block'>{{ user.discribe or '' }}</p>
+
+                                </div>
+                                <div class='col-4 col-md-2'>
+                                        <button id='discribe-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='discribe-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='disctibe-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                </div>
+                        </div>
+                        <!--create_time-->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label class=" form-control-label">创建时间</label></div>
+                            <div class="col-12 col-md-9">
+                                <p class="form-control-static">{{ user.create_time }}</p>
+                            </div>
+                        </div>
+                        <!--modify_time-->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label class=" form-control-label">修改时间</label></div>
+                            <div class="col-12 col-md-9">
+                                <p class="form-control-static">{{ user.modify_time }}</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+
+                        <div class="card">
+                            <div class="card-header">
+                                <strong class="card-title">子账号</strong>
+                            </div>
+                            <div class="card-body">
+                                <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>名称</th>
+                                            <th>上层账号</th>
+                                            <th>位置</th>
+                                            <th>创建时间</th>
+                                            <th>修改时间</th>
+                                            <th>#</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for child in children %}
+                                        <tr>
+                                            <td>{{ child.name }}</td>
+                                            <td>{{ child.parent }}</td>
+                                            <td>{{ child.address }}</td>
+                                            <td>{{ child.create_time }}</td>
+                                            <td>{{ child.modify_time }}</td>
+                                            <td><a href="./{{ child.id }}">修改</a></td>
+                                            
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+    </div>
+</div><!-- .animated -->
+
+<script>
+    function clickModify(e) {
+        let id = e.id.split('-')[0]
+        document.getElementById(id+'-input').style.display="inline";
+        document.getElementById(id+'-p').style.display="none";
+        document.getElementById(id+'-modify').style.display="none";
+        document.getElementById(id+'-sure').style.display="inline";
+        document.getElementById(id+'-cancel').style.display="inline";
+    }
+    function clickSure(e) {
+        let id = e.id.split('-')[0]
+        
+        document.getElementById(id+'-input').style.display="none";
+        document.getElementById(id+'-p').style.display="inline";
+        document.getElementById(id+'-modify').style.display="inline";
+        document.getElementById(id+'-sure').style.display="none";
+        document.getElementById(id+'-cancel').style.display="none";
+
+        let content = document.getElementById(id+'-input').value;
+        document.getElementById(id+'-p').innerText = content;
+        
+        let uid = document.getElementById('uid').innerText;
+        let url = '../edit/'+uid
+        $.ajax({
+            url: url,    //请求的url地址
+            dataType:"json",   //返回格式为json
+            async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+            data:{"key":id, 'value': content},    //参数值,键值对
+            type:"POST",   //请求方式
+            beforeSend:function(){
+                //请求前的处理
+            },
+            success:function(data){
+                //请求成功时处理
+                if(data['msg'] == 'success'){
+                    
+                    alert('修改成功')
+
+                } else {
+                    alert('修改失败')
+                }
+            },
+            complete:function(){
+                //请求完成的处理
+            },
+            error:function(){
+                //请求出错处理
+                alert('请检查网络...')
+            }
+        });
+    }
+    function clickCancel(e) {
+        let id = e.id.split('-')[0]
+        document.getElementById(id+'-input').style.display="none";
+        document.getElementById(id+'-p').style.display="inline";
+        document.getElementById(id+'-modify').style.display="inline";
+        document.getElementById(id+'-sure').style.display="none";
+        document.getElementById(id+'-cancel').style.display="none";
+
+        let content = document.getElementById(id+'-p').innerText;
+        document.getElementById(id+'-input').value = content;
+    }
+</script>
+
+{% endblock %}
