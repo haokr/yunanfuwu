@@ -35,7 +35,7 @@
                         </div>
                         <!-- parent.name -->
                         <div class="row form-group">
-                            <div class="col col-md-3"><label class=" form-control-label">上层账号</label></div>
+                            <div class="col col-md-3"><label class=" form-control-label">父账号</label></div>
                             <div class="col-12 col-md-9">
                                 <p class="form-control-static">{{ user.parent }}</p>
                             </div>
@@ -65,7 +65,7 @@
                                 <div class='col-4 col-md-2'>
                                         <button id='discribe-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
                                         <button id='discribe-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
-                                        <button id='disctibe-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                        <button id='discribe-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
                                 </div>
                         </div>
                         <!--create_time-->
@@ -73,13 +73,6 @@
                             <div class="col col-md-3"><label class=" form-control-label">创建时间</label></div>
                             <div class="col-12 col-md-9">
                                 <p class="form-control-static">{{ user.create_time }}</p>
-                            </div>
-                        </div>
-                        <!--modify_time-->
-                        <div class="row form-group">
-                            <div class="col col-md-3"><label class=" form-control-label">修改时间</label></div>
-                            <div class="col-12 col-md-9">
-                                <p class="form-control-static">{{ user.modify_time }}</p>
                             </div>
                         </div>
                     </form>
@@ -98,11 +91,11 @@
                                     <thead>
                                         <tr>
                                             <th>名称</th>
-                                            <th>上层账号</th>
+                                            <th>父账号</th>
                                             <th>位置</th>
                                             <th>创建时间</th>
-                                            <th>修改时间</th>
-                                            <th>#</th>
+                                            <th>设备</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -112,7 +105,7 @@
                                             <td>{{ child.parent }}</td>
                                             <td>{{ child.address }}</td>
                                             <td>{{ child.create_time }}</td>
-                                            <td>{{ child.modify_time }}</td>
+                                            <td><a href="/equipment/show">修改</a></td>
                                             <td><a href="./{{ child.id }}">修改</a></td>
                                             
                                         </tr>
