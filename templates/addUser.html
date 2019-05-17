@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="animated fadeIn">
+    <div class="row">
+
+        <div class="col-md-11">
+            <div class="card">
+                <div class="card-header">
+                    <strong class="card-title">添加子账号</strong>
+                </div>
+                <div class="card-body card-block">
+                    <form action="/user/add/{{ parent }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+                        <!-- name -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="name-input" class=" form-control-label">名称</label>
+                            </div>
+                            <div class="col-6 col-md-7">
+                                <input type="text" id="name" name="name" class="form-control">
+                            </div>
+                        </div>
+                        <!-- username -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="username-input" class=" form-control-label">登陆名称</label>
+                            </div>
+                            <div class="col-6 col-md-7">
+                                <input type="text" id="username" name="username" class="form-control">
+                            </div>
+                        </div>
+                        <!-- password -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="password-input" class=" form-control-label">密码</label>
+                            </div>
+                            <div class="col-6 col-md-7">
+                                <input type="text" id="password" name="password" class="form-control">
+                            </div>
+                        </div>
+                        <!-- address -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="address" class=" form-control-label">地址</label>
+                            </div>
+                            <div class="col-6 col-md-7">
+                                <input type="text" id="address" name="address" class="form-control">
+                            </div>
+                        </div>
+                        <!-- discribe -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="discribe" class=" form-control-label">描述</label>
+                            </div>
+                            <div class="col-6 col-md-7">
+                                <input type="text" id="discribe" name="discribe" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class='col-md-6 offset-md-3'>
+                            <br><br>
+                            <button type="button" id='submit' onclick="addEquipment()" class="btn btn-primary btn-lg btn-block">添加</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div><!-- .animated -->
+
+<script>
+    function addEquipment() {
+
+	    document.getElementById("submit").disabled=false;
+
+        let name = document.getElementById('name').value;
+        let username = document.getElementById('username').value;
+        let password = document.getElementById('password').value;
+        let address = document.getElementById('address').value;
+        let discribe = document.getElementById('discribe').value;
+
+        name = name == '' ? null : name;
+        username = username == '' ? null : username;
+        password = password == '' ? null : username;
+        address = address == '' ? null : address;
+        discribe = discribe == '' ? null : username;
+
+        if (!username || !password) {
+            alert('username or password shouldnt is empty');
+            return
+        }
+
+        $.ajax({
+            url: '/user/add/{{ parent }}',    //请求的url地址
+            dataType: "json",   //返回格式为json
+            async: true,//请求是否异步，默认为异步，这也是ajax重要特性
+            data: {
+                name,
+                username,
+                password,
+                address,
+                discribe
+            },    //参数值,键值对
+            type: "POST",   //请求方式
+            beforeSend: function () {
+                //请求前的处理
+            },
+            success: function (data) {
+                //请求成功时处理
+                if (data['msg'] == 'success') {
+                    alert('添加成功')
+                    window.location.href="/user/edit/{{ parent }}";
+                } else {
+                    alert('添加失败')
+                }
+            },
+            complete: function () {
+                //请求完成的处理
+
+	            document.getElementById("submit").disabled=true;
+            },
+            error: function () {
+                //请求出错处理
+                alert('请检查网络...')
+            }
+        });
+    }
+</script>
+
+{% endblock %}

@@ -90,19 +90,25 @@ def register():
     return redirect(url_for('user.root'))
 
 
-def showChilds():
+def showAddUser(uid):
     '''
-        获取当前用户ID
-        展示用户的子账号
+        新增用户展示
     :return:
     '''
-    id = session.get('id')
-    childs = User.query.filter(User.parent_id == id).all()
-    print(childs)
-    return 'OK'
+    data = {
+        'base': {
+            'pageTitle': '添加设备-云安服务',
+            'avatarImgUrl': '/static/img/yunan_logo_1.png',
+            'pageNow': '添加设备',
+            'username': session.get('username'),
+            'userid': session.get('id')
+        },
+        'parent': uid
+    }
+    return render_template('addUser.html', **data)
 
 
-def addChild():
+def addChild(uid):
     '''
         获取用户提交信息
         实现用户子账号的创建并存储
@@ -113,9 +119,9 @@ def addChild():
     name = request.form.get('name')
     address = request.form.get('address')
     describe = request.form.get('describe')
-    parent_id = session.get('id')
+    parent_id = uid
     
-    if not ( username and password and parent_id ) :
+    if not (username and password):
         return jsonify({'msg': 'fail', 'data': 'parm error'})
 
     childData = {
@@ -124,9 +130,9 @@ def addChild():
         'name': name,
         'address': address,
         'describe': describe,
-        'parent_id': session.get('id')
+        'parent_id': parent_id
     }
-    isUserExisted = User.query.filter(User.username==childData['username']).all()
+    isUserExisted = User.query.filter(User.username == childData['username']).all()
     if not isUserExisted:
         try:
             user = User(**childData)
@@ -135,7 +141,7 @@ def addChild():
             group = Group(admin_id=user.id, name=childData['username'])
             db.session.add(group)
             db.session.commit()
-            
+            return jsonify({'msg': 'success', 'data': 'add success'})
         except Exception as e:
             print(e)
             return jsonify({'msg': 'fail', 'data': 'create child error when commit database'})
@@ -151,7 +157,6 @@ def addChild():
             except Exception as e:
                 return jsonify({'msg': 'fail', 'data': 'create gruop fail when commit database'})
         return jsonify({'msg': 'fail', 'data': 'the username is existed'})
-    return jsonify(childData)
 
 
 def ShowUser(uid):

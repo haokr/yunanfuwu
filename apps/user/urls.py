@@ -34,15 +34,6 @@ def register():
         return view.register()
 
 
-# 子账号信息展示路由
-@user.route('/child', methods=['GET', 'POST'])
-def child():
-    if request.method == 'GET':
-        return view.showChilds()
-    else:
-        return view.addChild()
-
-
 # 账号信息展示及修改
 @user.route('/edit/<uid>', methods=['GET', 'POST'])
 def massage(uid):
@@ -50,3 +41,12 @@ def massage(uid):
         return view.ShowUser(uid)
     else:
         return view.modifyUser(uid)
+
+
+# 子账号添加路由
+@user.route('/add/<uid>', methods=['GET', 'POST'])
+def add(uid):
+    if request.method == 'GET':
+        return view.showAddUser(uid)
+    else:
+        return view.addChild(uid)
