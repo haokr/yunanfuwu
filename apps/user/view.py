@@ -4,6 +4,10 @@ from db import db
 import time
 
 
+'''
+    Page
+'''
+
 def root():
     '''
         获取登陆用户
@@ -11,10 +15,7 @@ def root():
     :return:
     '''
     if session.get('username'):
-        templateData = {
-            'username': session.get('username')
-        }
-        return render_template('index.html', **templateData)
+        return redirect(url_for('monitor.monitorPage'))
     else:
         return redirect(url_for('user.login'))
 
@@ -108,6 +109,78 @@ def showAddUser(uid):
     return render_template('addUser.html', **data)
 
 
+def ShowUser(uid):
+    '''
+        展示账号信息
+    :return:
+    '''
+    user = User.query.filter(User.id == uid).first()
+    children = User.query.filter(User.parent_id == uid).all()
+    if user.parent == None:
+        parentname = '无'
+    else:
+        parentname = e.parent.username
+    data = {
+        'base': {
+            'pageTitle': '设备信息-云安服务',
+            'avatarImgUrl': '/static/img/yunan_logo_1.png',
+            'pageNow': '用户信息',
+            'username': session.get('username'),
+            'userid': session.get('id')
+        },
+        'user': {
+                'id': user.id,
+                'name': user.name,
+                'username': user.username,
+                'parent': parentname,
+                'address': user.address,
+                'create_time': user.create_time,
+                'modify_time': user.modify_time
+            },
+        'children': [
+            {
+                'id': c.id,
+                'name': c.name,
+                'username': c.username,
+                'parent': c.parent.username,
+                'address': c.address,
+                'create_time': c.create_time,
+                'modify_time': c.modify_time
+            }
+            for c in children
+        ]
+    }
+    return render_template('editUser.html', **data)
+
+
+'''
+    API
+'''
+
+def modifyUser(uid):
+    '''
+        获取用户提交要修改的设备信息
+        修改设备信息并存储
+    :param uid: 用户ID
+    :return: 设备信息修改状态
+    '''
+    key = request.form.get('key')
+    value = request.form.get('value')
+    if value == '':
+        value = None
+    try:
+        user = User.query.filter(User.id == uid)
+        user.update({key: value})
+        user.modify_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        db.session.commit()
+        return jsonify({'msg': 'success', 'data': 'modify equipment success'})
+    except Exception as e:
+        print(e)
+        return jsonify({'msg': 'fail', 'data': 'modify equipment error when select equipments'})
+
+
+
+
 def addChild(uid):
     '''
         获取用户提交信息
@@ -157,70 +230,3 @@ def addChild(uid):
             except Exception as e:
                 return jsonify({'msg': 'fail', 'data': 'create gruop fail when commit database'})
         return jsonify({'msg': 'fail', 'data': 'the username is existed'})
-
-
-def ShowUser(uid):
-    '''
-        展示账号信息
-    :return:
-    '''
-    e = User.query.filter(User.id == uid).first()
-    children = User.query.filter(User.parent_id == uid).all()
-    if e.parent == None:
-        parentname = '无'
-    else:
-        parentname = e.parent.username
-    data = {
-        'base': {
-            'pageTitle': '设备信息-云安服务',
-            'avatarImgUrl': '/static/img/yunan_logo_1.png',
-            'pageNow': '用户信息',
-            'username': session.get('username'),
-            'userid': session.get('id')
-        },
-        'user': {
-                'id': e.id,
-                'name': e.name,
-                'username': e.username,
-                'parent': parentname,
-                'address': e.address,
-                'create_time': e.create_time,
-                'modify_time': e.modify_time
-            },
-        'children': [
-            {
-                'id': c.id,
-                'name': c.name,
-                'username': c.username,
-                'parent': c.parent.username,
-                'address': c.address,
-                'create_time': c.create_time,
-                'modify_time': c.modify_time
-            }
-            for c in children
-        ]
-    }
-    return render_template('editUser.html', **data)
-
-
-def modifyUser(uid):
-    '''
-        获取用户提交要修改的设备信息
-        修改设备信息并存储
-    :param eid: 用户ID
-    :return: 设备信息修改状态
-    '''
-    key = request.form.get('key')
-    value = request.form.get('value')
-    if value == '':
-        value = None
-    try:
-        print(key, value)
-        user = User.query.filter(User.id == uid)
-        user.update({key: value})
-        user.modify_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-        db.session.commit()
-        return jsonify({'msg': 'success', 'data': 'modify equipment success'})
-    except Exception as e:
-        print(e)
-        return jsonify({'msg': 'fail', 'data': 'modify equipment error when select equipments'})

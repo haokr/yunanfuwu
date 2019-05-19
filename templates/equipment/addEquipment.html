@@ -125,7 +125,7 @@
 
 
         $.ajax({
-            url: '/equipment/',    //请求的url地址
+            url: '/equipment/?child={{ child }}',    //请求的url地址
             dataType: "json",   //返回格式为json
             async: true,//请求是否异步，默认为异步，这也是ajax重要特性
             data: {
@@ -147,7 +147,7 @@
                 //请求成功时处理
                 if (data['msg'] == 'success') {
                     alert('添加成功')
-                    window.location.href="/equipment/show";
+                    window.location.href="/equipment/show?{{child}}";
                 } else {
                     alert('添加失败')
                 }
