@@ -20,6 +20,8 @@ class User(db.Model):
     name = db.Column(db.String(50), nullable=False, index=True, default='YA_User')
     username = db.Column(db.String(30), unique=True, nullable=False)
     password = db.Column(db.String(40), nullable=False)
+    contact = db.Column(db.String(15))
+    contact_tel = db.Column(db.String(15))
 
     parent_id = db.Column(db.String(30), db.ForeignKey('user.id'))
     parent = db.relationship('User',remote_side=[id], backref=db.backref('childs', lazy='dynamic'))
@@ -74,6 +76,7 @@ class Equipment(db.Model):
     manufacturer = db.Column(db.String(30))
     model = db.Column(db.String(15))
     status = db.Column(db.String(15), default='off')
+    SIM_id = db.Column(db.String(15), default='0')
     create_time = db.Column(db.DateTime, default=datetime.now)
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
@@ -86,5 +89,7 @@ class Alarm_record(db.Model):
     equipment = db.relationship('Equipment', backref=db.backref('alarm_record'))
     class_ = db.Column(db.String(10), nullable=False)
     describe = db.Column(db.String(30))
+    deal_user = db.relationship('User', backref=db.backref('deal_record'))
+    deal_describe = db.Column(db.String(50))
     create_time = db.Column(db.DateTime, default=datetime.now)
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
