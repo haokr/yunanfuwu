@@ -3,21 +3,9 @@ import apps.equipment.view as view
 
 equipment = Blueprint('equipment', __name__)
 
-
-# 修改设备信息
-@equipment.route('/<eid>', methods=['POST'])
-def modify(eid):
-    return view.modifyEquipment(eid)
-
-
-# 添加设备
-@equipment.route('/', methods=['GET', 'POST'])
-def root():
-    if request.method == 'GET':
-        return view.getEquipments()
-    else:
-        return view.addEquipment()
-
+'''
+    Page
+'''
 
 # 展示新增设备
 @equipment.route('/show/add')
@@ -36,3 +24,21 @@ def showEditEquipment(eid):
 def showEquipments():
     return view.showEquipments()
 
+
+'''
+    API
+'''
+
+# 修改设备信息
+@equipment.route('/<eid>', methods=['POST'])
+def modify(eid):
+    return view.modifyEquipment(eid)
+
+
+# 添加设备
+@equipment.route('/', methods=['GET', 'POST'])
+def root():
+    if request.method == 'GET':
+        return view.getEquipments()
+    else:
+        return view.addEquipment()

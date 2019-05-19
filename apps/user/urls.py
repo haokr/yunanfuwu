@@ -4,6 +4,33 @@ from apps.user import view
 user = Blueprint('user', __name__)
 
 
+'''
+    Page
+'''
+
+
+# 账号信息展示及修改
+@user.route('/edit/<uid>', methods=['GET', 'POST'])
+def massage(uid):
+    if request.method == 'GET':
+        return view.ShowUser(uid)
+    else:
+        return view.modifyUser(uid)
+
+
+# 子账号添加路由
+@user.route('/add/<uid>', methods=['GET', 'POST'])
+def add(uid):
+    if request.method == 'GET':
+        return view.showAddUser(uid)
+    else:
+        return view.addChild(uid)
+
+
+''' 
+    API 
+'''
+
 # 初始路由
 @user.route('/')
 def root():
@@ -34,19 +61,3 @@ def register():
         return view.register()
 
 
-# 账号信息展示及修改
-@user.route('/edit/<uid>', methods=['GET', 'POST'])
-def massage(uid):
-    if request.method == 'GET':
-        return view.ShowUser(uid)
-    else:
-        return view.modifyUser(uid)
-
-
-# 子账号添加路由
-@user.route('/add/<uid>', methods=['GET', 'POST'])
-def add(uid):
-    if request.method == 'GET':
-        return view.showAddUser(uid)
-    else:
-        return view.addChild(uid)

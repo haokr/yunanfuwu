@@ -6,17 +6,28 @@ from apps.monitor import view
 monitor = Blueprint('monitor', __name__) 
 
 
+'''
+    Page
+'''
+
 # 展示设备传回信息的路由
 @monitor.route('/')
 def monitorPage():
     return view.monitorPage()
 
+'''
+    report
+'''
 
 # 修改设备状态的路由
 @monitor.route('/report/<eid>', methods=['POST'])
 def report(eid):
     return view.report(eid)
 
+
+'''
+    WebSocketIO
+'''
 
 # 获取用户设备信息的路由
 @socketio.on('connect')
