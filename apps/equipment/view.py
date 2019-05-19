@@ -18,12 +18,33 @@ def addEquipment():
     :return: 数据添加结果
     '''
     name = request.form.get('name')
+    use_department = request.form.get('use_department')
+    location = request.form.get('location')
+    ip = request.form.get('ip')
+    gaode_latitude = request.form.get('gaode_latitude')
+    gaode_longitude = request.form.get('gaode_longitude')
+    manufacturer = request.form.get('manufacturer')
+    model = request.form.get('model')
+    remarks = request.form.get('remarks')
+
+    equipmentInfo = {
+        'name': name,
+        'use_department': use_department,
+        'location': location,
+        'ip': ip,
+        'gaode_latitude': gaode_latitude,
+        'gaode_longitude': gaode_longitude,
+        'manufacturer': manufacturer,
+        'model': model,
+        'remarks': remarks
+    }
+
     user_id = session.get('id')
     if not user_id:
         return jsonify({'msg': 'fail', 'data': 'please to login'})
     user = User.query.filter(User.id == user_id).first()
     try:
-        equipment = Equipment(name=name)
+        equipment = Equipment(**equipmentInfo)
         equipment.group.append(user.group)
         while user.parent_id:
             user = user.parent
@@ -48,7 +69,6 @@ def modifyEquipment(eid):
     if value == '':
         value = None
     try:
-        print(key, value)
         equipment = Equipment.query.filter(Equipment.id == eid)
         equipment.update({key: value})
         db.session.commit()

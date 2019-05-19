@@ -125,7 +125,7 @@
 
 
         $.ajax({
-            url: '/equipment/add',    //请求的url地址
+            url: '/equipment/',    //请求的url地址
             dataType: "json",   //返回格式为json
             async: true,//请求是否异步，默认为异步，这也是ajax重要特性
             data: {
@@ -154,8 +154,7 @@
             },
             complete: function () {
                 //请求完成的处理
-
-	            document.getElementById("submit").disabled=true;
+	            document.getElementById("submit").removeAttr("disabled");
             },
             error: function () {
                 //请求出错处理
