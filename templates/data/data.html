@@ -1,0 +1,213 @@
+
+{% extends 'base.html' %}
+
+    {% block content %}
+            <div class="animated fadeIn">
+                <div class="row col-lg-12">
+
+                    <div class='row col-lg-6' style="margin-top:10px">
+                        <div class="col-sm-6 col-lg-6">
+                            <div class="card text-white bg-flat-color-3">
+                                <div class="card-body">
+                                    <div class="card-left pt-1 float-left">
+                                        <h3 class="mb-0 fw-r">
+                                            <span class="count">6569</span>
+                                        </h3>
+                                        <p class="text-light mt-1 m-0">设备总数</p>
+                                    </div><!-- /.card-left -->
+
+                                    <div class="card-right float-right text-right">
+                                        <i class="icon fade-5 icon-lg pe-7s-users"></i>
+                                    </div><!-- /.card-right -->
+
+                                </div>
+
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-6 col-lg-6">
+                            <div class="card text-white bg-flat-color-1">
+                                <div class="card-body">
+                                    <div class="card-left pt-1 float-left">
+                                        <h3 class="mb-0 fw-r">
+                                            <span class="count">23569</span>
+                                        </h3>
+                                        <p class="text-light mt-1 m-0">单位总数</p>
+                                    </div><!-- /.card-left -->
+
+                                    <div class="card-right float-right text-right">
+                                        <i class="icon fade-5 icon-lg pe-7s-cart"></i>
+                                    </div><!-- /.card-right -->
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-6">
+                            <div class="card text-white bg-flat-color-6">
+                                <div class="card-body">
+                                    <div class="card-left pt-1 float-left">
+                                        <h3 class="mb-0 fw-r">
+                                            <span class="count float-left">85</span>
+                                            <span>%</span>
+                                        </h3>
+                                        <p class="text-light mt-1 m-0">今日报警比例</p>
+                                    </div><!-- /.card-left -->
+
+                                    <div class="card-right float-right text-right">
+                                        <div id="flotBar1" class="flotBar1"></div>
+                                    </div><!-- /.card-right -->
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-6">
+                            <div class="card text-white bg-flat-color-2">
+                                <div class="card-body">
+                                    <div class="card-left pt-1 float-left">
+                                        <h3 class="mb-0 fw-r">
+                                            <span class="count">30</span>
+                                            <span>%</span>
+                                        </h3>
+                                        <p class="text-light mt-1 m-0">今日故障比例</p>
+                                    </div><!-- /.card-left -->
+
+                                    <div class="card-right float-right text-right">
+                                        <div id="flotLine1" class="flotLine1"></div>
+                                    </div><!-- /.card-right -->
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong class="card-title">告警信息统计</strong>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                            <tr>
+                                                <th scope="row">当前报警数</th>
+                                                <td>12</td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">当前故障数</th>
+                                            <td>30</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">今日报警数</th>
+                                            <td>187</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">今日故障数</th>
+                                            <td>203</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="mb-3">近期报警统计</h4>
+                            <div class="flot-container">
+                                <div id="chart1" style="width:100%;height:275px;"></div>
+                            </div>
+                        </div>
+                    </div><!-- /# card -->
+                </div><!-- /# column -->
+            </div><!-- .animated -->
+
+
+    {% endblock %}
+
+    {% block js %}
+
+    <script src="https://cdn.jsdelivr.net/npm/flot-charts@0.8.3/excanvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flot-charts@0.8.3/jquery.flot.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.flot@0.8.3/jquery.flot.pie.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.flot@0.8.3/jquery.flot.time.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.flot@0.8.3/jquery.flot.stack.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.flot@0.8.3/jquery.flot.resize.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.flot@0.8.3/jquery.flot.crosshair.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flot.curvedlines@1.1.1/curvedLines.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.flot.tooltip@0.9.0/js/jquery.flot.tooltip.min.js"></script>
+    <script src="/static/assets/js/init/flot-chart-init.js"></script>
+
+    
+    <script>
+        function a(){
+
+            // first chart
+            var chart1Options = {
+                series: {
+                    lines: {
+                        show: true
+                    },
+                    points: {
+                        show: true
+                    }
+                },
+                xaxis: {
+                    mode: "time",
+                    timeformat: "%m/%d",
+                    minTickSize: [ 1, "day" ]
+                },
+                grid: {
+                    hoverable: true
+                },
+                legend: {
+                    show: false
+                },
+                grid: {
+                    color: "#fff",
+                    hoverable: true,
+                    borderWidth: 0,
+                    backgroundColor: 'transparent'
+                },
+                tooltip: {
+                    show: true,
+                    content: "y: %y"
+                }
+            };
+            var chart1Data = {
+                label: "chart1",
+                color: "#007BFF",
+                data: [
+                    [ '12/04', 1 ],
+                    [ 1354840000000, 2 ],
+                    [ 1355223600000, 2 ],
+                    [ 1355306400000, 3 ],
+                    [ 1355487300000, 3 ],
+                    [ '12/15', 4 ]
+                ]
+            };
+            $.plot( $( "#chart1" ), [ chart1Data ], chart1Options );
+        }
+        a()
+    </script>
+    {% endblock %}
