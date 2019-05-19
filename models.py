@@ -93,3 +93,13 @@ class Alarm_record(db.Model):
     deal_describe = db.Column(db.String(50))
     create_time = db.Column(db.DateTime, default=datetime.now)
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+
+# 设备日志
+class equipment_report_log(db.Model):
+    __tablename__ = 'equipment_report_log'
+    id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda : 'erl_' + shortuuid.uuid())
+    equipment = db.relationship('Equipment', backref=db.backref('report_logs'))
+    class_ = db.Column(db.String(10), nullable=False)
+    create_time = db.Column(db.DateTime, default=datetime.now)
+    modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+    
