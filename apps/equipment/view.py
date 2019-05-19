@@ -86,6 +86,9 @@ def showEquipments():
     :return: 设备信息
     '''
     user_id = session.get('id')
+    childID = request.args.get('childID', None)
+    user_id = childID if childID else user_id
+    
     equipments = User.query.filter(User.id == user_id).first().group.equipments
     data = {
         'base':{
