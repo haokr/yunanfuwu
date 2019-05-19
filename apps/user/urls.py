@@ -13,7 +13,7 @@ user = Blueprint('user', __name__)
 @user.route('/edit/<uid>', methods=['GET', 'POST'])
 def massage(uid):
     if request.method == 'GET':
-        return view.ShowUser(uid)
+        return view.showUser(uid)
     else:
         return view.modifyUser(uid)
 

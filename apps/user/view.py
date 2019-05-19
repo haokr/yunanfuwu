@@ -51,7 +51,7 @@ def getlogin():
         返回登陆页面
     :return:
     '''
-    return render_template('login.html')
+    return render_template('user/login.html')
 
 
 def registerPage():
@@ -59,7 +59,7 @@ def registerPage():
         用户注册
     :return:
     '''
-    return render_template('register.html')
+    return render_template('user/register.html')
 
 
 def register():
@@ -106,10 +106,10 @@ def showAddUser(uid):
         },
         'parent': uid
     }
-    return render_template('addUser.html', **data)
+    return render_template('user/addUser.html', **data)
 
 
-def ShowUser(uid):
+def showUser(uid):
     '''
         展示账号信息
     :return:
@@ -119,7 +119,7 @@ def ShowUser(uid):
     if user.parent == None:
         parentname = '无'
     else:
-        parentname = e.parent.username
+        parentname = user.parent.username
     data = {
         'base': {
             'pageTitle': '设备信息-云安服务',
@@ -150,7 +150,7 @@ def ShowUser(uid):
             for c in children
         ]
     }
-    return render_template('editUser.html', **data)
+    return render_template('user/editUser.html', **data)
 
 
 '''

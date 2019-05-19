@@ -45,7 +45,7 @@ def monitorPage():
             for e in equipments
         ]
     }
-    return render_template('monitor.html', **data) 
+    return render_template('monitor/monitor.html', **data) 
 
 
 def connect():
