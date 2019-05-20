@@ -39,7 +39,7 @@ class User_record(db.Model):
     __tablename__ = 'user_record'
     id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda : 'ur_' + shortuuid.uuid())
     user_id = db.Column(db.String(30), db.ForeignKey('user.id'))
-    user = db.relationship('User', backref=db.backref('record'))
+    user = db.relationship('User', backref=db.backref('record', lazy='dynamic'))
     ip = db.Column(db.String(24))
     operation = db.Column(db.String(20), nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
@@ -75,8 +75,12 @@ class Equipment(db.Model):
     remarks = db.Column(db.String(50))
     manufacturer = db.Column(db.String(30))
     model = db.Column(db.String(15))
+
+    admin_id = db.Column(db.String(30), db.ForeignKey('user.id'))
+    admin = db.relationship('User', backref=db.backref('equipments', lazy='dynamic'))
+
     status = db.Column(db.String(15), default='off')
-    SIM_id = db.Column(db.String(15), default='0')
+    SIM_id = db.Column(db.String(20), default='0')
     create_time = db.Column(db.DateTime, default=datetime.now)
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
@@ -85,20 +89,27 @@ class Equipment(db.Model):
 class Alarm_record(db.Model):
     __tablename__ = 'alarm_record'
     id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda : 'ar_' + shortuuid.uuid())
+
     equipment_id = db.Column(db.String(30), db.ForeignKey('equipment.id'))
-    equipment = db.relationship('Equipment', backref=db.backref('alarm_record'))
+    equipment = db.relationship('Equipment', backref=db.backref('alarm_records', lazy='dynamic'))
+
     class_ = db.Column(db.String(10), nullable=False)
-    describe = db.Column(db.String(30))
-    deal_user = db.relationship('User', backref=db.backref('deal_record'))
+
+    operator_id = db.Column(db.String(30), db.ForeignKey('user.id'))
+    operator = db.relationship('User', backref=db.backref('dealed_alarms', lazy='dynamic'))
+
     deal_describe = db.Column(db.String(50))
     create_time = db.Column(db.DateTime, default=datetime.now)
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
 # 设备日志
-class equipment_report_log(db.Model):
+class Equipment_report_log(db.Model):
     __tablename__ = 'equipment_report_log'
     id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda : 'erl_' + shortuuid.uuid())
-    equipment = db.relationship('Equipment', backref=db.backref('report_logs'))
+    
+    equipment_id = db.Column(db.String(30), db.ForeignKey('equipment.id'))
+    equipment = db.relationship('Equipment', backref=db.backref('report_logs', lazy='dynamic'))
+
     class_ = db.Column(db.String(10), nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)

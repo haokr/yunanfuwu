@@ -1,6 +1,6 @@
 from flask import request, render_template, jsonify, session
 from app import socketio
-from models import Equipment, User
+from models import Equipment, User, Alarm_record, Equipment_report_log
 from flask_socketio import join_room
 from datetime import datetime
 
@@ -87,9 +87,11 @@ def report(eid):
     codeDict = {
         '000': '注册',
         '001': '正常',
-        '101': '设备故障',
+        '101': '故障',
         '102': '报警'
     }
+
+
     socketio.emit(
         'report', 
         {
