@@ -24,7 +24,7 @@ class User(db.Model):
     contact_tel = db.Column(db.String(15))
 
     parent_id = db.Column(db.String(30), db.ForeignKey('user.id'))
-    parent = db.relationship('User',remote_side=[id], backref=db.backref('childs', lazy='dynamic'))
+    parent = db.relationship('User',remote_side=[id], backref=db.backref('children', lazy='dynamic'))
 
     group = db.relationship('Group', uselist=False)
 

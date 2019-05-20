@@ -137,6 +137,7 @@ def addEquipment():
         'ip': ip,
         'gaode_latitude': gaode_latitude,
         'gaode_longitude': gaode_longitude,
+        'class_' : '消防',
         'manufacturer': manufacturer,
         'model': model,
         'remarks': remarks

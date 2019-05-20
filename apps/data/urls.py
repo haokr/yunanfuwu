@@ -5,5 +5,9 @@ data = Blueprint('data', __name__)
 
 @data.route('/')
 def root():
-    return view.root()
+    return view.dataPage()
+
+@data.route('/base')
+def baseData():
+    return view.baseData()
 
