@@ -28,7 +28,7 @@ def before_request():
     ignore = ['/user/login', '/user/register']
     isReport = request.path.startswith('/monitor/report/')
     isStatic = request.path.startswith('/static')
-    if not user_id and request.path not in ignore and not isReport and not isStatic:
+    if ( not user_id ) and ( request.path  not in ignore ) and ( not isReport ) and ( not isStatic ):
         return redirect('/user/login')
 
 

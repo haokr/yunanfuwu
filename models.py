@@ -67,6 +67,7 @@ class Equipment(db.Model):
     __equipment__ = 'equipment'
     id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda : 'e_' + shortuuid.uuid())
     name = db.Column(db.String(30), nullable=False)
+    class_ = db.Column(db.String(20), nullable=False)
     gaode_longitude = db.Column(db.Float())
     gaode_latitude = db.Column(db.Float())
     location = db.Column(db.String(30))
