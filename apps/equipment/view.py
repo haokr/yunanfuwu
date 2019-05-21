@@ -24,7 +24,7 @@ def showEquipments():
     '''
     user_id = session.get('id')
     child_id = request.args.get('child', None)
-    user_id = child_id if child_id else user_id
+    user_id = child_id if child_id and child_id != 'None' else user_id
 
     equipments = User.query.filter(User.id == user_id).first().group.equipments
     data = {
@@ -143,11 +143,12 @@ def addEquipment():
         'remarks': remarks
     }
 
-    user_id = child if child else session.get('id')
+    user_id = child if child and child != 'None' else session.get('id')
 
     if not user_id:
         return jsonify({'msg': 'fail', 'data': 'please to login'})
     user = User.query.filter(User.id == user_id).first()
+
     try:
         equipment = Equipment(**equipmentInfo)
         equipment.group.append(user.group)
