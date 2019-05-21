@@ -122,6 +122,11 @@ def addEquipment():
     :return: 数据添加结果
     '''
     child = request.args.get('child', None)
+    user_id = child if child and child != 'None' else session.get('id')
+
+    if not user_id:
+        return jsonify({'msg': 'fail', 'data': 'please to login'})
+    user = User.query.filter(User.id == user_id).first()
 
     name = request.form.get('name')
     use_department = request.form.get('use_department')
@@ -140,17 +145,12 @@ def addEquipment():
         'ip': ip,
         'gaode_latitude': gaode_latitude,
         'gaode_longitude': gaode_longitude,
-        'class_' : '消防',
+        'class_': '消防',
         'manufacturer': manufacturer,
         'model': model,
-        'remarks': remarks
+        'remarks': remarks,
+        'admin': user
     }
-
-    user_id = child if child and child != 'None' else session.get('id')
-
-    if not user_id:
-        return jsonify({'msg': 'fail', 'data': 'please to login'})
-    user = User.query.filter(User.id == user_id).first()
 
     try:
         equipment = Equipment(**equipmentInfo)
