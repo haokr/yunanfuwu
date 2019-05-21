@@ -37,6 +37,22 @@
                                 <input type="text" id="password" name="password" class="form-control">
                             </div>
                         </div>
+                        <!-- contact -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="contact-input" class=" form-control-label">联系人</label>
+                            </div>
+                            <div class="col-6 col-md-7">
+                                <input type="text" id="contact" name="contact" class="form-control">
+                            </div>
+                        </div>
+                        <!-- contact_tel -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="contact_tel-input" class=" form-control-label">联系人电话</label>
+                            </div>
+                            <div class="col-6 col-md-7">
+                                <input type="text" id="contact_tel" name="contact_tel" class="form-control">
+                            </div>
+                        </div>
                         <!-- address -->
                         <div class="row form-group">
                             <div class="col col-md-3"><label for="address" class=" form-control-label">地址</label>
@@ -77,15 +93,19 @@
         let password = document.getElementById('password').value;
         let address = document.getElementById('address').value;
         let discribe = document.getElementById('discribe').value;
+        let contact = document.getElementById('contact').value;
+        let contact_tel = document.getElementById('contact_tel').value;
 
         name = name == '' ? null : name;
         username = username == '' ? null : username;
-        password = password == '' ? null : username;
+        password = password == '' ? null : password;
         address = address == '' ? null : address;
-        discribe = discribe == '' ? null : username;
+        discribe = discribe == '' ? null : discribe;
+        contact = contact == '' ? null : contact;
+        contact_tel = contact_tel == '' ? null : contact_tel;
 
-        if (!username || !password) {
-            alert('username or password shouldnt is empty');
+        if (!username || !password || !contact || !contact_tel) {
+            alert('请完善信息');
             return
         }
 

@@ -134,6 +134,8 @@ def showUser(uid):
                 'username': user.username,
                 'parent': parentname,
                 'address': user.address,
+                'contact': user.contact,
+                'contact_tel': user.contact_tel,
                 'create_time': user.create_time,
                 'modify_time': user.modify_time
             },
@@ -144,6 +146,8 @@ def showUser(uid):
                 'username': c.username,
                 'parent': c.parent.username,
                 'address': c.address,
+                'contact': c.contact,
+                'contact_tel': c.contact_tel,
                 'create_time': c.create_time,
                 'modify_time': c.modify_time
             }

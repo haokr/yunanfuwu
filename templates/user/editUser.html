@@ -60,9 +60,37 @@
                                         <button id='address-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
                                 </div>
                         </div>
+                        <!-- 联系人 -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="contact-input" class=" form-control-label">联系人</label></div>
+                            <div class="col-6 col-md-7">
+                                    <input type="text" id="contact-input" name="contact" style='display: none' value="{{ user.contact }}" class="form-control">
+                                    <p class="form-control-static" id='contact-p' style='display: block'>{{ user.contact or '' }}</p>
+                                
+                            </div>
+                            <div class='col-4 col-md-2'>
+                                    <button id='contact-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                    <button id='contact-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                    <button id='contact-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                            </div>
+                        </div>
+                        <!-- contact_tel -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="contact_tel-input" class=" form-control-label">联系人电话</label></div>
+                            <div class="col-6 col-md-7">
+                                    <input type="text" id="contact_tel-input" name="contact_tel" style='display: none' value="{{ user.contact_tel }}" class="form-control">
+                                    <p class="form-control-static" id='contact_tel-p' style='display: block'>{{ user.contact_tel or '' }}</p>
+                                
+                            </div>
+                            <div class='col-4 col-md-2'>
+                                    <button id='contact_tel-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                    <button id='contact_tel-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                    <button id='contact_tel-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                            </div>
+                        </div>
                         <!-- discribe -->
                         <div class="row form-group">
-                                <div class="col col-md-3"><label for="discribe-input" class=" form-control-label">简介</label></div>
+                                <div class="col col-md-3"><label for="discribe-input" class=" form-control-label">描述</label></div>
                                 <div class="col-6 col-md-7">
                                         <input type="text" id="discribe-input" name="status" style='display: none' value="{{ user.discribe }}" class="form-control">
                                         <p class="form-control-static" id='discribe-p' style='display: block'>{{ user.discribe or '' }}</p>
@@ -100,6 +128,8 @@
                                             <th>父账号</th>
                                             <th>位置</th>
                                             <th>创建时间</th>
+                                            <th>联系人</th>
+                                            <th>联系人电话</th>
                                             <th>设备</th>
                                             <th>详细信息</th>
                                         </tr>
@@ -111,6 +141,8 @@
                                             <td>{{ child.parent }}</td>
                                             <td>{{ child.address }}</td>
                                             <td>{{ child.create_time }}</td>
+                                            <td>{{ child.contact }}</td>
+                                            <td>{{ child.contact_tel }}</td>
                                             <td><a href="/equipment/show?child={{ child.id }}">查看</a></td>
                                             <td><a href="./{{ child.id }}">修改</a></td>
                                             
