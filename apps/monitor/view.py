@@ -3,6 +3,7 @@ from app import socketio
 from models import Equipment, User, Alarm_record, Equipment_report_log
 from flask_socketio import join_room
 from datetime import datetime
+import time
 
 
 def callback(flag):
@@ -40,7 +41,9 @@ def monitorPage():
                 'id': e.id,
                 'equipment_class': '消防',
                 'info_class': '正常',
-                'datetime': datetime.now()
+                'datetime': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
+                'contact': e.admin.contact,
+                'contact_tel': e.admin.contact_tel
             }
             for e in equipments
         ]

@@ -46,7 +46,10 @@ def showEquipments():
                 'manufacturer': e.manufacturer,
                 'model': e.model,
                 'create_time': e.create_time,
-                'id': e.id
+                'id': e.id,
+                'contact': e.admin.contact,
+                'contact_tel': e.admin.contact_tel,
+                'SIM_id': e.SIM_id
             }
             for e in equipments
         ]
