@@ -196,6 +196,8 @@ def addChild(uid):
     name = request.form.get('name')
     address = request.form.get('address')
     describe = request.form.get('describe')
+    contact = request.form.get('contact')
+    contact_tel = request.form.get('contact_tel')
     parent_id = uid
     
     if not (username and password):
@@ -207,7 +209,9 @@ def addChild(uid):
         'name': name,
         'address': address,
         'describe': describe,
-        'parent_id': parent_id
+        'parent_id': parent_id,
+        'contact': contact,
+        'contact_tel': contact_tel
     }
     isUserExisted = User.query.filter(User.username == childData['username']).all()
     if not isUserExisted:
