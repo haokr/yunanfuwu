@@ -42,8 +42,8 @@ def monitorPage():
                 'equipment_class': '消防',
                 'info_class': '正常',
                 'datetime': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
-                'contact': e.admin.contact,
-                'contact_tel': e.admin.contact_tel
+                # 'contact': e.admin.contact,
+                # 'contact_tel': e.admin.contact_tel
             }
             for e in equipments
         ]
