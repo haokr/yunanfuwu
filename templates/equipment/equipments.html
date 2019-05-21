@@ -27,10 +27,13 @@
                                     <th scope='col' >状态</th>
                                     <th scope='col' >使用单位</th>
                                     <th scope='col' >设备地址</th>
-                                    <th scope='col' >备注</th>
+                                    <th scope='col' >联系人</th>
+                                    <th scope='col' >联系电话</th>
                                     <th scope='col' >生产商</th>
                                     <th scope='col' >型号</th>
+                                    <th scope='col' >SIM_id</th>
                                     <th scope='col' >安装时间</th>
+                                    <th scope='col' >备注</th>
                                     <th scope='col' >操作</th>
                                 </tr>
                             </thead>
@@ -44,10 +47,13 @@
                                         <td>{{ equipment.status or '' }}</td>
                                         <td>{{ equipment.use_department or '' }}</td>
                                         <td>{{ equipment.location or '' }}</td>
-                                        <td>{{ equipment.remark or '' }}</td>
+                                        <td>{{ equipment.contact or '' }}</td>
+                                        <td>{{ equipment.contact_tel or '' }}</td>
                                         <td>{{ equipment.manufacturer or '' }}</td>
                                         <td>{{ equipment.model or '' }}</td>
+                                        <td>{{ equipment.SIM_id or '' }}</td>
                                         <td>{{ equipment.create_time or '' }}</td>
+                                        <td>{{ equipment.remark or '' }}</td>
                                         <td><a href="./show/{{ equipment.id }}">修改</a></td>
                                     </tr>
                                 {% endfor %}
