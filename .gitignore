@@ -122,7 +122,7 @@ dmypy.json
 .pyre/
 
 # flask-migrate
-migrations/
+#migrations/
 
 # vscode setting
 .vscode/
