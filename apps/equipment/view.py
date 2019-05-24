@@ -1,5 +1,5 @@
 from flask import request, session, jsonify, render_template, url_for, redirect
-from models import User, Group, Equipment
+from models import User, Group, Equipment, Role
 from db import db
 
 
@@ -94,18 +94,54 @@ def showAddEquipment():
         新增设备展示
     :return:
     '''
-    child_id = request.args.get('child', None)
-    data = {
-        'base':{
-            'pageTitle': '添加设备-云安服务',
-            'avatarImgUrl': '/static/img/yunan_logo_1.png',
-            'pageNow': '添加设备',
-            'username': session.get('username'),
-            'userid': session.get('id')
-        },
-        'child': child_id
-    }
-    return render_template('equipment/addEquipment.html', **data)
+    user_id = session.get('id')
+    user = User.query.filter(User.id == user_id).first()
+    role = Role.query.filter(Role.id == user.role_id).first()
+    if role.if_add_equipment == False:
+        user_id = session.get('id')
+        child_id = request.args.get('child', None)
+        user_id = child_id if child_id and child_id != 'None' else user_id
+
+        equipments = User.query.filter(User.id == user_id).first().group.equipments
+        data = {
+            'base': {
+                'pageTitle': '设备信息-云安服务',
+                'avatarImgUrl': '/static/img/yunan_logo_1.png',
+                'pageNow': '设备信息',
+                'username': session.get('username'),
+                'userid': session.get('id')
+            },
+            'child': child_id,
+            'equipments': [
+                {
+                    'name': e.name,
+                    'status': e.status,
+                    'use_department': e.use_department,
+                    'location': e.location,
+                    'remark': e.remarks,
+                    'manufacturer': e.manufacturer,
+                    'model': e.model,
+                    'create_time': e.create_time,
+                    'id': e.id,
+                    'SIM_id': e.SIM_id
+                }
+                for e in equipments
+            ]
+        }
+        return render_template('equipment/equipments.html', **data)
+    else:
+        child_id = request.args.get('child', None)
+        data = {
+            'base':{
+                'pageTitle': '添加设备-云安服务',
+                'avatarImgUrl': '/static/img/yunan_logo_1.png',
+                'pageNow': '添加设备',
+                'username': session.get('username'),
+                'userid': session.get('id')
+            },
+            'child': child_id
+        }
+        return render_template('equipment/addEquipment.html', **data)
 
 
 '''

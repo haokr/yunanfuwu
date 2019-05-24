@@ -18,7 +18,7 @@ class Role(db.Model):
     __tablename__ = 'role'
     id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda: 'ro_' + shortuuid.uuid())
     name = db.Column(db.String(30), nullable=False, default='DEFAULT')
-    user = db.relationship('User', backref=db.backref('role', lazy='dynamic'))
+    user = db.relationship('User', backref=db.backref('role'))
 
     if_role = db.Column(db.BOOLEAN, nullable=False, default=True)
 
@@ -35,7 +35,7 @@ class Role(db.Model):
 # 用户
 class User(db.Model):
     __tablename__ = 'user'
-    id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda : 'u_' + shortuuid.uuid())
+    id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda: 'u_' + shortuuid.uuid())
     name = db.Column(db.String(50), nullable=False, index=True, default='YA_User')
     username = db.Column(db.String(30), unique=True, nullable=False)
     password = db.Column(db.String(40), nullable=False)
@@ -48,6 +48,8 @@ class User(db.Model):
     role_id = db.Column(db.String(30), db.ForeignKey('role.id'))
 
     group = db.relationship('Group', uselist=False)
+
+    if_Administrative = db.Column(db.BOOLEAN, nullable=False, default=False)
 
     address = db.Column(db.String(50))
     describe = db.Column(db.String(100))
