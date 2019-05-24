@@ -13,6 +13,25 @@ equipment_group_relationship = db.Table('equipment_group_relationship',
     )
 
 
+# 角色
+class Role(db.Model):
+    __tablename__ = 'role'
+    id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda: 'ro_' + shortuuid.uuid())
+    name = db.Column(db.String(30), nullable=False, default='DEFAULT')
+    user = db.relationship('User', backref=db.backref('role', lazy='dynamic'))
+
+    if_role = db.Column(db.BOOLEAN, nullable=False, default=True)
+
+    if_add_equipment = db.Column(db.BOOLEAN, nullable=False, default=False)
+    if_modify_equipment = db.Column(db.BOOLEAN, nullable=False, default=False)
+
+    if_add_child = db.Column(db.BOOLEAN, nullable=False, default=False)
+    if_modify_child = db.Column(db.BOOLEAN, nullable=False, default=False)
+
+    create_time = db.Column(db.DateTime, default=datetime.now)
+    modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+
+
 # 用户
 class User(db.Model):
     __tablename__ = 'user'
@@ -25,6 +44,8 @@ class User(db.Model):
 
     parent_id = db.Column(db.String(30), db.ForeignKey('user.id'))
     parent = db.relationship('User',remote_side=[id], backref=db.backref('children', lazy='dynamic'))
+
+    role_id = db.Column(db.String(30), db.ForeignKey('role.id'))
 
     group = db.relationship('Group', uselist=False)
 
@@ -103,10 +124,11 @@ class Alarm_record(db.Model):
     create_time = db.Column(db.DateTime, default=datetime.now)
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
+
 # 设备日志
 class Equipment_report_log(db.Model):
     __tablename__ = 'equipment_report_log'
-    id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda : 'erl_' + shortuuid.uuid())
+    id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda: 'erl_' + shortuuid.uuid())
     
     equipment_id = db.Column(db.String(30), db.ForeignKey('equipment.id'))
     equipment = db.relationship('Equipment', backref=db.backref('report_logs', lazy='dynamic'))
@@ -114,4 +136,6 @@ class Equipment_report_log(db.Model):
     class_ = db.Column(db.String(10), nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
-    
+
+
+
