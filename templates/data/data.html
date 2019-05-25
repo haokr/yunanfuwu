@@ -11,7 +11,7 @@
                                 <div class="card-body">
                                     <div class="card-left pt-1 float-left">
                                         <h3 class="mb-0 fw-r">
-                                            <span class="count">6569</span>
+                                            <span class="count">{{ data.equipmentCount }}</span>
                                         </h3>
                                         <p class="text-light mt-1 m-0">设备总数</p>
                                     </div><!-- /.card-left -->
@@ -30,7 +30,7 @@
                                 <div class="card-body">
                                     <div class="card-left pt-1 float-left">
                                         <h3 class="mb-0 fw-r">
-                                            <span class="count">23569</span>
+                                            <span class="count">{{ data.departmentCount }}</span>
                                         </h3>
                                         <p class="text-light mt-1 m-0">单位总数</p>
                                     </div><!-- /.card-left -->
@@ -49,7 +49,7 @@
                                 <div class="card-body">
                                     <div class="card-left pt-1 float-left">
                                         <h3 class="mb-0 fw-r">
-                                            <span class="count float-left">85</span>
+                                            <span class="count float-left">{{ data.todayAlarmCount / data.equipmentCount * 100 }}</span>
                                             <span>%</span>
                                         </h3>
                                         <p class="text-light mt-1 m-0">今日报警比例</p>
@@ -69,7 +69,7 @@
                                 <div class="card-body">
                                     <div class="card-left pt-1 float-left">
                                         <h3 class="mb-0 fw-r">
-                                            <span class="count">30</span>
+                                            <span class="count">{{ data.todayFaultCount / data.equipmentCount * 100 }}</span>
                                             <span>%</span>
                                         </h3>
                                         <p class="text-light mt-1 m-0">今日故障比例</p>
@@ -97,7 +97,7 @@
                                     <thead>
                                             <tr>
                                                 <th scope="row">当前报警数</th>
-                                                <td>12</td>
+                                                <td>{{ data.nowAlarmCount }}</td>
                                                 <td></td>
                                                 <td></td>
                                             </tr>
@@ -105,19 +105,19 @@
                                     <tbody>
                                         <tr>
                                             <th scope="row">当前故障数</th>
-                                            <td>30</td>
+                                            <td>{{ data.nowFaultCount }}</td>
                                             <td></td>
                                             <td></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">今日报警数</th>
-                                            <td>187</td>
+                                            <td>{{ data.todayAlarmCount }}</td>
                                             <td></td>
                                             <td></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">今日故障数</th>
-                                            <td>203</td>
+                                            <td>{{ data.todayFaultCount }}</td>
                                             <td></td>
                                             <td></td>
                                         </tr>
@@ -135,7 +135,7 @@
                         <div class="card-body">
                             <h4 class="mb-3">近期报警统计</h4>
                             <div class="flot-container">
-                                <div id="chart1" style="width:100%;height:275px;"></div>
+                                <div id="chart1" style="width:100%; height:275px"></div>
                             </div>
                         </div>
                     </div><!-- /# card -->
@@ -160,9 +160,18 @@
 
     
     <script>
-        function a(){
-
+        function plot(){
             // first chart
+            let twoWeeksDays = {{data.twoWeeksDays}};
+            let twoWeeksReportCounts = {{data.twoWeeksReportCounts}};
+            let lineChartData = []
+
+            console.log(lineChartData)
+
+            for(let i = 0 ; i < twoWeeksDays.length; i++) {
+                lineChartData.push([twoWeeksDays[i]+8*60*60*1000, twoWeeksReportCounts[i]])
+            }
+
             var chart1Options = {
                 series: {
                     lines: {
@@ -197,17 +206,12 @@
             var chart1Data = {
                 label: "chart1",
                 color: "#007BFF",
-                data: [
-                    [ '12/04', 1 ],
-                    [ 1354840000000, 2 ],
-                    [ 1355223600000, 2 ],
-                    [ 1355306400000, 3 ],
-                    [ 1355487300000, 3 ],
-                    [ '12/15', 4 ]
-                ]
+                data: lineChartData
             };
             $.plot( $( "#chart1" ), [ chart1Data ], chart1Options );
         }
-        a()
+
+
+        plot()
     </script>
     {% endblock %}

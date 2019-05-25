@@ -124,6 +124,8 @@ class Alarm_record(db.Model):
     operator = db.relationship('User', backref=db.backref('dealed_alarms', lazy='dynamic'))
 
     deal_describe = db.Column(db.String(50))
+
+    alarm_time = db.Column(db.DateTime, nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
@@ -137,6 +139,8 @@ class Equipment_report_log(db.Model):
     equipment = db.relationship('Equipment', backref=db.backref('report_logs', lazy='dynamic'))
 
     class_ = db.Column(db.String(10), nullable=False)
+
+    report_time = db.Column(db.DateTime, nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
