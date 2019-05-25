@@ -207,16 +207,22 @@ def modifyEquipment(eid):
     :param eid: 用户ID
     :return: 设备信息修改状态
     '''
-    key = request.form.get('key')
-    value = request.form.get('value')
-    if value == '':
-        value = None
-    try:
-        equipment = Equipment.query.filter(Equipment.id == eid)
-        equipment.update({key: value})
-        db.session.commit()
-        return jsonify({'msg': 'success', 'data': 'modify equipment success'})
-    except Exception as e:
-        print(e)
-        return jsonify({'msg': 'fail', 'data': 'modify equipment error when select equipments'})
+    user_id = session.get('id')
+    user = User.query.filter(User.id == user_id).first()
+    role = Role.query.filter(Role.id == user.role_id).first()
+    if role.if_modify_equipment == False:
+        return jsonify({'msg': 'fail', 'data': 'do not have role'})
+    else:
+        key = request.form.get('key')
+        value = request.form.get('value')
+        if value == '':
+            value = None
+        try:
+            equipment = Equipment.query.filter(Equipment.id == eid)
+            equipment.update({key: value})
+            db.session.commit()
+            return jsonify({'msg': 'success', 'data': 'modify equipment success'})
+        except Exception as e:
+            print(e)
+            return jsonify({'msg': 'fail', 'data': 'modify equipment error when select equipments'})
 
