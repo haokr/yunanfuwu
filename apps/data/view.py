@@ -2,6 +2,7 @@ from flask import session, render_template, jsonify
 from models import User, Equipment, Alarm_record
 from sqlalchemy import extract, and_
 from datetime import datetime, timedelta
+from db import db
 
 
 '''
@@ -37,10 +38,11 @@ def baseData():
     childCount = children.count()
     # 今日报警信息
     now = datetime.now()
-    to_day = now.date
+    to_day = now.day
     to_month = now.month
     to_year = now.year
-    reports = Alarm_record.query.filter(Alarm_record.equipment.admin_id in childrenIds, and_(
+
+    reports = Alarm_record.query.join(Equipment, Alarm_record.equipment_id == Equipment.id).filter(Equipment.admin_id.in_(childrenIds), and_(
         extract('year', Alarm_record.create_time) == to_year,
         extract('month', Alarm_record.create_time) == to_month,
         extract('day', Alarm_record.create_time) == to_day
@@ -61,12 +63,14 @@ def baseData():
             if re.operator_id == None:
                 nowFaultCount += 1
     # 过去两周报警信息统计
-    twoWeeks = timedelta(days=14)
-    endDay = datatime(to_year, to_month, to_day-1)
-    beginDay = endDay - twoWeeks
-    twoWeeksReports = Alarm_record.query.filter(Alarm_record.create_time.between(beginDay, endDay)).group_by(Alarm_record.create_time.day).all()
+    beginDay = datetime(to_year, to_month, to_day-14)     
+    twoWeeksReportCounts = []
+    for i in range(14):
+        endDay = beginDay + timedelta(days=i+1)
 
-    twoWeeksReportCounts = [r.count() for r in twoWeeksReports]
+        dailyAlarmCount = Alarm_record.query.filter(Alarm_record.create_time.between(beginDay, endDay)).count()
+
+        twoWeeksReportCounts.append(dailyAlarmCount)
 
     return jsonify({'msg': 'success', 'data': {
         'equipmentCount': equipmentCount,
@@ -76,6 +80,6 @@ def baseData():
         'todayAlarmCount': todayAlarmCount,
         'todayFaultCount': todayFaultCount,
         'twoWeeksReportCounts': twoWeeksReportCounts,
-        'twoWeeksDays': [ beginDay+timedelta(days=i) for i in range(14)]
+        'twoWeeksDays': [ (beginDay+timedelta(days=i)).strftime("%Y-%m-%d") for i in range(14)]
     }})
 
