@@ -3,6 +3,7 @@ from app import socketio
 from models import Equipment, User, Alarm_record, Equipment_report_log
 from flask_socketio import join_room
 from datetime import datetime
+from db import db
 import time
 
 
@@ -92,12 +93,53 @@ def report(eid):
         '102': '报警'
     }
 
+    class_ = codeDict.get(code, None)
+    class_ = class_ if class_ else code
+
+    print(code[0], class_)
+
+    # 日志
+    if code[0] == '0':
+        try:
+            reportData = {
+                'equipment_id': eid,
+                'class_': class_,
+                'report_time': datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
+            }
+            report = Equipment_report_log(**reportData)
+            db.session.add(report)
+            db.session.commit()
+        except Exception as e:
+            print(e)
+    # 报警
+    elif code[0] == '1':
+        try:
+            # 报警
+            alarmData = {
+                'equipment_id': eid,
+                'class_': class_,
+                'alarm_time': datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
+            }
+            alarm = Alarm_record(**alarmData)
+            # 日志
+            reportData = {
+                'equipment_id': eid,
+                'class_': class_,
+                'report_time': datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
+            }
+            report = Equipment_report_log(**reportData)
+            db.session.add(report)
+            db.session.add(alarm)
+
+            db.session.commit()
+        except Exception as e:
+            print(e)
 
     socketio.emit(
         'report', 
         {
             'code': code, 
-            'describe': codeDict[code],
+            'describe': class_,
             'reporter': eid,
             'datetime': dateTime
         }, 
