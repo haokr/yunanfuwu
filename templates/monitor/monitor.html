@@ -1,6 +1,16 @@
 
 {% extends 'base.html' %}
 
+{% block style %}
+<style>
+    .amap-icon img,
+    .amap-marker-content img{
+        width: 40px;
+        height: 45px;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 
         <div class="content">
@@ -20,14 +30,13 @@
                                 <table id="" class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th scope='col' style='display: none'>id</th>
+                                            <!-- <th scope='col' style='display: none'>id</th> -->
                                             <th scope='col'>#</th>
                                             <th scope='col'>接收时间</th>
                                             <th scope='col'>设备名称</th>
                                             <th scope='col'>状态</th>
                                             <th scope='col'>单位</th>
                                             <th scope='col'>系统类型</th>
-                                            <th scope='col'>信息类型</th>
                                             <th scope='col'>部件地址</th>
                                             <th scope='col'>联系人</th>
                                             <th scope='col'>联系电话</th>
@@ -37,13 +46,12 @@
                                         {% for e in equipments %}
                                         <tr>
                                             <td scope='row'>{{ loop.index}}</td>
-                                            <td id='{{ e.id }}' style="display: none">{{ e.id }}</td>
+                                            <!-- <td id='{{ e.id }}' style="display: none">{{ e.id }}</td> -->
                                             <td id='{{ e.id }}-datetime'>{{ e.datetime }}</td>
                                             <td id='{{ e.id }}-name'>{{ e.name or '' }}</td>
                                             <td id='{{ e.id }}-status'>{{ e.status or 'off' }}</td>
                                             <td id='{{ e.id }}-use_department'>{{ e.use_department or ''}}</td>
                                             <td id='{{ e.id }}-eequipment_class'>{{ e.equipment_class  or ''}}</td>
-                                            <td id='{{ e.id }}-info_class'>{{ e.info_class or '' }}</td>
                                             <td id='{{ e.id }}-location'>{{ e.location or '' }}</td>
                                             <td id='{{ e.id }}-contact'>{{ e.contact or '' }}</td>
                                             <td id='{{ e.id }}-contact_tel'>{{ e.contact_tel or '' }}</td>
@@ -66,20 +74,94 @@
 {% block js%}
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
 <script type="text/javascript" charset="utf-8">
+
+</script>
+
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.8&key=efb66f1d0e0a897af3702fdb233c0812"></script>
+
+<script>
+    //  地图对象
+	var map = new AMap.Map('vmap',
+			{
+				center:[112.720772,37.750078],
+				// 缩放度
+				zoom:11
+			}
+	);
+    // 设备列表
+	var positions = [ 
+            {% for e in equipments %}
+            [
+                { 'lng': {{ e.gaode_longitude }},  // 经度
+                  'lnt': {{ e.gaode_latitude }},    // 维度
+                  'state': '001',   // 状态，根据状态调图片
+                  'eid': '{{ e.id }}' 
+                }
+            ],
+            {% endfor %}
+        ]
+    // 标注列表
+    var markers = [];
+    if (positions.length) {
+       for(var i=0; i < positions.length; i += 1){
+           var pictures =  {'001':'/static/img/mapPoint/green.png', '102':'/static/img/mapPoint/yellow.png', '101':'/static/img/mapPoint/red.png'};  // 标点图片
+           var marker = new AMap.Marker({
+                      // 经纬度
+                  position:[positions[i][0]['lng'], positions[i][0]['lnt']],
+                  // 图片
+                  icon: pictures[positions[i][0]['state']],
+                  // 偏移量
+                  offset: new AMap.Pixel(-13, -36),
+                  // 设置是否可拖拽
+                  draggable: false,
+            });
+            // 设置点标记的动画效果，此处为弹跳效果
+            marker.setAnimation('AMAP_ANIMATION_BOUNCE');
+            markers.push(marker);
+            positions[i].push(marker)
+                
+        }
+        map.add(markers);
+
+    }
+
+    // socket
     var socket = io.connect('http://' + document.domain + ':' + location.port);
     socket.on('connect', function(data) {
         console.log('--> Client connect successed', data)
     });
+    // 报警
     socket.on('report', function(data, callback) {
         console.log(data);
         let eid = data['reporter']
         document.getElementById(eid+'-datetime').innerHTML = data.datetime
-        document.getElementById(eid+'-info_class').innerHTML = data.describe
+        document.getElementById(eid+'-status').innerHTML = data.describe
         if (data.code.startsWith('0')) {
-            document.getElementById(eid+'-info_class').style.color = 'green'
+            document.getElementById(eid+'-status').style.color = 'green'
         } else if (data.code.startsWith('1')) {
-            document.getElementById(eid+'-info_class').style.color = 'red'
+            document.getElementById(eid+'-status').style.color = 'red'
         }
+        // 更改点标记
+        if (data.code == '101') {
+            for (let i = 0 ; i < positions.length ; i++) {
+                if (positions[i][0]['eid'] == eid) {
+                    positions[i][1].setIcon('/static/img/mapPoint/red.png')
+                }
+            }
+        } else if (data.code == '102'){
+            for (let i = 0 ; i < positions.length ; i++) {
+                if (positions[i][0]['eid'] == eid) {
+                    positions[i][1].setIcon('/static/img/mapPoint/yellow.png')
+                }
+            }
+        } else if (data.code.startsWith('0')) {
+            for (let i = 0 ; i < positions.length ; i++) {
+                if (positions[i][0]['eid'] == eid) {
+                    positions[i][1].setIcon('/static/img/mapPoint/green.png')
+                }
+            }
+        }
+
         callback(1)
     })
     socket.on('join', function(data, callback) {
@@ -90,35 +172,8 @@
         console.log(data)
         callback(1)
     })
+
+
 </script>
- <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.8&key=efb66f1d0e0a897af3702fdb233c0812"></script>
-<script>
-	var map = new AMap.Map('vmap',
-			{
-				center:[112.720772,37.750078],
-				// 缩放度
-				zoom:11
-			}
-	);
-	var positions = [ [112.718951,37.926],[112.718951,37.46], [112.718951,37.96] ];
-	var markers = [];
-	if (positions.length) {
-       for(var i=0; i < positions.length; i += 1){
-           var marker = new AMap.Marker({
-				// 经纬度
-       			position:positions[i],
-       			// 图片
-       			icon: 'https://a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png',
-       			// 偏移量
-       			offset: new AMap.Pixel(-13, -36),
-        		// 设置是否可拖拽
-        		draggable: false,
-   			});
-   			// 设置点标记的动画效果，此处为弹跳效果
-    		marker.setAnimation('AMAP_ANIMATION_BOUNCE');
-            markers.push(marker);
-        }
-        map.add(markers);
-    }
-</script>
+
 {% endblock %}

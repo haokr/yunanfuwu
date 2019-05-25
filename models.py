@@ -4,7 +4,6 @@ from db import db
 import shortuuid
 from datetime import datetime
 
-
 # 设备分组关系中间表
 equipment_group_relationship = db.Table('equipment_group_relationship',
         db.Column('group_id', db.String(30), db.ForeignKey('group.id'), primary_key=True),
@@ -49,8 +48,6 @@ class User(db.Model):
 
     group = db.relationship('Group', uselist=False)
 
-    if_Administrative = db.Column(db.BOOLEAN, nullable=False, default=False)
-
     address = db.Column(db.String(50))
     describe = db.Column(db.String(100))
     create_time = db.Column(db.DateTime, default=datetime.now)
@@ -91,8 +88,8 @@ class Equipment(db.Model):
     id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda : 'e_' + shortuuid.uuid())
     name = db.Column(db.String(30), nullable=False)
     class_ = db.Column(db.String(20), nullable=False)
-    gaode_longitude = db.Column(db.Float())
-    gaode_latitude = db.Column(db.Float())
+    gaode_longitude = db.Column(db.Float(precision='15,8'))
+    gaode_latitude = db.Column(db.Float(precision='15,8'))
     location = db.Column(db.String(30))
     ip = db.Column(db.String(24), unique=True)
     use_department = db.Column(db.String(30))

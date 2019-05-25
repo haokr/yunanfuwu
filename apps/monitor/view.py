@@ -40,8 +40,9 @@ def monitorPage():
                 'use_department': e.use_department,
                 'location': e.location,
                 'id': e.id,
+                'gaode_longitude': e.gaode_longitude,
+                'gaode_latitude': e.gaode_latitude,
                 'equipment_class': '消防',
-                'info_class': '正常',
                 'datetime': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
             }
             for e in equipments
