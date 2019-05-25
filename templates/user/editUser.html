@@ -192,11 +192,12 @@
             success:function(data){
                 //请求成功时处理
                 if(data['msg'] == 'success'){
-                    
-                    alert('修改成功')
-
-                } else {
-                    alert('修改失败')
+                    alert('修改成功')}
+                else {
+                    if(data['data']== 'do not have role'){
+                         alert('无权限')
+                    }
+                    else {alert('修改失败')}
                 }
             },
             complete:function(){

@@ -1,5 +1,5 @@
 from flask import request, session, render_template, redirect, url_for, jsonify
-from models import User, Group
+from models import User, Group, Role
 from db import db
 import time
 
@@ -96,17 +96,63 @@ def showAddUser(uid):
         新增用户展示
     :return:
     '''
-    data = {
-        'base': {
-            'pageTitle': '添加设备-云安服务',
-            'avatarImgUrl': '/static/img/yunan_logo_1.png',
-            'pageNow': '添加设备',
-            'username': session.get('username'),
-            'userid': session.get('id')
-        },
-        'parent': uid
-    }
-    return render_template('user/addUser.html', **data)
+    user_id = session.get('id')
+    user = User.query.filter(User.id == user_id).first()
+    role = Role.query.filter(Role.id == user.role_id).first()
+    if role.if_add_child == False:
+        user = User.query.filter(User.id == uid).first()
+        children = User.query.filter(User.parent_id == uid).all()
+        if user.parent == None:
+            parentname = '无'
+        else:
+            parentname = user.parent.username
+        data = {
+            'base': {
+                'pageTitle': '设备信息-云安服务',
+                'avatarImgUrl': '/static/img/yunan_logo_1.png',
+                'pageNow': '用户信息',
+                'username': session.get('username'),
+                'userid': session.get('id')
+            },
+            'user': {
+                'id': user.id,
+                'name': user.name,
+                'username': user.username,
+                'parent': parentname,
+                'address': user.address,
+                'contact': user.contact,
+                'contact_tel': user.contact_tel,
+                'create_time': user.create_time,
+                'modify_time': user.modify_time
+            },
+            'children': [
+                {
+                    'id': c.id,
+                    'name': c.name,
+                    'username': c.username,
+                    'parent': c.parent.username,
+                    'address': c.address,
+                    'contact': c.contact,
+                    'contact_tel': c.contact_tel,
+                    'create_time': c.create_time,
+                    'modify_time': c.modify_time
+                }
+                for c in children
+            ]
+        }
+        return render_template('user/editUser.html', **data)
+    else:
+        data = {
+            'base': {
+                'pageTitle': '添加设备-云安服务',
+                'avatarImgUrl': '/static/img/yunan_logo_1.png',
+                'pageNow': '添加设备',
+                'username': session.get('username'),
+                'userid': session.get('id')
+            },
+            'parent': uid
+        }
+        return render_template('user/addUser.html', **data)
 
 
 def showUser(uid):
@@ -168,19 +214,25 @@ def modifyUser(uid):
     :param uid: 用户ID
     :return: 设备信息修改状态
     '''
-    key = request.form.get('key')
-    value = request.form.get('value')
-    if value == '':
-        value = None
-    try:
-        user = User.query.filter(User.id == uid)
-        user.update({key: value})
-        user.modify_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-        db.session.commit()
-        return jsonify({'msg': 'success', 'data': 'modify equipment success'})
-    except Exception as e:
-        print(e)
-        return jsonify({'msg': 'fail', 'data': 'modify equipment error when select equipments'})
+    user_id = session.get('id')
+    user = User.query.filter(User.id == user_id).first()
+    role = Role.query.filter(Role.id == user.role_id).first()
+    if role.if_modify_child == False and uid != user_id:
+        return jsonify({'msg': 'fail', 'data': 'do not have role'})
+    else:
+        key = request.form.get('key')
+        value = request.form.get('value')
+        if value == '':
+            value = None
+        try:
+            user = User.query.filter(User.id == uid)
+            user.update({key: value})
+            user.modify_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+            db.session.commit()
+            return jsonify({'msg': 'success', 'data': 'modify equipment success'})
+        except Exception as e:
+            print(e)
+            return jsonify({'msg': 'fail', 'data': 'modify equipment error when select equipments'})
 
 
 
@@ -191,6 +243,10 @@ def addChild(uid):
         实现用户子账号的创建并存储
     :return:
     '''
+    user_id = session.get('id')
+    user = User.query.filter(User.id == user_id).first()
+    role = Role.query.filter(Role.id == user.role_id).first()
+
     username = request.form.get('username')
     password = request.form.get('password')
     name = request.form.get('name')
