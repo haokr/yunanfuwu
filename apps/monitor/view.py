@@ -94,7 +94,7 @@ def report(eid):
         '102': '报警'
     }
 
-    if code == '':
+    if code == '000':
         equipment = Equipment.query.filter(Equipment.id == eid).first()
         ip = request.form.get('ip')
         if not ip:
