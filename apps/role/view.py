@@ -215,13 +215,35 @@ def Roleadd():
     '''
     user_id = session.get('id')
     name = request.form.get('name')
+    remarks = request.form.get('remarks')
     if_role = request.form.get('if_role')
+    if if_role == 'false':
+        if_role = False
+    else:
+        if_role = True
     if_add_equipment = request.form.get('if_add_equipment')
+    if if_add_equipment == 'false':
+        if_add_equipment = False
+    else:
+        if_add_equipment = True
     if_modify_equipment = request.form.get('if_modify_equipment')
+    if if_modify_equipment == 'false':
+        if_modify_equipment = False
+    else:
+        if_modify_equipment = True
     if_add_child = request.form.get('if_add_child')
+    if if_add_child == 'false':
+        if_add_child = False
+    else:
+        if_add_child = True
     if_modify_child = request.form.get('if_modify_child')
-    equipmentInfo = {
+    if if_modify_child == 'false':
+        if_modify_child = False
+    else:
+        if_modify_child = True
+    roleInfo = {
         'name': name,
+        'remarks': remarks,
         'create_user': user_id,
         'if_role': if_role,
         'if_add_equipment': if_add_equipment,
@@ -229,9 +251,8 @@ def Roleadd():
         'if_add_child': if_add_child,
         'if_modify_child': if_modify_child
     }
-
     try:
-        role = Role(**equipmentInfo)
+        role = Role(**roleInfo)
         db.session.add(role)
         db.session.commit()
     except Exception as e:
