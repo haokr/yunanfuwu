@@ -13,16 +13,22 @@ def massage(rid):
         return view.modifyRole(rid)
 
 
-# 用户添加角色
+# 角色添加用户
 @role.route('/addrole/<rid>', methods=['GET', 'POST'])
 def use(rid):
     return view.addRole(rid)
 
 
-# 展示用户创建的角色及添加角色
 @role.route('/add', methods=['GET', 'POST'])
 def add():
     if request.method == 'GET':
-        return view.getRoles()
+        return view.showaddRole()
     else:
         return view.Roleadd()
+
+
+# 展示用户创建的角色及添加角色
+@role.route('/show', methods=['GET', 'POST'])
+def show():
+        return view.getRoles()
+
