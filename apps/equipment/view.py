@@ -238,7 +238,7 @@ def control(eid):
         return jsonify({'msg': 'fail', 'data': 'parm error'})
 
     equipment = Equipment.query.filter(Equipment.id == eid).first()
-    if !equipment:
+    if not equipment:
         return jsonify({'msg': 'fail', 'data': 'not the equipment'})
 
     ip = equipment.ip
