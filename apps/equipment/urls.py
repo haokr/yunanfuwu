@@ -29,6 +29,12 @@ def showEquipments():
     API
 '''
 
+
+# 反控
+@equipment.route('/control/<eid>', methods=['POST'])
+def control(eid):
+    return view.control(eid)
+
 # 修改设备信息
 @equipment.route('/<eid>', methods=['POST'])
 def modify(eid):
@@ -43,7 +49,3 @@ def root():
     else:
         return view.addEquipment()
 
-# 反控
-@equipment.route('/control/<eid>', methods=['POST'])
-def control(eid):
-    return view.control(eid)
