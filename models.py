@@ -99,6 +99,10 @@ class Equipment(db.Model):
     manufacturer = db.Column(db.String(30))
     model = db.Column(db.String(15))
 
+    position_province = db.Column(db.String(20))
+    position_city = db.Column(db.String(20))
+    position_district = db.Column(db.String(20))
+
     admin_id = db.Column(db.String(30), db.ForeignKey('user.id'))
     admin = db.relationship('User', backref=db.backref('equipments', lazy='dynamic'))
 
@@ -156,6 +160,12 @@ class Gov(db.Model):
     password = db.Column(db.String(40), nullable=False)
     contact = db.Column(db.String(15))
     contact_tel = db.Column(db.String(15))
+
+    level = db.Column(db.Integer)
+
+    province = db.Column(db.String(20))
+    city = db.Column(db.String(20))
+    district = db.Column(db.String(20))
 
     create_time = db.Column(db.DateTime, default=datetime.now)
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
