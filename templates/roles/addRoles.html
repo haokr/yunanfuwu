@@ -13,7 +13,7 @@
                         <strong class="card-title">添加角色</strong>
                     </div>
                     <div class="card-body card-block">
-                        <form action="/role" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        <form action="/role/add" method="post" enctype="multipart/form-data" class="form-horizontal">
                             <!-- name -->
                             <div class="row form-group">
                                 <div class="col col-md-3"><label for="name-input" class=" form-control-label">角色名称</label>
@@ -31,58 +31,100 @@
                                 </div>
                             </div>
 
-                            <!-- model -->
+                            <!-- if -->
                             <div class="row form-group">
-                                <div class="col col-md-3">
-                                    <label for="model" class=" form-control-label">添加设备</label>
-                                </div>
-                                <div class="checkbox" style="display: inline-block;">
-                                    <label  style="padding-left: 68%; padding-right: 70%; display: inline;">
-                                        <input type="checkbox">是
-                                    </label>
-                                    <label>
-                                        <input type="checkbox">否
-                                    </label>
-
+                                <div class="col col-md-3"><label class=" form-control-label">添加角色权限</label></div>
+                                <div class="col col-md-9">
+                                    <div class="form-check">
+                                        <div class="radio" style="display: inline-block;">
+                                            <label for="if_role" class="form-check-label ">
+                                                <input type="radio" id="if_role" name="if_role" value=Ture class="if_role form-check-input">是
+                                            </label>
+                                        </div>
+                                        <div class="radio" style="display: inline-block; margin-left: 20%;">
+                                            <label for="if_role" class="form-check-label ">
+                                                <input type="radio" id="if_role" name="if_role" value=False class="if_role form-check-input">否
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="row form-group">
-                                <div class="col col-md-3">
-                                    <label for="model" class=" form-control-label">查看设备</label>
+                                <div class="col col-md-3"><label class=" form-control-label">添加设备权限</label></div>
+                                <div class="col col-md-9">
+                                    <div class="form-check">
+                                        <div class="radio" style="display: inline-block;">
+                                            <label for="radio1" class="form-check-label ">
+                                                <input type="radio" id="radio1" name="if_add_equipment" value=Ture class="if_add_equipment form-check-input">是
+                                            </label>
+                                        </div>
+                                        <div class="radio" style="display: inline-block; margin-left: 20%;">
+                                            <label for="radio2" class="form-check-label ">
+                                                <input type="radio" id="radio2" name="if_add_equipment" value=False class="if_add_equipment form-check-input">否
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="checkbox" style="display: inline-block;">
-                                    <label  style="padding-left: 68%; padding-right: 70%; display: inline;">
-                                        <input type="checkbox">是
-                                    </label>
-                                    <label>
-                                        <input type="checkbox">否
-                                    </label>
-
-                                </div>
-
                             </div>
 
                             <div class="row form-group">
-                                <div class="col col-md-3">
-                                    <label for="model" class=" form-control-label">删除设备</label>
+                                <div class="col col-md-3"><label class=" form-control-label">修改设备权限</label></div>
+                                <div class="col col-md-9">
+                                    <div class="form-check">
+                                        <div class="radio" style="display: inline-block;">
+                                            <label for="radio1" class="form-check-label ">
+                                                <input type="radio" id="radio1" name="if_modify_equipment" value=Ture class="if_modify_equipment form-check-input">是
+                                            </label>
+                                        </div>
+                                        <div class="radio" style="display: inline-block; margin-left: 20%;">
+                                            <label for="radio2" class="form-check-label ">
+                                                <input type="radio" id="radio2" name="if_modify_equipment" value=False class="if_modify_equipment form-check-input">否
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="checkbox" style="display: inline-block;">
-                                    <label  style="padding-left: 68%; padding-right: 70%; display: inline;">
-                                        <input type="checkbox">是
-                                    </label>
-                                    <label>
-                                        <input type="checkbox">否
-                                    </label>
-
-                                </div>
-
                             </div>
 
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label class=" form-control-label">添加子账号权限</label></div>
+                                <div class="col col-md-9">
+                                    <div class="form-check">
+                                        <div class="radio" style="display: inline-block;">
+                                            <label for="radio1" class="form-check-label ">
+                                                <input type="radio" id="radio1" name="if_add_child" value=Ture class="if_add_child form-check-input">是
+                                            </label>
+                                        </div>
+                                        <div class="radio" style="display: inline-block; margin-left: 20%;">
+                                            <label for="radio2" class="form-check-label ">
+                                                <input type="radio" id="radio2" name="if_add_child" value=False class="if_add_child form-check-input">否
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label class=" form-control-label">修改子账号权限</label></div>
+                                <div class="col col-md-9">
+                                    <div class="form-check">
+                                        <div class="radio" style="display: inline-block;">
+                                            <label for="radio1" class="form-check-label ">
+                                                <input type="radio" id="radio1" name="if_modify_child" value=Ture class="if_modify_child form-check-input">是
+                                            </label>
+                                        </div>
+                                        <div class="radio" style="display: inline-block; margin-left: 20%;">
+                                            <label for="radio2" class="form-check-label ">
+                                                <input type="radio" id="radio2" name="if_modify_child" value=False class="if_modify_child form-check-input">否
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class='col-md-6 offset-md-3'>
                                 <br><br>
-                                <button type="button" id='submit' onclick="addEquipment()" class="btn btn-primary btn-lg btn-block">添加</button>
+                                <button type="button" id='submit' onclick="Roleadd()" class="btn btn-primary btn-lg btn-block">添加</button>
                             </div>
                         </form>
                     </div>
@@ -95,12 +137,32 @@
 </div><!-- .content -->
 
 <script>
-    function addEquipment() {
+    function Roleadd() {
 
 	    document.getElementById("submit").disabled=false;
 
         let name = document.getElementById('name').value;
         let remarks = document.getElementById('remarks').value;
+
+        let if_role = document.getElementsByClassName('if_role');
+        if(if_role[0].checked == true){if_role = true}
+        else{if_role = false}
+
+        let if_add_equipment = document.getElementsByClassName('if_add_equipment');
+        if(if_add_equipment[0].checked == true){if_add_equipment = true}
+        else{if_add_equipment = false}
+
+        let if_modify_equipment = document.getElementsByClassName('if_modify_equipment');
+        if(if_modify_equipment[0].checked == true){if_modify_equipment = true}
+        else{if_modify_equipment = false}
+
+        let if_add_child = document.getElementsByClassName('if_add_child');
+        if(if_add_child[0].checked == true){if_add_child = true}
+        else{if_add_child = false}
+
+        let if_modify_child = document.getElementsByClassName('if_modify_child');
+        if(if_modify_child[0].checked == true){if_modify_child = true}
+        else{if_modify_child = false}
 
         name = name == '' ? null : name;
         remarks = remarks == '' ? null : remarks;
@@ -112,7 +174,12 @@
             async: true,//请求是否异步，默认为异步，这也是ajax重要特性
             data: {
                 name,
-                remarks
+                remarks,
+                if_role,
+                if_add_equipment,
+                if_modify_equipment,
+                if_add_child,
+                if_modify_child
             },    //参数值,键值对
             type: "POST",   //请求方式
             beforeSend: function () {
