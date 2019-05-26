@@ -53,6 +53,7 @@ def getRoles():
                 {
                     'id': e.id,
                     'name': e.name,
+                    'remarks': e.remarks,
                     'if_role': e.if_role,
                     'if_add_equipment': e.if_add_equipment,
                     'if_modify_equipment': e.if_modify_equipment,
@@ -64,7 +65,7 @@ def getRoles():
                 for e in all_roles
             ]
         }
-        return render_template('role/allRoles.html', **data)
+        return render_template('roles/roles.html', **data)
 
 
 def showRole(rid):

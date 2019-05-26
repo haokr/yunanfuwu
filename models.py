@@ -18,6 +18,7 @@ class Role(db.Model):
     id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda: 'ro_' + shortuuid.uuid())
     name = db.Column(db.String(30), nullable=False, default='DEFAULT')
     user = db.relationship('User', backref=db.backref('role'))
+    remarks = db.Column(db.String(50))
     create_user = db.Column(db.String(30), nullable=False)
 
     if_role = db.Column(db.BOOLEAN, nullable=False, default=True)

@@ -12,6 +12,8 @@ from apps.data.urls import data
 from apps.record.urls import record
 from apps.user.urls import user
 from apps.monitor.urls import monitor
+from apps.role.urls import role
+
 
 app = Flask(__name__, static_folder='static')
 
@@ -40,7 +42,7 @@ app.register_blueprint(record, url_prefix='/record')
 app.register_blueprint(user, url_prefix='/user')
 app.register_blueprint(monitor, url_prefix='/monitor')
 app.register_blueprint(data, url_prefix='/data')
-
+app.register_blueprint(role, url_prefix='/role')
 
 
 if __name__ == '__main__':
