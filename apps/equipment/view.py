@@ -2,7 +2,7 @@ from flask import request, session, jsonify, render_template, url_for, redirect
 from models import User, Group, Equipment, Role
 from db import db
 
-from socket import socket
+from socket import socket, AF_INET, SOCK_STREAM
 import time
 
 
