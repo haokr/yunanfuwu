@@ -258,3 +258,56 @@ def addRole(rid):
     except Exception as e:
         print(e)
         return jsonify({'msg': 'fail', 'data': 'modify user s role fails'})
+
+
+def showaddRole():
+    '''
+        展示设备添加页面
+    :return:
+    '''
+    user_id = session.get('id')
+    user = User.query.filter(User.id == user_id).first()
+    role = Role.query.filter(Role.id == user.role_id).first()
+    if role.if_role == False:
+        user_id = session.get('id')
+        child_id = request.args.get('child', None)
+        user_id = child_id if child_id and child_id != 'None' else user_id
+
+        equipments = User.query.filter(User.id == user_id).first().group.equipments
+        data = {
+            'base': {
+                'pageTitle': '设备信息-云安服务',
+                'avatarImgUrl': '/static/img/yunan_logo_1.png',
+                'pageNow': '设备信息',
+                'username': session.get('username'),
+                'userid': session.get('id')
+            },
+            'child': child_id,
+            'equipments': [
+                {
+                    'name': e.name,
+                    'status': e.status,
+                    'use_department': e.use_department,
+                    'location': e.location,
+                    'remark': e.remarks,
+                    'manufacturer': e.manufacturer,
+                    'model': e.model,
+                    'create_time': e.create_time,
+                    'id': e.id,
+                    'SIM_id': e.SIM_id
+                }
+                for e in equipments
+            ]
+        }
+        return render_template('equipment/equipments.html', **data)
+    else:
+        data = {
+            'base': {
+                'pageTitle': '添加设备-云安服务',
+                'avatarImgUrl': '/static/img/yunan_logo_1.png',
+                'pageNow': '添加设备',
+                'username': session.get('username'),
+                'userid': session.get('id')
+            }
+        }
+        return render_template('role/addrole.html', **data)

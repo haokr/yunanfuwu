@@ -21,7 +21,10 @@ def use(rid):
 
 @role.route('/add', methods=['GET', 'POST'])
 def add():
-    return view.Roleadd()
+    if request.method == 'GET':
+        return view.showaddRole()
+    else:
+        return view.Roleadd()
 
 
 # 展示用户创建的角色及添加角色
