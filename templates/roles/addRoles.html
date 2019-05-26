@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="content">
+    <div class="animated fadeIn">
+        <div class="row">
+
+            <div class="col-md-11">
+                <div class="card">
+                    <div class="card-header" style="background-color: #79baf0">
+                        <strong class="card-title">添加角色</strong>
+                    </div>
+                    <div class="card-body card-block">
+                        <form action="/role" method="post" enctype="multipart/form-data" class="form-horizontal">
+                            <!-- name -->
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label for="name-input" class=" form-control-label">角色名称</label>
+                                </div>
+                                <div class="col-6 col-md-7">
+                                    <input type="text" id="name" name="name" class="form-control">
+                                </div>
+                            </div>
+                            <!-- remarks -->
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label for="remarks" class=" form-control-label">备注</label>
+                                </div>
+                                <div class="col-6 col-md-7">
+                                    <input type="text" id="remarks" name="remarks" class="form-control">
+                                </div>
+                            </div>
+
+                            <!-- model -->
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="model" class=" form-control-label">添加设备</label>
+                                </div>
+                                <div class="checkbox" style="display: inline-block;">
+                                    <label  style="padding-left: 68%; padding-right: 70%; display: inline;">
+                                        <input type="checkbox">是
+                                    </label>
+                                    <label>
+                                        <input type="checkbox">否
+                                    </label>
+
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="model" class=" form-control-label">查看设备</label>
+                                </div>
+                                <div class="checkbox" style="display: inline-block;">
+                                    <label  style="padding-left: 68%; padding-right: 70%; display: inline;">
+                                        <input type="checkbox">是
+                                    </label>
+                                    <label>
+                                        <input type="checkbox">否
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="model" class=" form-control-label">删除设备</label>
+                                </div>
+                                <div class="checkbox" style="display: inline-block;">
+                                    <label  style="padding-left: 68%; padding-right: 70%; display: inline;">
+                                        <input type="checkbox">是
+                                    </label>
+                                    <label>
+                                        <input type="checkbox">否
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class='col-md-6 offset-md-3'>
+                                <br><br>
+                                <button type="button" id='submit' onclick="addEquipment()" class="btn btn-primary btn-lg btn-block">添加</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div><!-- .animated -->
+</div><!-- .content -->
+
+<script>
+    function addEquipment() {
+
+	    document.getElementById("submit").disabled=false;
+
+        let name = document.getElementById('name').value;
+        let remarks = document.getElementById('remarks').value;
+
+        name = name == '' ? null : name;
+        remarks = remarks == '' ? null : remarks;
+
+
+        $.ajax({
+            url: '/role/add',    //请求的url地址
+            dataType: "json",   //返回格式为json
+            async: true,//请求是否异步，默认为异步，这也是ajax重要特性
+            data: {
+                name,
+                remarks
+            },    //参数值,键值对
+            type: "POST",   //请求方式
+            beforeSend: function () {
+                //请求前的处理
+            },
+            success: function (data) {
+                //请求成功时处理
+                if (data['msg'] == 'success') {
+                    alert('添加成功')
+                    window.location.href="/role/show";
+                } else {
+                    alert('添加失败')
+                }
+            },
+            complete: function () {
+                //请求完成的处理
+	            document.getElementById("submit").removeAttr("disabled");
+            },
+            error: function () {
+                //请求出错处理
+                alert('请检查网络...')
+            }
+        });
+    }
+</script>
+{% endblock %}

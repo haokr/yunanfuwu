@@ -131,7 +131,6 @@ def showRole(rid):
                     'id': c.id,
                     'name': c.name,
                     'username': c.username,
-                    'parent': c.parent.username,
                     'address': c.address,
                     'contact': c.contact,
                     'contact_tel': c.contact_tel,
@@ -145,7 +144,6 @@ def showRole(rid):
                     'id': c.id,
                     'name': c.name,
                     'username': c.username,
-                    'parent': c.parent.username,
                     'address': c.address,
                     'contact': c.contact,
                     'contact_tel': c.contact_tel,
@@ -155,7 +153,7 @@ def showRole(rid):
                 for c in other
             ]
         }
-        return render_template('role/showRole.html', **data)
+        return render_template('roles/exitRoles.html', **data)
 
 
 def modifyRole(rid):
@@ -310,4 +308,4 @@ def showaddRole():
                 'userid': session.get('id')
             }
         }
-        return render_template('role/addrole.html', **data)
+        return render_template('roles/addRoles.html', **data)
