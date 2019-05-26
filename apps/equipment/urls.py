@@ -42,3 +42,8 @@ def root():
         return view.getEquipments()
     else:
         return view.addEquipment()
+
+# 反控
+@equipment.route('/control/<eid>', methods=['POST'])
+def control(eid):
+    return view.control(eid)

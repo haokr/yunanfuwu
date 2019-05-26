@@ -2,6 +2,9 @@ from flask import request, session, jsonify, render_template, url_for, redirect
 from models import User, Group, Equipment, Role
 from db import db
 
+from socket import socket
+import time
+
 
 '''
     Page
@@ -225,4 +228,53 @@ def modifyEquipment(eid):
         except Exception as e:
             print(e)
             return jsonify({'msg': 'fail', 'data': 'modify equipment error when select equipments'})
+
+
+def control(eid):
+    switch = request.form.get('switch')
+    option = request.form.get('option')
+
+    if not (switch and option):
+        return jsonify({'msg': 'fail', 'data': 'parm error'})
+
+    equipment = Equipment.query.filter(Equipment.id == eid).first()
+    if !equipment:
+        return jsonify({'msg': 'fail', 'data': 'not the equipment'})
+
+    ip = equipment.ip
+
+
+    # 服务器的ip地址
+    address='127.0.0.1'   
+    # 服务器的端口号
+    port = 8020           
+    # 接收数据的缓存大小
+    buffsize = 1024        
+
+    s = socket(AF_INET, SOCK_STREAM) 
+    s.connect((address, port))
+
+    instructions = {
+        '0': {
+            'on': 'relay0_on',
+            'off': 'relay0_off',
+            },
+        '1': {
+            'on': 'relay1_on',
+            'off': 'relay1_off',
+            },
+        '2': {
+            'on': 'relay2_on',
+            'off': 'relay2_off',
+            },
+        '3': {
+            'on': 'relay3_on',
+            'off': 'relay3_off'
+            }
+    }
+
+    senddata = '{}:{}'.format(ip, instructions[switch][option])
+    s.send(senddata.encode())
+    s.close()
+    return jsonify({'msg': 'success', 'data': 'success'})
 
