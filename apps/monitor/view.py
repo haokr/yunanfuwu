@@ -94,10 +94,24 @@ def report(eid):
         '102': '报警'
     }
 
+    if code == '':
+        equipment = Equipment.query.filter(Equipment.id == eid).first()
+        ip = request.form.get('ip')
+        if not ip:
+            return 'fail, zhuce mei you ip'
+
+        try:    
+            equipment.ip = ip
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            return 'error when commit db'    
+        return 'regist success'
+
+
     class_ = codeDict.get(code, None)
     class_ = class_ if class_ else code
 
-    print(code[0], class_)
 
     # 日志
     if code[0] == '0':

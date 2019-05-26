@@ -244,16 +244,6 @@ def control(eid):
     ip = equipment.ip
 
 
-    # 服务器的ip地址
-    address='127.0.0.1'   
-    # 服务器的端口号
-    port = 8020           
-    # 接收数据的缓存大小
-    buffsize = 1024        
-
-    s = socket(AF_INET, SOCK_STREAM) 
-    s.connect((address, port))
-
     instructions = {
         '0': {
             'on': 'relay0_on',
@@ -274,6 +264,17 @@ def control(eid):
     }
 
     senddata = '{}:{}'.format(ip, instructions[switch][option])
+
+    # 服务器的ip地址
+    address='127.0.0.1'   
+    # 服务器的端口号
+    port = 8020           
+    # 接收数据的缓存大小
+    buffsize = 1024        
+
+    s = socket(AF_INET, SOCK_STREAM) 
+    s.connect((address, port))
+
     s.send(senddata.encode())
     s.close()
     return jsonify({'msg': 'success', 'data': 'success'})
