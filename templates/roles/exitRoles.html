@@ -2,205 +2,254 @@
 
 {% block content %}
 
-        <div class="content">
-            <div class="animated fadeIn">
-                <div class="row">
+<div class="content">
+    <div class="animated fadeIn">
+        <div class="row">
 
-                    <div class="col-md-11">
-                        <div class="card">
-                            <div class="card-header" style="background-color: #79baf0">
-                                <strong class="card-title">修改角色信息</strong>
-                            </div>
-                            <div class="card-body card-block">
-                                <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                    <!-- ID -->
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label class=" form-control-label">ID</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <p id='eid' class="form-control-static">{{ role.id }}</p>
-                                        </div>
-                                    </div>
-                                    <!-- name -->
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="name-input" class=" form-control-label">角色名称</label></div>
-                                        <div class="col-6 col-md-7">
-                                                <input type="text" id="name-input" name="name" style='display: none' value="{{ role.name }}" class="form-control">
-                                                <p class="form-control-static" id='name-p' style='display: block'>{{ role.name or '' }}</p>
-                                            
-                                        </div>
-                                        <div class='col-4 col-md-2'>
-                                                <button id='name-modify' type="button" onclick='clickModify(this)' class="btn btn-link" style="color:gray">修改</button>
-                                                <button id='name-sure' style='display: none' onclick='clickSure(this)' type="button" class="btn btn-outline-primary">确定</button>
-                                                <button id='name-cancel' style='display: none' onclick='clickCancel(this)' type="button" class="btn btn-outline-danger">取消</button>
-                                        </div>
-                                    </div>
-                                    <!-- remarks -->
-                                    <div class="row form-group">
-                                            <div class="col col-md-3"><label for="remarks-input" class=" form-control-label">备注</label></div>
-                                            <div class="col-6 col-md-7">
-                                                    <input type="text" id="remarks-input" name="remarks" style='display: none' value="{{ role.remarks }}" class="form-control">
-                                                    <p class="form-control-static" id='remarks-p' style='display: block'>{{ role.remarks or '' }}</p>
-
-                                            </div>
-                                            <div class='col-4 col-md-2'>
-                                                    <button id='remarks-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
-                                                    <button id='remarks-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
-                                                    <button id='remarks-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
-                                            </div>
-                                    </div>
-                                    <!-- if_role -->
-                                    <div class="row form-group">
-                                            <div class="col col-md-3"><label for="if_role-input" class=" form-control-label">可否创建角色</label></div>
-                                            <div class="col-6 col-md-7">
-                                                    <input type="text" id="if_role-input" name="if_role" style='display: none' value="{{ role.if_role }}" class="form-control">
-                                                    <p class="form-control-static" id='if_role-p' style='display: block'>{{ role.if_role or '' }}</p>
-
-                                            </div>
-                                            <div class='col-4 col-md-2'>
-                                                    <button id='if_role-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
-                                                    <button id='if_role-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
-                                                    <button id='if_role-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
-                                            </div>
-                                    </div>
-                                    <!-- if_add_equipment -->
-                                    <div class="row form-group">
-                                            <div class="col col-md-3"><label for="if_add_equipment-input" class=" form-control-label">可否增加设备</label></div>
-                                            <div class="col-6 col-md-7">
-                                                    <input type="text" id="if_add_equipment-input" name="if_add_equipment" style='display: none' value="{{ role.if_add_equipment }}" class="form-control">
-                                                    <p class="form-control-static" id='if_add_equipment-p' style='display: block'>{{ role.if_add_equipment or '' }}</p>
-
-                                            </div>
-                                            <div class='col-4 col-md-2'>
-                                                    <button id='if_add_equipment-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
-                                                    <button id='if_add_equipment-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
-                                                    <button id='if_add_equipment-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
-                                            </div>
-                                    </div>
-                                    <!-- if_modify_equipment -->
-                                    <div class="row form-group">
-                                            <div class="col col-md-3"><label for="if_modify_equipment-input" class=" form-control-label">可否修改设备</label></div>
-                                            <div class="col-6 col-md-7">
-                                                    <input type="text" id="if_modify_equipment-input" name="if_add_equipment" style='display: none' value="{{ role.if_modify_equipment }}" class="form-control">
-                                                    <p class="form-control-static" id='if_modify_equipment-p' style='display: block'>{{ role.if_modify_equipment or '' }}</p>
-
-                                            </div>
-                                            <div class='col-4 col-md-2'>
-                                                    <button id='if_modify_equipment-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
-                                                    <button id='if_modify_equipment-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
-                                                    <button id='if_modify_equipment-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
-                                            </div>
-                                    </div>
-                                    <!-- if_add_child -->
-                                    <div class="row form-group">
-                                            <div class="col col-md-3"><label for="if_add_child-input" class=" form-control-label">可否增加子账号</label></div>
-                                            <div class="col-6 col-md-7">
-                                                    <input type="text" id="if_add_child-input" name="if_add_equipment" style='display: none' value="{{ role.if_add_child }}" class="form-control">
-                                                    <p class="form-control-static" id='if_add_child-p' style='display: block'>{{ role.if_add_child or '' }}</p>
-
-                                            </div>
-                                            <div class='col-4 col-md-2'>
-                                                    <button id='if_add_child-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
-                                                    <button id='if_add_child-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
-                                                    <button id='if_add_child-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
-                                            </div>
-                                    </div>
-                                    <!-- if_modify_child -->
-                                    <div class="row form-group">
-                                            <div class="col col-md-3"><label for="if_modify_child-input" class=" form-control-label">可否修改子账号</label></div>
-                                            <div class="col-6 col-md-7">
-                                                    <input type="text" id="if_modify_child-input" name="if_add_equipment" style='display: none' value="{{ role.if_modify_child }}" class="form-control">
-                                                    <p class="form-control-static" id='if_modify_child-p' style='display: block'>{{ role.if_modify_child or '' }}</p>
-
-                                            </div>
-                                            <div class='col-4 col-md-2'>
-                                                    <button id='if_modify_child-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
-                                                    <button id='if_modify_child-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
-                                                    <button id='if_modify_child-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
-                                            </div>
-                                    </div>
-                                    <div class="row form-group">
-                                            <div class="col col-md-3"><label class=" form-control-label">创建时间</label></div>
-                                            <div class="col-12 col-md-9">
-                                                <p class="form-control-static">{{ role.create_time }}</p>
-                                            </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+            <div class="col-md-11">
+                <div class="card">
+                    <div class="card-header" style="background-color: #79baf0">
+                        <strong class="card-title">修改角色信息</strong>
                     </div>
-
-                    <div class="col-md-11">
-
-                        <div class="card">
-                            <div class="card-header" style="background-color: #79baf0">
-                                <strong class="card-title">用户管理</strong>
-                                <button type="button" class="float-right btn btn-primary mb-1 btn-outline-primary btn-sm" data-toggle="modal" data-target="#smallmodal">
-                                        <i class="fa fa-plus"></i>
-                                        &nbsp; 添加用户
-                                </button>
-                            </div>
-
-                            <div class="modal fade" id="smallmodal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-sm" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="smallmodalLabel">添加用户</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="row form-group">
-                                        <div class="col col-md-3"><label class=" form-control-label">选择</label></div>
-                                        <div class="col col-md-9">
-                                            <div class="form-check">
-                                                {% for other in other %}
-                                                <div class="checkbox">
-                                                    <label for="{{ other.id }}" class="form-check-label ">
-                                                        <input type="checkbox" id="{{ other.id }}" name="{{ other.id }}" value="{{ other.id }}" class="form-check-input">{{ other.username }}
-                                                    </label>
-                                                </div>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                                            <button type="button" class="btn btn-primary">确认</button>
-                                        </div>
-                                    </div>
+                    <div class="card-body card-block">
+                        <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal">
+                            <!-- ID -->
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label class=" form-control-label">ID</label></div>
+                                <div class="col-12 col-md-9">
+                                    <p id='eid' class="form-control-static">{{ role.id }}</p>
                                 </div>
                             </div>
+                            <!-- name -->
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label for="name-input" class=" form-control-label">角色名称</label></div>
+                                <div class="col-6 col-md-7">
+                                        <input type="text" id="name-input" name="name" style='display: none' value="{{ role.name }}" class="form-control">
+                                        <p class="form-control-static" id='name-p' style='display: block'>{{ role.name or '' }}</p>
 
-                            <div class="card-body">
-                                <table id="bootstrap-data-table" class="table table-striped table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>用户名称</th>
-                                            <th>地址</th>
-                                            <th>创建时间</th>
+                                </div>
+                                <div class='col-4 col-md-2'>
+                                        <button id='name-modify' type="button" onclick='clickModify(this)' class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='name-sure' style='display: none' onclick='clickSure(this)' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='name-cancel' style='display: none' onclick='clickCancel(this)' type="button" class="btn btn-outline-danger">取消</button>
+                                </div>
+                            </div>
+                            <!-- remarks -->
+                            <div class="row form-group">
+                                    <div class="col col-md-3"><label for="remarks-input" class=" form-control-label">备注</label></div>
+                                    <div class="col-6 col-md-7">
+                                            <input type="text" id="remarks-input" name="remarks" style='display: none' value="{{ role.remarks }}" class="form-control">
+                                            <p class="form-control-static" id='remarks-p' style='display: block'>{{ role.remarks or '' }}</p>
 
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for user in user %}
-                                        <tr>
-                                            <td>{{ user.id }}</td>
-                                            <td>{{ user.username }}</td>
-                                            <td>{{ user.address }}</td>
-                                            <td>{{ user.create_time}}</td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
+                                    </div>
+                                    <div class='col-4 col-md-2'>
+                                            <button id='remarks-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                            <button id='remarks-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                            <button id='remarks-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                    </div>
+                            </div>
+                            <!-- if_role -->
+                            <div class="row form-group">
+                                    <div class="col col-md-3"><label for="if_role-input" class=" form-control-label">可否创建角色</label></div>
+                                    <div class="col-6 col-md-7">
+                                            <input type="text" id="if_role-input" name="if_role" style='display: none' value="{{ role.if_role }}" class="form-control">
+                                            <p class="form-control-static" id='if_role-p' style='display: block'>{{ role.if_role or '' }}</p>
+
+                                    </div>
+                                    <div class='col-4 col-md-2'>
+                                            <button id='if_role-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                            <button id='if_role-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                            <button id='if_role-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                    </div>
+                            </div>
+                            <!-- if_add_equipment -->
+                            <div class="row form-group">
+                                    <div class="col col-md-3"><label for="if_add_equipment-input" class=" form-control-label">可否增加设备</label></div>
+                                    <div class="col-6 col-md-7">
+                                            <input type="text" id="if_add_equipment-input" name="if_add_equipment" style='display: none' value="{{ role.if_add_equipment }}" class="form-control">
+                                            <p class="form-control-static" id='if_add_equipment-p' style='display: block'>{{ role.if_add_equipment or '' }}</p>
+
+                                    </div>
+                                    <div class='col-4 col-md-2'>
+                                            <button id='if_add_equipment-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                            <button id='if_add_equipment-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                            <button id='if_add_equipment-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                    </div>
+                            </div>
+                            <!-- if_modify_equipment -->
+                            <div class="row form-group">
+                                    <div class="col col-md-3"><label for="if_modify_equipment-input" class=" form-control-label">可否修改设备</label></div>
+                                    <div class="col-6 col-md-7">
+                                            <input type="text" id="if_modify_equipment-input" name="if_add_equipment" style='display: none' value="{{ role.if_modify_equipment }}" class="form-control">
+                                            <p class="form-control-static" id='if_modify_equipment-p' style='display: block'>{{ role.if_modify_equipment or '' }}</p>
+
+                                    </div>
+                                    <div class='col-4 col-md-2'>
+                                            <button id='if_modify_equipment-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                            <button id='if_modify_equipment-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                            <button id='if_modify_equipment-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                    </div>
+                            </div>
+                            <!-- if_add_child -->
+                            <div class="row form-group">
+                                    <div class="col col-md-3"><label for="if_add_child-input" class=" form-control-label">可否增加子账号</label></div>
+                                    <div class="col-6 col-md-7">
+                                            <input type="text" id="if_add_child-input" name="if_add_equipment" style='display: none' value="{{ role.if_add_child }}" class="form-control">
+                                            <p class="form-control-static" id='if_add_child-p' style='display: block'>{{ role.if_add_child or '' }}</p>
+
+                                    </div>
+                                    <div class='col-4 col-md-2'>
+                                            <button id='if_add_child-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                            <button id='if_add_child-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                            <button id='if_add_child-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                    </div>
+                            </div>
+                            <!-- if_modify_child -->
+                            <div class="row form-group">
+                                    <div class="col col-md-3"><label for="if_modify_child-input" class=" form-control-label">可否修改子账号</label></div>
+                                    <div class="col-6 col-md-7">
+                                            <input type="text" id="if_modify_child-input" name="if_add_equipment" style='display: none' value="{{ role.if_modify_child }}" class="form-control">
+                                            <p class="form-control-static" id='if_modify_child-p' style='display: block'>{{ role.if_modify_child or '' }}</p>
+
+                                    </div>
+                                    <div class='col-4 col-md-2'>
+                                            <button id='if_modify_child-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                            <button id='if_modify_child-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                            <button id='if_modify_child-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                    </div>
+                            </div>
+                            <div class="row form-group">
+                                    <div class="col col-md-3"><label class=" form-control-label">创建时间</label></div>
+                                    <div class="col-12 col-md-9">
+                                        <p class="form-control-static">{{ role.create_time }}</p>
+                                    </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-11">
+
+                <div class="card">
+                    <div class="card-header" style="background-color: #79baf0">
+                        <strong class="card-title">用户管理</strong>
+                        <button type="button" class="float-right btn btn-primary mb-1 btn-outline-primary btn-sm" data-toggle="modal" data-target="#smallmodal">
+                                <i class="fa fa-plus"></i>
+                                &nbsp; 添加用户
+                        </button>
+                    </div>
+
+                    <div class="modal fade" id="smallmodal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="smallmodalLabel">添加用户</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form action="role/addrole/{{ role.id }}" method="post" novalidate="novalidate">
+                                    <div class="row form-group">
+                                    <div class="col col-md-3"><label class=" form-control-label">选择</label></div>
+                                        <div class="col col-md-9">
+                                            {% for other in others %}
+                                        <div class="form-check">
+                                            <div class="checkbox">
+                                                <label for="{{ other.id }}" class="form-check-label ">
+                                                    <input type="checkbox" id="{{ other.id }}" name="other" value="{{ other.id }}" class="form-check-input">{{ other.username }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                    <button type="button" onclick="useradd()" class="btn btn-primary">确认</button>
+                                </div>
+                            </form>
                             </div>
                         </div>
                     </div>
-                </div>
 
-            </div><!-- .animated -->
-        </div><!-- .content -->
+
+                    <div class="card-body">
+                        <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>用户名称</th>
+                                    <th>地址</th>
+                                    <th>创建时间</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for user in user %}
+                                <tr>
+                                    <td>{{ user.id }}</td>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.address }}</td>
+                                    <td>{{ user.create_time}}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- .animated -->
+</div><!-- .content -->
+<script>
+    function useradd() {
+
+        obj = document.getElementsByName("other");
+        userlist = [];
+        for(let k = 0 ; k < obj.length ; k++){
+            if(obj[k].checked){
+                 userlist.push(obj[k].value);
+            }
+
+        }
+
+
+        $.ajax({
+            url: '/role/addrole/{{ role.id }}',    //请求的url地址
+            dataType: "json",   //返回格式为json
+            async: true,//请求是否异步，默认为异步，这也是ajax重要特性
+            data: {
+                'userlist': JSON.stringify(userlist)
+            },    //参数值,键值对
+            type: "POST",   //请求方式
+            beforeSend: function () {
+                //请求前的处理
+            },
+            success: function (data) {
+                //请求成功时处理
+                if (data['msg'] == 'success') {
+                    alert('添加成功')
+                    window.location.href="/role/show/{{ role.id }}";
+                } else {
+                    alert('添加失败')
+                }
+            },
+            complete: function () {
+                //请求完成的处理
+	            document.getElementById("submit").removeAttr("disabled");
+            },
+            error: function () {
+                //请求出错处理
+                alert('请检查网络...')
+            }
+        });
+    }
+</script>
+
+
 <script>
     function clickModify(e) {
         let id = e.id.split('-')[0]
@@ -222,8 +271,8 @@
         let content = document.getElementById(id+'-input').value;
         document.getElementById(id+'-p').innerText = content;
 
-        let eid = document.getElementById('eid').innerText;
-        let url = '../'+eid
+        let uid = document.getElementById('uid').innerText;
+        let url = '../edit/'+uid
         $.ajax({
             url: url,    //请求的url地址
             dataType:"json",   //返回格式为json
@@ -239,7 +288,8 @@
                     alert('修改成功')}
                 else {
                     if(data['data']== 'do not have role'){
-                        alert('无权限')}
+                         alert('无权限')
+                    }
                     else {alert('修改失败')}
                 }
             },
@@ -265,9 +315,4 @@
     }
 </script>
 
-<script type="text/javascript">
-        $(document).ready(function() {
-          $('#bootstrap-data-table-export').DataTable();
-      } );
-</script>
 {% endblock %}

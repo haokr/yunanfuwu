@@ -2,6 +2,7 @@ from flask import request, session, render_template, redirect, url_for, jsonify
 from models import User, Group, Role
 from db import db
 import time
+import json
 
 
 def getRoles():
@@ -103,9 +104,9 @@ def showRole(rid):
         }
         return render_template('monitor/monitor.html', **data)
     else:
-        role = Role.query.filter(Role.id == rid and Role.create_user ==user_id).first()
+        role = Role.query.filter(Role.id == rid, Role.create_user ==user_id).first()
         userlist = User.query.filter(User.role_id == rid).all()
-        other = User.query.filter(User.parent_id == user_id and User.role_id != role.id).all()
+        others = User.query.filter(User.parent_id == user_id, User.role_id != role.id).all()
         data = {
             'base': {
                 'pageTitle': '设备信息-云安服务',
@@ -139,18 +140,18 @@ def showRole(rid):
                 }
                 for c in userlist
             ],
-            'other': [
+            'others': [
                 {
-                    'id': c.id,
-                    'name': c.name,
-                    'username': c.username,
-                    'address': c.address,
-                    'contact': c.contact,
-                    'contact_tel': c.contact_tel,
-                    'create_time': c.create_time,
-                    'modify_time': c.modify_time
+                    'id': a.id,
+                    'name': a.name,
+                    'username': a.username,
+                    'address': a.address,
+                    'contact': a.contact,
+                    'contact_tel': a.contact_tel,
+                    'create_time': a.create_time,
+                    'modify_time': a.modify_time
                 }
-                for c in other
+                for a in others
             ]
         }
         return render_template('roles/exitRoles.html', **data)
@@ -268,6 +269,7 @@ def addRole(rid):
     :return:
     '''
     userlist = request.form.get('userlist')
+    userlist = json.loads(userlist)
     try:
         for u in userlist:
             user = User.query.filter(User.id == u).first()
