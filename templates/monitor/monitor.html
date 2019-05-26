@@ -72,10 +72,7 @@
 {% endblock %}
 
 {% block js%}
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
-<script type="text/javascript" charset="utf-8">
-
-</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
 
 <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.8&key=efb66f1d0e0a897af3702fdb233c0812"></script>
 
@@ -104,7 +101,7 @@
     var markers = [];
     if (positions.length) {
        for(var i=0; i < positions.length; i += 1){
-           var pictures =  {'001':'/static/img/mapPoint/green.png', '102':'/static/img/mapPoint/yellow.png', '101':'/static/img/mapPoint/red.png'};  // 标点图片
+           var pictures =  {'001':'/static/img/mapPoint/blue.png', '102':'/static/img/mapPoint/yellow.png', '101':'/static/img/mapPoint/red.png'};  // 标点图片
            var marker = new AMap.Marker({
                       // 经纬度
                   position:[positions[i][0]['lng'], positions[i][0]['lnt']],
@@ -157,7 +154,7 @@
         } else if (data.code.startsWith('0')) {
             for (let i = 0 ; i < positions.length ; i++) {
                 if (positions[i][0]['eid'] == eid) {
-                    positions[i][1].setIcon('/static/img/mapPoint/green.png')
+                    positions[i][1].setIcon('/static/img/mapPoint/blue.png')
                 }
             }
         }

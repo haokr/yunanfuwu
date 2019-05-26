@@ -3,7 +3,6 @@ from werkzeug import secure_filename
 from socketIO import socketio
 from flask_session import Session
 from db import db
-from models import User, User_record, Group, Equipment, Alarm_record
 import config
 
 from apps.api.urls import api
@@ -13,6 +12,7 @@ from apps.record.urls import record
 from apps.user.urls import user
 from apps.monitor.urls import monitor
 from apps.role.urls import role
+from apps.gov.urls import gov
 
 
 app = Flask(__name__, static_folder='static')
@@ -27,7 +27,7 @@ socketio.init_app(app, manage_session=False)
 @app.before_request
 def before_request():
     user_id = session.get("id")
-    ignore = ['/user/login', '/user/register']
+    ignore = ['/user/login', '/user/register', '/gov/regist', '/gov/login']
     isReport = request.path.startswith('/monitor/report/')
     isStatic = request.path.startswith('/static')
     if ( not user_id ) and ( request.path  not in ignore ) and ( not isReport ) and ( not isStatic ):
@@ -43,7 +43,7 @@ app.register_blueprint(user, url_prefix='/user')
 app.register_blueprint(monitor, url_prefix='/monitor')
 app.register_blueprint(data, url_prefix='/data')
 app.register_blueprint(role, url_prefix='/role')
-
+app.register_blueprint(gov, url_prefix='/gov')
 
 if __name__ == '__main__':
     socketio.run(app)
