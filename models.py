@@ -142,4 +142,19 @@ class Equipment_report_log(db.Model):
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
 
+# 行政账号
+class Gov(db.Model):
+    __tablename__ = 'gov'
+    id = id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda: 'gov_' + shortuuid.uuid())
+    gaode_center_longitude = db.Column(db.Float(precision='15,8'))
+    gaode_center_latitude = db.Column(db.Float(precision='15,8'))
 
+    name = db.Column(db.String(30), nullable=False, default='GOVNAME')
+
+    username = db.Column(db.String(30), unique=True, nullable=False)
+    password = db.Column(db.String(40), nullable=False)
+    contact = db.Column(db.String(15))
+    contact_tel = db.Column(db.String(15))
+
+    create_time = db.Column(db.DateTime, default=datetime.now)
+    modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
