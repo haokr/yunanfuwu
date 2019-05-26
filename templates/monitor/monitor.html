@@ -104,7 +104,7 @@
     var markers = [];
     if (positions.length) {
        for(var i=0; i < positions.length; i += 1){
-           var pictures =  {'001':'/static/img/mapPoint/green.png', '102':'/static/img/mapPoint/yellow.png', '101':'/static/img/mapPoint/red.png'};  // 标点图片
+           var pictures =  {'001':'/static/img/mapPoint/blue.png', '102':'/static/img/mapPoint/yellow.png', '101':'/static/img/mapPoint/red.png'};  // 标点图片
            var marker = new AMap.Marker({
                       // 经纬度
                   position:[positions[i][0]['lng'], positions[i][0]['lnt']],
@@ -157,7 +157,7 @@
         } else if (data.code.startsWith('0')) {
             for (let i = 0 ; i < positions.length ; i++) {
                 if (positions[i][0]['eid'] == eid) {
-                    positions[i][1].setIcon('/static/img/mapPoint/green.png')
+                    positions[i][1].setIcon('/static/img/mapPoint/blue.png')
                 }
             }
         }
