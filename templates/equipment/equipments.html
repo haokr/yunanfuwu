@@ -54,7 +54,10 @@
                                         <td>{{ equipment.SIM_id or '' }}</td>
                                         <td>{{ equipment.create_time or '' }}</td>
                                         <td>{{ equipment.remark or '' }}</td>
-                                        <td><a href="./show/{{ equipment.id }}">修改</a></td>
+                                        <td>
+                                            <a href="./control?eid={{ equipment.id }}">控制</a>
+                                            <a href="./show/{{ equipment.id }}">修改</a>
+                                        </td>
                                     </tr>
                                 {% endfor %}
                                 

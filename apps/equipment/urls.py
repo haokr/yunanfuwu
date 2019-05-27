@@ -24,6 +24,10 @@ def showEditEquipment(eid):
 def showEquipments():
     return view.showEquipments()
 
+# 反控页面
+@equipment.route('/control')
+def controlPage():
+    return view.controlPage()
 
 '''
     API

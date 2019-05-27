@@ -1,0 +1,77 @@
+
+{% extends 'base.html' %}
+
+{% block style %}
+
+{% endblock %}
+
+{% block content %}
+        <div class="content">
+            <div class="animated fadeIn">
+                <div class="row">
+
+                    <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header" style="background-color: #79baf0">
+                                    <strong>设备反控</strong>
+                                </div>
+
+                                {% for i in range(4) %}
+                                    <div class="card-body">
+                                        <div class="col col-md-3" style="display: inline-block;"><label for="location" class=" form-control-label">开关{{ loop.index }}</label>
+                                        </div>
+                                        <button type="button" id='{{ loop.index-1 }}-on' class="btn btn-primary" onclick="control(this)" style="margin-right: 20%;"><i class="fa fa-lightbulb-o"></i>&nbsp; ON</button>
+                                        <button type="button" id='{{ loop.index-1 }}-off' class="btn btn-danger" onclick="control(this)"><i class="fa fa-rss"></i>&nbsp; OFF</button>
+                                    </div>
+                                {% endfor %}
+                               
+
+                            </div><!-- /# card -->
+
+                    </div>
+
+
+                </div>
+            </div><!-- .animated -->
+        </div><!-- .content -->
+{% endblock %}
+
+{% block js %}
+
+    <script type="text/javascript">
+
+        function control(e) {
+            let equipment_info = e.id.split('-')
+            let eid = '{{ eid }}'
+            let index = equipment_info[0]
+            let option = equipment_info[1]
+
+            $.ajax({
+                url:"/equipment/control/"+eid,    //请求的url地址
+                dataType:"json",   //返回格式为json
+                async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+                data:{
+                    'switch': index,
+                    option
+                },    //参数值
+                type:"POST",   //请求方式
+                success:function(req){
+                    //请求成功时处理
+                    if (req.msg == 'success') {
+                        alert('操作成功')
+                    }else{
+                        alert('操作失败')
+                    }
+                },
+                complete:function(){
+                    //请求完成的处理
+                },
+                error:function(){
+                    //请求出错处理
+                    alert('操作失败')
+                }
+            });
+        }
+    </script>
+
+{% endblock %}

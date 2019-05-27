@@ -147,6 +147,26 @@ def showAddEquipment():
         return render_template('equipment/addEquipment.html', **data)
 
 
+def controlPage():
+    user_id = session.get('id')
+    eid = request.args.get('eid', None)
+
+    if not eid:
+        return 'error parm'
+
+    equipments = User.query.filter(User.id == user_id).first().group.equipments
+    data = {
+        'base': {
+            'pageTitle': '设备反控-云安服务',
+            'avatarImgUrl': '/static/img/yunan_logo_1.png',
+            'pageNow': '设备反控',
+            'username': session.get('username'),
+            'userid': session.get('id')
+        },
+        'eid': eid
+    }
+    return render_template('equipment/control.html', **data)
+
 '''
     API
 '''
@@ -231,10 +251,9 @@ def modifyEquipment(eid):
 
 
 def control(eid):
-    switch = request.form.get('switch')
     option = request.form.get('option')
 
-    if not (switch and option):
+    if not option:
         return jsonify({'msg': 'fail', 'data': 'parm error'})
 
     equipment = Equipment.query.filter(Equipment.id == eid).first()
@@ -263,7 +282,7 @@ def control(eid):
             }
     }
 
-    senddata = '{}:{}'.format(ip, instructions[switch][option])
+    senddata = '{}:{}'.format(ip, instructions['0'][option])
 
     # 服务器的ip地址
     address='127.0.0.1'   
