@@ -24,12 +24,17 @@
 
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
 </head>
-<body class="bg-dark">
+<body class="bg-dark" style="background: url(/static/img/login.jpg); background-size: 100% 200%; background-repeat: all;">
 
     <div class="sufee-login d-flex align-content-center flex-wrap">
         <div class="container">
             <div class="login-content">
-                <div class="login-form">
+                <div class="login-logo">
+                    <a href="index.html">
+                        <img class="align-content" src="/static/img/yunan_logo_2.png" alt="">
+                    </a>
+                </div>
+                <div class="login-form" style="background-color: rgba(255,255,255,0.8); border-radius: 16px; ">
                     <form action="/user/login" method="post">
                         <div class="form-group">
                             <label>用户名</label>
@@ -48,7 +53,7 @@
                             </label>
 
                         </div>
-                        <button type="submit" class="btn btn-success btn-flat m-b-30 m-t-30">登  陆</button>
+                         <button type="submit" class="btn btn-success btn-flat m-b-30 m-t-30" style="background-color: #4694e2">登  陆</button>
                     </form>
                 </div>
             </div>
