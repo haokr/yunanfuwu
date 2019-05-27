@@ -252,8 +252,9 @@ def modifyEquipment(eid):
 
 def control(eid):
     option = request.form.get('option')
+    switch = request.form.get('switch')
 
-    if not option:
+    if not ( switch and option ):
         return jsonify({'msg': 'fail', 'data': 'parm error'})
 
     equipment = Equipment.query.filter(Equipment.id == eid).first()
@@ -282,7 +283,7 @@ def control(eid):
             }
     }
 
-    senddata = '{}:{}'.format(ip, instructions['0'][option])
+    senddata = '{}:{}'.format(ip, instructions[switch][option])
 
     # 服务器的ip地址
     address='127.0.0.1'   
