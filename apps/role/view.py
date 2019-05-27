@@ -198,8 +198,12 @@ def modifyRole(rid):
         value = request.form.get('value')
         if value == '':
             value = None
+        elif value == '是':
+            value = True
+        elif value == '否':
+            value = False
         try:
-            role = Role.query.filter(Role.id == rid).first()
+            role = Role.query.filter(Role.id == rid)
             role.update({key: value})
             user.modify_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
             db.session.commit()

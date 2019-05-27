@@ -17,7 +17,7 @@
                             <div class="row form-group">
                                 <div class="col col-md-3"><label class=" form-control-label">ID</label></div>
                                 <div class="col-12 col-md-9">
-                                    <p id='eid' class="form-control-static">{{ role.id }}</p>
+                                    <p id='rid' class="form-control-static">{{ role.id }}</p>
                                 </div>
                             </div>
                             <!-- name -->
@@ -50,74 +50,85 @@
                             </div>
                             <!-- if_role -->
                             <div class="row form-group">
-                                    <div class="col col-md-3"><label for="if_role-input" class=" form-control-label">可否创建角色</label></div>
-                                    <div class="col-6 col-md-7">
-                                            <input type="text" id="if_role-input" name="if_role" style='display: none' value="{{ role.if_role }}" class="form-control">
-                                            <p class="form-control-static" id='if_role-p' style='display: block'>{{ role.if_role or '' }}</p>
-
-                                    </div>
+                                <div class="col col-md-3"><label class=" form-control-label">增加设限</label></div>
+                                <div class="col-6 col-md-7">
+                                    <select name="if_role" id="if_role-input" style='display: none' class="form-control">
+                                        <option value="是">是</option>
+                                        <option value="否">否</option>
+                                    </select>
+                                    <p class="form-control-static" id='if_role-p' style='display: block'>{{ '是' if role.if_role == True else '否'}}</p>
+                                </div>
                                     <div class='col-4 col-md-2'>
-                                            <button id='if_role-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                            <button id='if_role-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray;">修改</button>
                                             <button id='if_role-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
                                             <button id='if_role-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
                                     </div>
                             </div>
                             <!-- if_add_equipment -->
                             <div class="row form-group">
-                                    <div class="col col-md-3"><label for="if_add_equipment-input" class=" form-control-label">可否增加设备</label></div>
-                                    <div class="col-6 col-md-7">
-                                            <input type="text" id="if_add_equipment-input" name="if_add_equipment" style='display: none' value="{{ role.if_add_equipment }}" class="form-control">
-                                            <p class="form-control-static" id='if_add_equipment-p' style='display: block'>{{ role.if_add_equipment or '' }}</p>
-
-                                    </div>
+                                <div class="col col-md-3"><label class=" form-control-label">增加设限</label></div>
+                                <div class="col-6 col-md-7">
+                                    <select name="if_role" id="if_add_equipment-input" style='display: none' class="form-control">
+                                        <option value="是">是</option>
+                                        <option value="否">否</option>
+                                    </select>
+                                    <p class="form-control-static" id='if_add_equipment-p' style='display: block'>{{ '是' if role.if_add_equipment == True else '否'}}</p>
+                                </div>
                                     <div class='col-4 col-md-2'>
-                                            <button id='if_add_equipment-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                            <button id='if_add_equipment-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray;">修改</button>
                                             <button id='if_add_equipment-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
                                             <button id='if_add_equipment-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
                                     </div>
                             </div>
                             <!-- if_modify_equipment -->
                             <div class="row form-group">
-                                    <div class="col col-md-3"><label for="if_modify_equipment-input" class=" form-control-label">可否修改设备</label></div>
-                                    <div class="col-6 col-md-7">
-                                            <input type="text" id="if_modify_equipment-input" name="if_add_equipment" style='display: none' value="{{ role.if_modify_equipment }}" class="form-control">
-                                            <p class="form-control-static" id='if_modify_equipment-p' style='display: block'>{{ role.if_modify_equipment or '' }}</p>
-
-                                    </div>
+                                <div class="col col-md-3"><label class=" form-control-label">增加设限</label></div>
+                                <div class="col-6 col-md-7">
+                                    <select name="if_role" id="if_modify_equipment-input" style='display: none' class="form-control">
+                                        <option value="是">是</option>
+                                        <option value="否">否</option>
+                                    </select>
+                                    <p class="form-control-static" id='if_modify_equipment-p' style='display: block'>{{ '是' if role.if_modify_equipment == True else '否'}}</p>
+                                </div>
                                     <div class='col-4 col-md-2'>
-                                            <button id='if_modify_equipment-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                            <button id='if_modify_equipment-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray;">修改</button>
                                             <button id='if_modify_equipment-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
                                             <button id='if_modify_equipment-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
                                     </div>
                             </div>
                             <!-- if_add_child -->
                             <div class="row form-group">
-                                    <div class="col col-md-3"><label for="if_add_child-input" class=" form-control-label">可否增加子账号</label></div>
-                                    <div class="col-6 col-md-7">
-                                            <input type="text" id="if_add_child-input" name="if_add_equipment" style='display: none' value="{{ role.if_add_child }}" class="form-control">
-                                            <p class="form-control-static" id='if_add_child-p' style='display: block'>{{ role.if_add_child or '' }}</p>
-
-                                    </div>
+                                <div class="col col-md-3"><label class=" form-control-label">增加设限</label></div>
+                                <div class="col-6 col-md-7">
+                                    <select name="if_role" id="if_add_child-input" style='display: none' class="form-control">
+                                        <option value="是">是</option>
+                                        <option value="否">否</option>
+                                    </select>
+                                    <p class="form-control-static" id='if_add_child-p' style='display: block'>{{ '是' if role.if_add_child == True else '否'}}</p>
+                                </div>
                                     <div class='col-4 col-md-2'>
-                                            <button id='if_add_child-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                            <button id='if_add_child-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray;">修改</button>
                                             <button id='if_add_child-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
                                             <button id='if_add_child-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
                                     </div>
                             </div>
                             <!-- if_modify_child -->
                             <div class="row form-group">
-                                    <div class="col col-md-3"><label for="if_modify_child-input" class=" form-control-label">可否修改子账号</label></div>
-                                    <div class="col-6 col-md-7">
-                                            <input type="text" id="if_modify_child-input" name="if_add_equipment" style='display: none' value="{{ role.if_modify_child }}" class="form-control">
-                                            <p class="form-control-static" id='if_modify_child-p' style='display: block'>{{ role.if_modify_child or '' }}</p>
-
-                                    </div>
+                                <div class="col col-md-3"><label class=" form-control-label">增加设限</label></div>
+                                <div class="col-6 col-md-7">
+                                    <select name="if_role" id="if_modify_child-input" style='display: none' class="form-control">
+                                        <option value="是">是</option>
+                                        <option value="否">否</option>
+                                    </select>
+                                    <p class="form-control-static" id='if_modify_child-p' style='display: block'>{{ '是' if role.if_modify_child == True else '否'}}</p>
+                                </div>
                                     <div class='col-4 col-md-2'>
-                                            <button id='if_modify_child-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                            <button id='if_modify_child-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray;">修改</button>
                                             <button id='if_modify_child-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
                                             <button id='if_modify_child-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
                                     </div>
                             </div>
+
                             <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">创建时间</label></div>
                                     <div class="col-12 col-md-9">
@@ -271,8 +282,8 @@
         let content = document.getElementById(id+'-input').value;
         document.getElementById(id+'-p').innerText = content;
 
-        let uid = document.getElementById('uid').innerText;
-        let url = '../edit/'+uid
+        let rid = document.getElementById('rid').innerText;
+        let url = '../show/' + rid
         $.ajax({
             url: url,    //请求的url地址
             dataType:"json",   //返回格式为json
