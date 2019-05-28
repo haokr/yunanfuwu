@@ -312,7 +312,7 @@ def dropchild(cid):
     if role.if_drop_child == False:
         return jsonify({'msg': 'fail', 'data': 'do not have role'})
     else:
-        equipment = Equipment.query.filter(Equipment.admin_id == cid).all()
+        equipment = Equipment.query.filter(Equipment.admin_id == cid, Equipment.live ==True).all()
         child = User.query.filter(User.parent_id == cid, User.live == True).all()
         if (len(equipment) == 0) and (len(child) == 0):
             try:
