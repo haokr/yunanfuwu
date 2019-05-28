@@ -29,7 +29,7 @@ def login():
     '''
     username = request.form.get('username')
     password = request.form.get('password')
-    user = User.query.filter(User.username == username, User.password==password).first()
+    user = User.query.filter(User.username == username, User.password == password, User.live == True).first()
     if user:
         session['id'] = user.id
         session['username'] = username
@@ -75,7 +75,7 @@ def register():
         'username': username,
         'password': password
     }
-    isExisted = User.query.filter(User.username==username).all()
+    isExisted = User.query.filter(User.username==username, User.live == True).all()
     if not isExisted:
         try:
             user = User(**registerData)
@@ -98,11 +98,11 @@ def showAddUser(uid):
     :return:
     '''
     user_id = session.get('id')
-    user = User.query.filter(User.id == user_id).first()
+    user = User.query.filter(User.id == user_id, User.live == True).first()
     role = Role.query.filter(Role.id == user.role_id).first()
     if role.if_add_child == False:
-        user = User.query.filter(User.id == uid).first()
-        children = User.query.filter(User.parent_id == uid).all()
+        user = User.query.filter(User.id == uid, User.live == True).first()
+        children = User.query.filter(User.parent_id == uid, User.live == True).all()
         if user.parent == None:
             parentname = '无'
         else:
@@ -161,12 +161,14 @@ def showUser(uid):
         展示账号信息
     :return:
     '''
-    user = User.query.filter(User.id == uid).first()
-    children = User.query.filter(User.parent_id == uid).all()
+    user = User.query.filter(User.id == uid, User.live == True).first()
+    children = User.query.filter(User.parent_id == uid, User.live == True).all()
     if user.parent == None:
         parentname = '无'
+        parentid = '无'
     else:
         parentname = user.parent.username
+        parentid = user.parent.id
     data = {
         'base': {
             'pageTitle': '设备信息-云安服务',
@@ -180,6 +182,7 @@ def showUser(uid):
                 'name': user.name,
                 'username': user.username,
                 'parent': parentname,
+                'parentid': parentid,
                 'address': user.address,
                 'contact': user.contact,
                 'contact_tel': user.contact_tel,
@@ -217,7 +220,7 @@ def modifyUser(uid):
     :return: 设备信息修改状态
     '''
     user_id = session.get('id')
-    user = User.query.filter(User.id == user_id).first()
+    user = User.query.filter(User.id == user_id, User.live == True).first()
     role = Role.query.filter(Role.id == user.role_id).first()
     if role.if_modify_child == False and uid != user_id:
         return jsonify({'msg': 'fail', 'data': 'do not have role'})
@@ -227,7 +230,7 @@ def modifyUser(uid):
         if value == '':
             value = None
         try:
-            user = User.query.filter(User.id == uid)
+            user = User.query.filter(User.id == uid, User.live == True)
             user.update({key: value})
             user.modify_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
             db.session.commit()
@@ -244,7 +247,7 @@ def addChild(uid):
     :return:
     '''
     user_id = session.get('id')
-    user = User.query.filter(User.id == user_id).first()
+    user = User.query.filter(User.id == user_id, User.live == True).first()
     role = Role.query.filter(Role.id == user.role_id).first()
 
     username = request.form.get('username')
@@ -269,7 +272,7 @@ def addChild(uid):
         'contact': contact,
         'contact_tel': contact_tel
     }
-    isUserExisted = User.query.filter(User.username == childData['username']).all()
+    isUserExisted = User.query.filter(User.username == childData['username'], User.live == True).all()
     if not isUserExisted:
         try:
             user = User(**childData)
@@ -296,30 +299,30 @@ def addChild(uid):
         return jsonify({'msg': 'fail', 'data': 'the username is existed'})
 
 
-def dropchild(uid):
+def dropchild(cid):
     '''
         接收传回的用户id
         判断权限后判断是否删除
-    :param uid:
+    :param cid:
     :return:
     '''
     user_id = session.get('id')
-    user = User.query.filter(User.id == user_id).first()
+    user = User.query.filter(User.id == user_id, User.live == True).first()
     role = Role.query.filter(Role.id == user.role_id).first()
     if role.if_drop_child == False:
         return jsonify({'msg': 'fail', 'data': 'do not have role'})
     else:
-        equipment = Equipment.query.filter(Equipment.admin_id == uid).all()
-        child = User.query.filter(User.parent_id == uid).all()
-        if equipment == None and child == None:
+        equipment = Equipment.query.filter(Equipment.admin_id == cid).all()
+        child = User.query.filter(User.parent_id == cid, User.live == True).all()
+        if (len(equipment) == 0) and (len(child) == 0):
             try:
-                user = User.query.filter(User.id == uid).first()
+                user = User.query.filter(User.id == cid).first()
                 user.live = False
                 user.modify_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
                 db.session.commit()
-                return jsonify({'msg': 'success', 'data': 'modify equipment success'})
+                return jsonify({'msg': 'success', 'data': 'drop child success'})
             except Exception as e:
                 print(e)
-                return jsonify({'msg': 'fail', 'data': 'modify equipment error when select equipments'})
+                return jsonify({'msg': 'fail', 'data': 'modify child error when select equipments'})
         else:
             return jsonify({'msg': 'fail', 'data': 'there are equipment or child'})

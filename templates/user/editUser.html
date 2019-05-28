@@ -132,6 +132,7 @@
                                             <th>联系人电话</th>
                                             <th>设备</th>
                                             <th>详细信息</th>
+                                            <th>删除</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -145,7 +146,7 @@
                                             <td>{{ child.contact_tel }}</td>
                                             <td><a href="/equipment/show?child={{ child.id }}">查看</a></td>
                                             <td><a href="./{{ child.id }}">修改</a></td>
-                                            
+                                            <td><a href="#" onclick="dropchild(this)" type="{{ child.id }}">删除</a></td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
@@ -219,6 +220,40 @@
 
         let content = document.getElementById(id+'-p').innerText;
         document.getElementById(id+'-input').value = content;
+    }
+</script>
+
+<script>
+    function dropchild(data) {
+        var cid = data.type;
+        let url = '/user/drop/' + cid;
+        $.ajax({
+            url: url,    //请求的url地址
+            dataType:"json",   //返回格式为json
+            async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+            data:{child_id:cid},    //参数值,键值对
+            type:"POST",   //请求方式
+            success:function(data){
+                //请求成功时处理
+                if(data['msg'] == 'success'){
+                    alert('删除成功')
+                    window.location.href="/user/edit/{{ user.parentid }}";}
+                else {
+                    if(data['data']== 'do not have role'){
+                         alert('无权限')
+                    }
+                    else if(data['data']== 'there are equipment or child'){
+                        alert('子账号或设备存活')
+                    }
+                    else{alert('删除失败')}
+                }
+            },
+            error:function(){
+                //请求出错处理
+                alert('请检查网络...')
+            }
+        });
+
     }
 </script>
 
