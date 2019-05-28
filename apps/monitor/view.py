@@ -95,11 +95,10 @@ def report(eid):
     }
 
     if code == '000':
-        equipment = Equipment.query.filter(Equipment.id == eid).first()
+        equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
         ip = request.form.get('ip')
-        if not ip:
+        if not (ip and equipment):
             return 'fail, zhuce mei you ip'
-
         try:    
             equipment.ip = ip
             db.session.commit()
@@ -108,10 +107,14 @@ def report(eid):
             return 'error when commit db'    
         return 'regist success'
 
-
     class_ = codeDict.get(code, None)
     class_ = class_ if class_ else code
-
+    try:
+        equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
+        equipment.status = class_
+        db.session.commit()
+    except Exception as e:
+        print(e)
 
     # 日志
     if code[0] == '0':
@@ -143,9 +146,9 @@ def report(eid):
                 'report_time': datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
             }
             report = Equipment_report_log(**reportData)
+
             db.session.add(report)
             db.session.add(alarm)
-
             db.session.commit()
         except Exception as e:
             print(e)
