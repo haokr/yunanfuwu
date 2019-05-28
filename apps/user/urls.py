@@ -27,6 +27,12 @@ def add(uid):
         return view.addChild(uid)
 
 
+#子账号删除
+@user.route('drop/<uid>', methods=['GET','POST'])
+def drop(uid):
+    return view.dropchild(uid)
+
+
 ''' 
     API 
 '''

@@ -1,5 +1,5 @@
 from flask import request, session, render_template, redirect, url_for, jsonify
-from models import User, Group, Role
+from models import User, Group, Role, Equipment
 from db import db
 import time
 
@@ -7,6 +7,7 @@ import time
 '''
     Page
 '''
+
 
 def root():
     '''
@@ -207,6 +208,7 @@ def showUser(uid):
     API
 '''
 
+
 def modifyUser(uid):
     '''
         获取用户提交要修改的设备信息
@@ -233,8 +235,6 @@ def modifyUser(uid):
         except Exception as e:
             print(e)
             return jsonify({'msg': 'fail', 'data': 'modify equipment error when select equipments'})
-
-
 
 
 def addChild(uid):
@@ -294,3 +294,32 @@ def addChild(uid):
             except Exception as e:
                 return jsonify({'msg': 'fail', 'data': 'create gruop fail when commit database'})
         return jsonify({'msg': 'fail', 'data': 'the username is existed'})
+
+
+def dropchild(uid):
+    '''
+        接收传回的用户id
+        判断权限后判断是否删除
+    :param uid:
+    :return:
+    '''
+    user_id = session.get('id')
+    user = User.query.filter(User.id == user_id).first()
+    role = Role.query.filter(Role.id == user.role_id).first()
+    if role.if_drop_child == False:
+        return jsonify({'msg': 'fail', 'data': 'do not have role'})
+    else:
+        equipment = Equipment.query.filter(Equipment.admin_id == uid).all()
+        child = User.query.filter(User.parent_id == uid).all()
+        if equipment == None and child == None:
+            try:
+                user = User.query.filter(User.id == uid).first()
+                user.live = False
+                user.modify_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+                db.session.commit()
+                return jsonify({'msg': 'success', 'data': 'modify equipment success'})
+            except Exception as e:
+                print(e)
+                return jsonify({'msg': 'fail', 'data': 'modify equipment error when select equipments'})
+        else:
+            return jsonify({'msg': 'fail', 'data': 'there are equipment or child'})

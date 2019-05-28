@@ -25,9 +25,11 @@ class Role(db.Model):
 
     if_add_equipment = db.Column(db.BOOLEAN, nullable=False, default=False)
     if_modify_equipment = db.Column(db.BOOLEAN, nullable=False, default=False)
+    if_drop_equipment = db.Column(db.BOOLEAN, nullable=False, default=False)
 
     if_add_child = db.Column(db.BOOLEAN, nullable=False, default=False)
     if_modify_child = db.Column(db.BOOLEAN, nullable=False, default=False)
+    if_drop_child = db.Column(db.BOOLEAN, nullable=False, default=False)
 
     create_time = db.Column(db.DateTime, default=datetime.now)
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
@@ -54,6 +56,8 @@ class User(db.Model):
     describe = db.Column(db.String(100))
     create_time = db.Column(db.DateTime, default=datetime.now)
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+
+    live = db.Column(db.BOOLEAN, nullable=False, default=True)
 
 
 # 用户操作记录
