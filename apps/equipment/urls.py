@@ -53,3 +53,8 @@ def root():
     else:
         return view.addEquipment()
 
+
+# 删除
+@equipment.route('/drop', methods=['POST'])
+def drop():
+    return view.drop()
