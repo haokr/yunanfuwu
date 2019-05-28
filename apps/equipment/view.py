@@ -52,7 +52,7 @@ def showEquipments():
                 'id': e.id,
                 'SIM_id': e.SIM_id
             }
-            for e in equipments
+            for e in equipments if e.live
         ]
     }
     return render_template('equipment/equipments.html', **data)
@@ -65,7 +65,7 @@ def showEditEquipment(eid):
     :param eid: 设备ID
     :return:
     '''
-    e = Equipment.query.filter(Equipment.id == eid).first()
+    e = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
     data = {
         'base': {
             'pageTitle': '设备信息-云安服务',
@@ -128,7 +128,7 @@ def showAddEquipment():
                     'id': e.id,
                     'SIM_id': e.SIM_id
                 }
-                for e in equipments
+                for e in equipments if e.live
             ]
         }
         return render_template('equipment/equipments.html', **data)
@@ -154,7 +154,6 @@ def controlPage():
     if not eid:
         return 'error parm'
 
-    equipments = User.query.filter(User.id == user_id).first().group.equipments
     data = {
         'base': {
             'pageTitle': '设备反控-云安服务',
@@ -241,13 +240,32 @@ def modifyEquipment(eid):
         if value == '':
             value = None
         try:
-            equipment = Equipment.query.filter(Equipment.id == eid)
+            equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True)
             equipment.update({key: value})
             db.session.commit()
             return jsonify({'msg': 'success', 'data': 'modify equipment success'})
         except Exception as e:
             print(e)
             return jsonify({'msg': 'fail', 'data': 'modify equipment error when select equipments'})
+
+def drop():
+    eid = request.form.get('eid', None)
+    if not eid:
+        return {'msg': 'fail', 'data': 'parm error'}
+
+    equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
+
+    if not equipment:
+        return {'msg': 'fail', 'data': 'not the equipment'}
+
+    try:
+        equipment.live == False
+        equipment.commit()
+    except Exception as e:
+        print(e)
+        return {'msg': 'fail', 'data': 'db commit error'}
+    return {'msg': 'success', 'data': 'success'}
+
 
 
 def control(eid):

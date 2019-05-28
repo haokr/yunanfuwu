@@ -93,7 +93,7 @@ def monitor():
                 'status': e.status,
                 'create_time': e.create_time
             }
-            for e in Equipment.query.filter(Equipment.position_province == province).all()
+            for e in Equipment.query.filter(Equipment.position_province == province, Equipment.live == True).all()
         ]
     elif level == 2:
         province = gov.province
@@ -122,7 +122,7 @@ def monitor():
                 'status': e.status,
                 'create_time': e.create_time
             }
-            for e in Equipment.query.filter(Equipment.position_province == province, Equipment.position_city == city).all()
+            for e in Equipment.query.filter(Equipment.position_province == province, Equipment.live == True, Equipment.position_city == city).all()
         ]
     elif level == 3:
         province = gov.province
@@ -152,7 +152,7 @@ def monitor():
                 'status': e.status,
                 'create_time': e.create_time
             }
-            for e in Equipment.query.filter(Equipment.position_province == province, Equipment.position_city == city, Equipment.district == district).all()
+            for e in Equipment.query.filter(Equipment.position_province == province, Equipment.live == True, Equipment.position_city == city, Equipment.district == district).all()
         ]
 
     returnData = {

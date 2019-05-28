@@ -44,7 +44,7 @@ class User(db.Model):
     password = db.Column(db.String(40), nullable=False)
     contact = db.Column(db.String(15))
     contact_tel = db.Column(db.String(15))
-
+    live = db.Column(db.BOOLEAN, nullable=False, default=True)
     parent_id = db.Column(db.String(30), db.ForeignKey('user.id'))
     parent = db.relationship('User',remote_side=[id], backref=db.backref('children', lazy='dynamic'))
 
@@ -57,7 +57,6 @@ class User(db.Model):
     create_time = db.Column(db.DateTime, default=datetime.now)
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
-    live = db.Column(db.BOOLEAN, nullable=False, default=True)
 
 
 # 用户操作记录
@@ -102,7 +101,8 @@ class Equipment(db.Model):
     remarks = db.Column(db.String(50))
     manufacturer = db.Column(db.String(30))
     model = db.Column(db.String(15))
-
+    
+    live = db.Column(db.BOOLEAN, nullable=False, default=True)
     position_province = db.Column(db.String(20))
     position_city = db.Column(db.String(20))
     position_district = db.Column(db.String(20))

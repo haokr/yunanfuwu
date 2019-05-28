@@ -45,7 +45,7 @@ def monitorPage():
                 'equipment_class': '消防',
                 'datetime': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
             }
-            for e in equipments
+            for e in equipments if e.live == True
         ]
     }
     return render_template('monitor/monitor.html', **data) 

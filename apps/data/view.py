@@ -16,7 +16,7 @@ def dataPage():
     user = User.query.filter(User.id == user_id).first()
     # 设备信息
     equipments = user.group.equipments
-    equipmentIds = [e.id for e in equipments]
+    equipmentIds = [e.id for e in equipments if e.live == True]
     equipmentCount = len(equipments)
     # 单位信息
     children = user.children
