@@ -1,7 +1,9 @@
 from flask import request, session, jsonify, render_template, url_for, redirect
-from models import Gov, Equipment
+from models import Gov, Equipment, Alarm_record
 from db import db
-
+from sqlalchemy import extract, and_
+from datetime import datetime, timedelta
+import time
 import requests
 
 
@@ -167,5 +169,95 @@ def monitor():
         'equipments': equipments
     }
 
-
     return render_template('gov/monitor.html', **returnData)
+
+
+def datashow():
+    user_id = session.get('id')
+    user_name = session.get('name')
+    gov = Gov.query.filter(Gov.id == user_id).first()
+
+    gaode_center_longitude = gov.gaode_center_longitude
+    gaode_center_latitude = gov.gaode_center_latitude
+
+    level = gov.level
+
+    equipments = []
+    cityData = {}
+    if level == 1:
+        province = gov.province
+        cityData = requests.get('https://restapi.amap.com/v3/config/district?key=1f5f34e6c96735e4be689afb6ec22a82&keywords='+province).json()
+        equipments = Equipment.query.filter(Equipment.position_province == province, Equipment.live == True).all()
+    elif level == 2:
+        province = gov.province
+        city = gov.city
+        cityData = requests.get('https://restapi.amap.com/v3/config/district?key=1f5f34e6c96735e4be689afb6ec22a82&keywords='+city).json()
+        equipments = Equipment.query.filter(Equipment.position_province == province, Equipment.live == True, Equipment.position_city == city).all()
+    elif level == 3:
+        province = gov.province
+        city = gov.city
+        district = gov.district
+        cityData = requests.get('https://restapi.amap.com/v3/config/district?key=1f5f34e6c96735e4be689afb6ec22a82&keywords='+district).json()
+        equipments = Equipment.query.filter(Equipment.position_province == province, Equipment.live == True, Equipment.position_city == city, Equipment.district == district).all()
+    equipmentIds = [e.id for e in equipments if e.live == True]
+    equipmentCount = len(equipments)
+    # 今日报警信息
+    now = datetime.now()
+    to_day = now.day
+    to_month = now.month
+    to_year = now.year
+
+    reports = Alarm_record.query.filter(Alarm_record.equipment_id.in_(equipmentIds), and_(
+        extract('year', Alarm_record.alarm_time) == to_year,
+        extract('month', Alarm_record.alarm_time) == to_month,
+        extract('day', Alarm_record.alarm_time) == to_day
+    )).all()
+
+    todayAlarmCount = 0
+    todayFaultCount = 0
+    nowAlarmCount = 0
+    nowFaultCount = 0
+
+    for re in reports:
+        if re.class_ == '报警':
+            todayAlarmCount += 1
+            if re.operator_id == None:
+                nowAlarmCount += 1
+        else:
+            todayFaultCount += 1
+            if re.operator_id == None:
+                nowFaultCount += 1
+    # 过去两周报警信息统计
+    beginDay = datetime(to_year, to_month, to_day - 14)
+    twoWeeksReportCounts = []
+    for i in range(14):
+        begin = beginDay + timedelta(days=i)
+        end = begin + timedelta(days=1)
+
+        dailyAlarmCount = Alarm_record.query.filter(Alarm_record.alarm_time.between(begin, end)).count()
+
+        twoWeeksReportCounts.append(dailyAlarmCount)
+    twoWeeksDays = [int(time.mktime((beginDay + timedelta(days=i)).timetuple())) * 1000 for i in range(14)]
+
+    returnData = {
+        'base': {
+            'gov_id': session.get('id'),
+            'gov_name': session.get('name'),
+            'gaode_longitude': gaode_center_longitude,
+            'gaode_latitude': gaode_center_latitude,
+            'level': level,
+            'city': cityData['districts'][0]
+        },
+        'data': {
+            'equipmentCount': equipmentCount,
+            'nowAlarmCount': nowAlarmCount,
+            'nowFaultCount': nowFaultCount,
+            'todayAlarmCount': todayAlarmCount,
+            'todayFaultCount': todayFaultCount,
+            'twoWeeksDays': twoWeeksDays,
+            'twoWeeksReportCounts': twoWeeksReportCounts
+
+        }
+    }
+
+    return render_template('gov/showdata.html', **returnData)
