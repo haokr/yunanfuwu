@@ -13,7 +13,6 @@ def callback(flag):
     :param flag:
     :return:
     '''
-    print(flag)
     return flag
 
 
@@ -25,6 +24,21 @@ def monitorPage():
     '''
     user_id = session.get('id')
     equipments = User.query.filter(User.id == user_id).first().group.equipments
+
+    gaode_center_longitude = 0
+    gaode_center_latitude = 0
+
+    eCount = 0
+
+    for e in equipments:
+        if int(e.gaode_longitude) == 0 or int(e.gaode_latitude) == 0:
+            continue
+        gaode_center_latitude += e.gaode_latitude
+        gaode_center_longitude += e.gaode_longitude
+        eCount += 1
+    gaode_center_longitude /=  eCount
+    gaode_center_latitude /= eCount
+
     data = {
         'base': {
             'pageTitle': '监控-云安服务',
@@ -32,6 +46,10 @@ def monitorPage():
             'avatarImgUrl': '/static/img/yunan_logo_1.png',
             'username': session.get('username'),
             'userid': session.get('id')
+        },
+        'gaode_map_center': {
+            'longitude': gaode_center_longitude,
+            'latitude': gaode_center_latitude
         },
         'equipments': [
             {

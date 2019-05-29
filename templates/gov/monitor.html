@@ -24,7 +24,13 @@
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
-    </style>    
+   <style>
+        .amap-icon img,
+        .amap-marker-content img{
+            width: 45px;
+            height: 45px;
+        }
+    </style>
 </head>
 <body>
     <!-- Left Panel -->
@@ -161,7 +167,7 @@
             {
                 center:[ gaode_longitude , gaode_latitude],
                 // 缩放度
-                zoom:13
+                zoom:12
             }
     );
     // 设备列表
@@ -208,7 +214,7 @@
         let gaode_longitude = parseFloat(gaode_center[0])
         let gaode_latitude = parseFloat(gaode_center[1])
 
-        var zoom = 13;
+        var zoom = 12;
         map.setZoomAndCenter(zoom, [gaode_longitude, gaode_latitude]); //同时设置地图层级与中心点
     }
 
