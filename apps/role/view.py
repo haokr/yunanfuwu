@@ -26,13 +26,24 @@ def getRoles():
             },
             'equipments': [
                 {
-                    'name': e.name,
-                    'status': e.status,
-                    'use_department': e.use_department,
-                    'location': e.location,
                     'id': e.id,
-                    'equipment_class': '消防',
-                    'info_class': '正常',
+                    'name': e.name,
+                    'class_': e.class_,
+                    'gaode_longitude': e.gaode_longitude,
+                    'gaode_latitude': e.gaode_latitude,
+                    'location': e.location,
+                    'ip': e.ip,
+                    'use_department': e.use_department,
+                    'remarks': e.remarks,
+                    'manufacturer': e.manufacturer,
+                    'model': e.model,
+                    'position_province': e.position_province,
+                    'position_city': e.position_city,
+                    'position_district': e.position_district,
+                    'create_time': e.create_time,
+                    'status': e.status,
+                    'SIM_id': e.SIM_id,
+                    'modify_time': e.modify_time,
                     'datetime': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
                 }
                 for e in equipments
@@ -90,13 +101,24 @@ def showRole(rid):
             },
             'equipments': [
                 {
-                    'name': e.name,
-                    'status': e.status,
-                    'use_department': e.use_department,
-                    'location': e.location,
                     'id': e.id,
-                    'equipment_class': '消防',
-                    'info_class': '正常',
+                    'name': e.name,
+                    'class_': e.class_,
+                    'gaode_longitude': e.gaode_longitude,
+                    'gaode_latitude': e.gaode_latitude,
+                    'location': e.location,
+                    'ip': e.ip,
+                    'use_department': e.use_department,
+                    'remarks': e.remarks,
+                    'manufacturer': e.manufacturer,
+                    'model': e.model,
+                    'position_province': e.position_province,
+                    'position_city': e.position_city,
+                    'position_district': e.position_district,
+                    'create_time': e.create_time,
+                    'status': e.status,
+                    'SIM_id': e.SIM_id,
+                    'modify_time': e.modify_time,
                     'datetime': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
                 }
                 for e in equipments
@@ -122,8 +144,10 @@ def showRole(rid):
                     'if_role': role.if_role,
                     'if_add_equipment': role.if_add_equipment,
                     'if_modify_equipment': role.if_modify_equipment,
+                    'if_drop_equipment': role.if_drop_equipment,
                     'if_add_child': role.if_add_child,
                     'if_modify_child': role.if_modify_child,
+                    'if_drop_child': role.if_drop_child,
                     'create_time': role.create_time,
                     'modify_time': role.modify_time
                 },
@@ -180,13 +204,24 @@ def modifyRole(rid):
             },
             'equipments': [
                 {
-                    'name': e.name,
-                    'status': e.status,
-                    'use_department': e.use_department,
-                    'location': e.location,
                     'id': e.id,
-                    'equipment_class': '消防',
-                    'info_class': '正常',
+                    'name': e.name,
+                    'class_': e.class_,
+                    'gaode_longitude': e.gaode_longitude,
+                    'gaode_latitude': e.gaode_latitude,
+                    'location': e.location,
+                    'ip': e.ip,
+                    'use_department': e.use_department,
+                    'remarks': e.remarks,
+                    'manufacturer': e.manufacturer,
+                    'model': e.model,
+                    'position_province': e.position_province,
+                    'position_city': e.position_city,
+                    'position_district': e.position_district,
+                    'create_time': e.create_time,
+                    'status': e.status,
+                    'SIM_id': e.SIM_id,
+                    'modify_time': e.modify_time,
                     'datetime': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
                 }
                 for e in equipments
@@ -236,6 +271,11 @@ def Roleadd():
         if_modify_equipment = False
     else:
         if_modify_equipment = True
+    if_drop_equipment = request.form.get('if_modify_equipment')
+    if if_drop_equipment == 'false':
+        if_drop_equipment = False
+    else:
+        if_drop_equipment = True
     if_add_child = request.form.get('if_add_child')
     if if_add_child == 'false':
         if_add_child = False
@@ -246,6 +286,11 @@ def Roleadd():
         if_modify_child = False
     else:
         if_modify_child = True
+    if_drop_child = request.form.get('if_modify_equipment')
+    if if_drop_child == 'false':
+        if_drop_child = False
+    else:
+        if_drop_child = True
     roleInfo = {
         'name': name,
         'remarks': remarks,
@@ -253,8 +298,10 @@ def Roleadd():
         'if_role': if_role,
         'if_add_equipment': if_add_equipment,
         'if_modify_equipment': if_modify_equipment,
+        'if_drop_equipment': if_drop_equipment,
         'if_add_child': if_add_child,
-        'if_modify_child': if_modify_child
+        'if_modify_child': if_modify_child,
+        'if_drop_child': if_drop_child
     }
     try:
         role = Role(**roleInfo)
@@ -287,7 +334,7 @@ def addRole(rid):
 
 def showaddRole():
     '''
-        展示设备添加页面
+        展示角色添加页面
     :return:
     '''
     user_id = session.get('id')
@@ -310,16 +357,24 @@ def showaddRole():
             'child': child_id,
             'equipments': [
                 {
+                    'id': e.id,
                     'name': e.name,
-                    'status': e.status,
-                    'use_department': e.use_department,
+                    'class_': e.class_,
+                    'gaode_longitude': e.gaode_longitude,
+                    'gaode_latitude': e.gaode_latitude,
                     'location': e.location,
-                    'remark': e.remarks,
+                    'ip': e.ip,
+                    'use_department': e.use_department,
+                    'remarks': e.remarks,
                     'manufacturer': e.manufacturer,
                     'model': e.model,
+                    'position_province': e.position_province,
+                    'position_city': e.position_city,
+                    'position_district': e.position_district,
                     'create_time': e.create_time,
-                    'id': e.id,
-                    'SIM_id': e.SIM_id
+                    'status': e.status,
+                    'SIM_id': e.SIM_id,
+                    'modify_time': e.modify_time
                 }
                 for e in equipments
             ]

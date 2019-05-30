@@ -41,16 +41,24 @@ def showEquipments():
         'child': child_id,
         'equipments': [
             {
-                'name': e.name,
-                'status': e.status,
-                'use_department': e.use_department,
-                'location': e.location,
-                'remark': e.remarks,
-                'manufacturer': e.manufacturer,
-                'model': e.model,
-                'create_time': e.create_time,
-                'id': e.id,
-                'SIM_id': e.SIM_id
+            'id': e.id,
+            'name': e.name,
+            'class_': e.class_,
+            'gaode_longitude': e.gaode_longitude,
+            'gaode_latitude': e.gaode_latitude,
+            'location': e.location,
+            'ip': e.ip,
+            'use_department': e.use_department,
+            'remarks': e.remarks,
+            'manufacturer': e.manufacturer,
+            'model': e.model,
+            'position_province': e.position_province,
+            'position_city': e.position_city,
+            'position_district': e.position_district,
+            'create_time': e.create_time,
+            'status': e.status,
+            'SIM_id': e.SIM_id,
+            'modify_time': e.modify_time
             }
             for e in equipments if e.live
         ]
@@ -75,18 +83,24 @@ def showEditEquipment(eid):
             'userid': session.get('id')
         },
         'equipment': {
-                'name': e.name,
-                'status': e.status,
-                'use_department': e.use_department,
-                'location': e.location,
-                'remarks': e.remarks,
-                'manufacturer': e.manufacturer,
-                'model': e.model,
-                'create_time': e.create_time,
-                'id': e.id,
-                'ip': e.ip,
-                'gaode_longitude': e.gaode_longitude,
-                'gaode_latitude': e.gaode_latitude
+            'id': e.id,
+            'name': e.name,
+            'class_': e.class_,
+            'gaode_longitude': e.gaode_longitude,
+            'gaode_latitude': e.gaode_latitude,
+            'location': e.location,
+            'ip': e.ip,
+            'use_department': e.use_department,
+            'remarks': e.remarks,
+            'manufacturer': e.manufacturer,
+            'model': e.model,
+            'position_province': e.position_province,
+            'position_city': e.position_city,
+            'position_district': e.position_district,
+            'create_time': e.create_time,
+            'status': e.status,
+            'SIM_id': e.SIM_id,
+            'modify_time': e.modify_time
             }
     }
     return render_template('equipment/editEquipment.html', **data)
@@ -117,16 +131,24 @@ def showAddEquipment():
             'child': child_id,
             'equipments': [
                 {
-                    'name': e.name,
-                    'status': e.status,
-                    'use_department': e.use_department,
-                    'location': e.location,
-                    'remark': e.remarks,
-                    'manufacturer': e.manufacturer,
-                    'model': e.model,
-                    'create_time': e.create_time,
-                    'id': e.id,
-                    'SIM_id': e.SIM_id
+                'id': e.id,
+                'name': e.name,
+                'class_': e.class_,
+                'gaode_longitude': e.gaode_longitude,
+                'gaode_latitude': e.gaode_latitude,
+                'location': e.location,
+                'ip': e.ip,
+                'use_department': e.use_department,
+                'remarks': e.remarks,
+                'manufacturer': e.manufacturer,
+                'model': e.model,
+                'position_province': e.position_province,
+                'position_city': e.position_city,
+                'position_district': e.position_district,
+                'create_time': e.create_time,
+                'status': e.status,
+                'SIM_id': e.SIM_id,
+                'modify_time': e.modify_time
                 }
                 for e in equipments if e.live
             ]
