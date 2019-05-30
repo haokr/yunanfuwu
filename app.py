@@ -30,6 +30,9 @@ def before_request():
     ignore = ['/user/login', '/user/register', '/gov/regist', '/gov/login']
     isReport = request.path.startswith('/monitor/report/')
     isStatic = request.path.startswith('/static')
+
+    if request.path == '/favicon.ico':
+    	return redirect('/static/img/yunan_logo_3.png')
     if ( not user_id ) and ( request.path  not in ignore ) and ( not isReport ) and ( not isStatic ):
         return redirect('/user/login')
 

@@ -11,6 +11,10 @@ def login():
 	else:
 		return view.loginPage()
 
+@gov.route('/logout', methods=['POST'])
+def logout():
+	return view.logout()
+
 @gov.route('/regist', methods=['POST'])
 def regist():
 	return view.regist()

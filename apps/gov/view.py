@@ -19,6 +19,10 @@ def login():
     else:
         return redirect(url_for('gov.login'))
 
+def logout():
+    session.clear()
+    return jsonify({'msg': 'success'})
+
 def regist():
     username = request.form.get('username')		
     password = request.form.get('password')

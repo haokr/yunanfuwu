@@ -194,14 +194,18 @@
                 //请求前的处理
             },
             success: function (data) {
-                alert('退出成功')
+                if (data.msg == 'success') {
+                    window.location.href="/user/login";
+                } else {
+                    alert('退出失败')
+                }
             },
             complete: function () {
                 //请求完成的处理
-                window.location.href="/user/login";
             },
             error: function (e) {
                 //请求出错处理
+                alert('退出失败')
             }
         });
         }

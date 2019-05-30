@@ -44,7 +44,7 @@ def logout():
     :return:
     '''
     session.clear()
-    return redirect(url_for('user.login'))
+    return jsonify({'msg': 'success'})
 
 
 def getlogin():

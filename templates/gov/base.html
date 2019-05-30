@@ -146,7 +146,7 @@
     <script>
         function logout() {
             $.ajax({
-            url: '/user/logout',    //请求的url地址
+            url: '/gov/logout',    //请求的url地址
             dataType: "json",   //返回格式为json
             async: true,//请求是否异步，默认为异步，这也是ajax重要特性
             data: {},    //参数值,键值对
@@ -155,14 +155,21 @@
                 //请求前的处理
             },
             success: function (data) {
-                alert('退出成功')
+                console.log(data)
+                if (data.msg == 'success') {
+                    window.location.href="/gov/login";
+                } else {
+
+                    alert('退出失败')
+                }
             },
             complete: function () {
                 //请求完成的处理
-                window.location.href="/user/login";
+                // window.location.href="/gov/login";
             },
             error: function (e) {
                 //请求出错处理
+                alert('退出失败')
             }
         });
         }
