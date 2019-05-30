@@ -17,9 +17,11 @@
     <link rel="stylesheet" href="/static/assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="/static/assets/css/themify-icons.css">
     <link rel="stylesheet" href="/static/assets/css/pe-icon-7-filled.css">
-    <link rel="stylesheet" href="/static/assets/css/flag-icon.min.css"><link rel="stylesheet" href="/static/assets/css/cs-skin-elastic.css">
+    <link rel="stylesheet" href="/static/assets/css/flag-icon.min.css">
+    <link rel="stylesheet" href="/static/assets/css/cs-skin-elastic.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jqvmap.min.css">
+    <link rel="stylesheet" href="/static/assets/css/lib/datatable/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="/static/assets/css/style.css">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
@@ -52,7 +54,7 @@
                         <a  id='{{ base.city.adcode }}' href="/gov/monitor" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-area-chart"></i>{{ base.city.name }}</a>
 
                         <ul class="sub-menu children dropdown-menu">
-                            <li id='{{base.city.adcode}}' gaode_center='{{ base.city.center }}' onclick="changeDistrict(this)" ><i class="menu-icon fa fa-street-view"></i><a href="#">{{ base.city.name }}</a></li>
+                            <li id='{{base.city.adcode}}' gaode_center='{{ base.city.center }}' onclick="changeDistrict(this)" ><i class="menu-icon fa fa-street-view"></i><a href="/gov/monitor">{{ base.city.name }}</a></li>
                             {% for d in base.city.districts %}
                                 <li id='{{d.adcode}}' gaode_center='{{ d.center }}' onclick="changeDistrict(this)" ><i class="menu-icon fa fa-street-view"></i><a href="#">{{ d.name }}</a></li>
                             {% endfor %}
@@ -142,6 +144,11 @@
     <script src="/static/assets/js/lib/data-table/buttons.colVis.min.js"></script>
     <script src="/static/assets/js/init/datatables-init.js"></script>
 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#bootstrap-data-table-export').DataTable();
+        });
+    </script>
 
     <script>
         function logout() {
