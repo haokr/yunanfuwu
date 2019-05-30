@@ -33,6 +33,7 @@ def login():
     if user:
         session['id'] = user.id
         session['username'] = username
+        session['class_'] = 'user'
         return redirect(url_for('monitor.monitorPage'))
     else:
         return redirect(url_for('user.login'))

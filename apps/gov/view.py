@@ -15,6 +15,7 @@ def login():
         session['id'] = user.id
         session['username'] = username
         session['name'] = user.name
+        session['class_'] = 'gov'
         return redirect(url_for('gov.monitor'))
     else:
         return redirect(url_for('gov.login'))
@@ -77,6 +78,7 @@ def monitor():
         province = gov.province
 
         cityData = requests.get('https://restapi.amap.com/v3/config/district?key=1f5f34e6c96735e4be689afb6ec22a82&keywords='+province).json()
+
         equipments = [
             {
             'id': e.id,
@@ -104,7 +106,7 @@ def monitor():
         province = gov.province
         city = gov.city        
         cityData = requests.get('https://restapi.amap.com/v3/config/district?key=1f5f34e6c96735e4be689afb6ec22a82&keywords='+city).json()
-
+ 
         equipments = [
             {
             'id': e.id,

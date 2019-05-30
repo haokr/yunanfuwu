@@ -36,6 +36,18 @@ def before_request():
     if ( not user_id ) and ( request.path  not in ignore ) and ( not isReport ) and ( not isStatic ):
         return redirect('/user/login')
 
+@app.before_request
+def loginedUserClass():
+	class_ = session.get('class_')
+	print(class_)
+	if request.path == '/user/login' or request.path == '/gov/login':
+		pass
+	elif class_ == 'user' and request.path.startswith('/gov/'):
+		return abort(404)
+	elif class_ == 'gov' and not request.path.startswith('/gov/'):
+		return abort(404)
+
+
 
 # blueprint
 app.register_blueprint(equipment)
