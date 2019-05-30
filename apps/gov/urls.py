@@ -18,3 +18,7 @@ def regist():
 @gov.route('/monitor')
 def monitor():
 	return view.monitor()
+
+@gov.route('/alarmrecord')
+def alarm_record():
+	return view.alarm_record()

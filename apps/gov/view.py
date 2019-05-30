@@ -163,6 +163,7 @@ def monitor():
             'gov_name': session.get('name'),
             'gaode_longitude': gaode_center_longitude,
             'gaode_latitude': gaode_center_latitude,
+            'pageNow': '设备监控',
             'level': level,
             'city': cityData['districts'][0]
         },
@@ -245,6 +246,7 @@ def datashow():
             'gov_name': session.get('name'),
             'gaode_longitude': gaode_center_longitude,
             'gaode_latitude': gaode_center_latitude,
+            'pageNow': '数据展示',
             'level': level,
             'city': cityData['districts'][0]
         },
@@ -279,89 +281,21 @@ def alarm_record():
         province = gov.province
 
         cityData = requests.get('https://restapi.amap.com/v3/config/district?key=1f5f34e6c96735e4be689afb6ec22a82&keywords='+province).json()
-        equipments = [
-            {
-                'id': e.id,
-                'name': e.name,
-                'class_': e.class_,
-                'gaode_latitude': e.gaode_latitude,
-                'gaode_longitude': e.gaode_longitude,
-                'location': e.location,
-                'ip': e.ip,
-                'use_department': e.use_department,
-                'remarks': e.remarks,
-                'manufacturer': e.manufacturer,
-                'model': e.model,
-                'position_province': e.position_province,
-                'position_city': e.position_city,
-                'position_district': e.position_district,
-                'admin_id': e.admin_id,
-                'contact': e.admin.contact,
-                'contact_tel': e.admin.contact_tel,
-                'status': e.status,
-                'create_time': e.create_time
-            }
-            for e in Equipment.query.filter(Equipment.position_province == province, Equipment.live == True).all()
-        ]
+        equipments = Equipment.query.filter(Equipment.position_province == province, Equipment.live == True).all()
+        
     elif level == 2:
         province = gov.province
         city = gov.city        
         cityData = requests.get('https://restapi.amap.com/v3/config/district?key=1f5f34e6c96735e4be689afb6ec22a82&keywords='+city).json()
-
-        equipments = [
-            {
-                'id': e.id,
-                'name': e.name,
-                'class_': e.class_,
-                'gaode_latitude': e.gaode_latitude,
-                'gaode_longitude': e.gaode_longitude,
-                'location': e.location,
-                'ip': e.ip,
-                'use_department': e.use_department,
-                'remarks': e.remarks,
-                'manufacturer': e.manufacturer,
-                'model': e.model,
-                'position_province': e.position_province,
-                'position_city': e.position_city,
-                'position_district': e.position_district,
-                'admin_id': e.admin_id,
-                'contact': e.admin.contact,
-                'contact_tel': e.admin.contact_tel,
-                'status': e.status,
-                'create_time': e.create_time
-            }
-            for e in Equipment.query.filter(Equipment.position_province == province, Equipment.live == True, Equipment.position_city == city).all()
-        ]
+        equipments = Equipment.query.filter(Equipment.position_province == province, Equipment.live == True, Equipment.position_city == city).all()
+        
     elif level == 3:
         province = gov.province
         city = gov.city
         district = gov.district
         cityData = requests.get('https://restapi.amap.com/v3/config/district?key=1f5f34e6c96735e4be689afb6ec22a82&keywords='+district).json()
-
-        equipments = [
-            {
-                'id': e.id,
-                'name': e.name,
-                'class_': e.class_,
-                'gaode_latitude': e.gaode_latitude,
-                'gaode_longitude': e.gaode_longitude,
-                'location': e.location,
-                'ip': e.ip,
-                'use_department': e.use_department,
-                'remarks': e.remarks,
-                'manufacturer': e.manufacturer,
-                'model': e.model,
-                'position_province': e.position_province,
-                'position_city': e.position_city,
-                'position_district': e.position_district,
-                'admin_id': e.admin_id,
-                'contact': e.admin.contact,
-                'contact_tel': e.admin.contact_tel,
-                'status': e.status,
-                'create_time': e.create_time
-            }
-            for e in Equipment.query.filter(Equipment.position_province == province, Equipment.live == True, Equipment.position_city == city, Equipment.district == district).all()
-        ]
+        equipments =  Equipment.query.filter(Equipment.position_province == province, Equipment.live == True, Equipment.position_city == city, Equipment.district == district).all()
+        
     alarm_records = []
 
     for e in equipments:
@@ -386,6 +320,7 @@ def alarm_record():
             'gov_name': session.get('name'),
             'gaode_longitude': gaode_center_longitude,
             'gaode_latitude': gaode_center_latitude,
+            'pageNow': '报警记录',
             'level': level,
             'city': cityData['districts'][0]
         },
