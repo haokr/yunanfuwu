@@ -122,8 +122,10 @@ def showRole(rid):
                     'if_role': role.if_role,
                     'if_add_equipment': role.if_add_equipment,
                     'if_modify_equipment': role.if_modify_equipment,
+                    'if_drop_equipment': role.if_drop_equipment,
                     'if_add_child': role.if_add_child,
                     'if_modify_child': role.if_modify_child,
+                    'if_drop_child': role.if_drop_child,
                     'create_time': role.create_time,
                     'modify_time': role.modify_time
                 },
@@ -236,6 +238,11 @@ def Roleadd():
         if_modify_equipment = False
     else:
         if_modify_equipment = True
+    if_drop_equipment = request.form.get('if_modify_equipment')
+    if if_drop_equipment == 'false':
+        if_drop_equipment = False
+    else:
+        if_drop_equipment = True
     if_add_child = request.form.get('if_add_child')
     if if_add_child == 'false':
         if_add_child = False
@@ -246,6 +253,11 @@ def Roleadd():
         if_modify_child = False
     else:
         if_modify_child = True
+    if_drop_child = request.form.get('if_modify_equipment')
+    if if_drop_child == 'false':
+        if_drop_child = False
+    else:
+        if_drop_child = True
     roleInfo = {
         'name': name,
         'remarks': remarks,
@@ -253,8 +265,10 @@ def Roleadd():
         'if_role': if_role,
         'if_add_equipment': if_add_equipment,
         'if_modify_equipment': if_modify_equipment,
+        'if_drop_equipment': if_drop_equipment,
         'if_add_child': if_add_child,
-        'if_modify_child': if_modify_child
+        'if_modify_child': if_modify_child,
+        'if_drop_child': if_drop_child
     }
     try:
         role = Role(**roleInfo)
@@ -287,7 +301,7 @@ def addRole(rid):
 
 def showaddRole():
     '''
-        展示设备添加页面
+        展示角色添加页面
     :return:
     '''
     user_id = session.get('id')

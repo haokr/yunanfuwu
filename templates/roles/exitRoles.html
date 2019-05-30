@@ -50,7 +50,7 @@
                             </div>
                             <!-- if_role -->
                             <div class="row form-group">
-                                <div class="col col-md-3"><label class=" form-control-label">增加设限</label></div>
+                                <div class="col col-md-3"><label class=" form-control-label">角色权限</label></div>
                                 <div class="col-6 col-md-7">
                                     <select name="if_role" id="if_role-input" style='display: none' class="form-control">
                                         <option value="是">是</option>
@@ -66,7 +66,7 @@
                             </div>
                             <!-- if_add_equipment -->
                             <div class="row form-group">
-                                <div class="col col-md-3"><label class=" form-control-label">增加设限</label></div>
+                                <div class="col col-md-3"><label class=" form-control-label">添加设备权限</label></div>
                                 <div class="col-6 col-md-7">
                                     <select name="if_role" id="if_add_equipment-input" style='display: none' class="form-control">
                                         <option value="是">是</option>
@@ -82,7 +82,7 @@
                             </div>
                             <!-- if_modify_equipment -->
                             <div class="row form-group">
-                                <div class="col col-md-3"><label class=" form-control-label">增加设限</label></div>
+                                <div class="col col-md-3"><label class=" form-control-label">修改设备权限</label></div>
                                 <div class="col-6 col-md-7">
                                     <select name="if_role" id="if_modify_equipment-input" style='display: none' class="form-control">
                                         <option value="是">是</option>
@@ -96,9 +96,25 @@
                                             <button id='if_modify_equipment-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
                                     </div>
                             </div>
+                            <!-- if_drop_equipment -->
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label class=" form-control-label">删除设备权限</label></div>
+                                <div class="col-6 col-md-7">
+                                    <select name="if_role" id="if_drop_equipment-input" style='display: none' class="form-control">
+                                        <option value="是">是</option>
+                                        <option value="否">否</option>
+                                    </select>
+                                    <p class="form-control-static" id='if_drop_equipment-p' style='display: block'>{{ '是' if role.if_drop_equipment == True else '否'}}</p>
+                                </div>
+                                    <div class='col-4 col-md-2'>
+                                            <button id='if_drop_equipment-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray;">修改</button>
+                                            <button id='if_drop_equipment-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                            <button id='if_drop_equipment-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                    </div>
+                            </div>
                             <!-- if_add_child -->
                             <div class="row form-group">
-                                <div class="col col-md-3"><label class=" form-control-label">增加设限</label></div>
+                                <div class="col col-md-3"><label class=" form-control-label">添加子账号权限</label></div>
                                 <div class="col-6 col-md-7">
                                     <select name="if_role" id="if_add_child-input" style='display: none' class="form-control">
                                         <option value="是">是</option>
@@ -114,7 +130,7 @@
                             </div>
                             <!-- if_modify_child -->
                             <div class="row form-group">
-                                <div class="col col-md-3"><label class=" form-control-label">增加设限</label></div>
+                                <div class="col col-md-3"><label class=" form-control-label">修改子账号权限</label></div>
                                 <div class="col-6 col-md-7">
                                     <select name="if_role" id="if_modify_child-input" style='display: none' class="form-control">
                                         <option value="是">是</option>
@@ -126,6 +142,22 @@
                                             <button id='if_modify_child-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray;">修改</button>
                                             <button id='if_modify_child-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
                                             <button id='if_modify_child-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                    </div>
+                            </div>
+                            <!-- if_drop_child -->
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label class=" form-control-label">删除子账号权限</label></div>
+                                <div class="col-6 col-md-7">
+                                    <select name="if_role" id="if_drop_child-input" style='display: none' class="form-control">
+                                        <option value="是">是</option>
+                                        <option value="否">否</option>
+                                    </select>
+                                    <p class="form-control-static" id='if_drop_child-p' style='display: block'>{{ '是' if role.if_drop_child == True else '否'}}</p>
+                                </div>
+                                    <div class='col-4 col-md-2'>
+                                            <button id='if_drop_child-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray;">修改</button>
+                                            <button id='if_drop_child-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                            <button id='if_drop_child-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
                                     </div>
                             </div>
 

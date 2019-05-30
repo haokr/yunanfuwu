@@ -87,6 +87,24 @@
                             </div>
 
                             <div class="row form-group">
+                                <div class="col col-md-3"><label class=" form-control-label">删除设备权限</label></div>
+                                <div class="col col-md-9">
+                                    <div class="form-check">
+                                        <div class="radio" style="display: inline-block;">
+                                            <label for="radio1" class="form-check-label ">
+                                                <input type="radio" id="radio1" name="if_drop_equipment" value=Ture class="if_drop_equipment form-check-input">是
+                                            </label>
+                                        </div>
+                                        <div class="radio" style="display: inline-block; margin-left: 20%;">
+                                            <label for="radio2" class="form-check-label ">
+                                                <input type="radio" id="radio2" name="if_drop_equipment" value=False class="if_drop_equipment form-check-input">否
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
                                 <div class="col col-md-3"><label class=" form-control-label">添加子账号权限</label></div>
                                 <div class="col col-md-9">
                                     <div class="form-check">
@@ -116,6 +134,24 @@
                                         <div class="radio" style="display: inline-block; margin-left: 20%;">
                                             <label for="radio2" class="form-check-label ">
                                                 <input type="radio" id="radio2" name="if_modify_child" value=False class="if_modify_child form-check-input">否
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label class=" form-control-label">删除子账号权限</label></div>
+                                <div class="col col-md-9">
+                                    <div class="form-check">
+                                        <div class="radio" style="display: inline-block;">
+                                            <label for="radio1" class="form-check-label ">
+                                                <input type="radio" id="radio1" name="if_drop_child" value=Ture class="if_drop_child form-check-input">是
+                                            </label>
+                                        </div>
+                                        <div class="radio" style="display: inline-block; margin-left: 20%;">
+                                            <label for="radio2" class="form-check-label ">
+                                                <input type="radio" id="radio2" name="if_drop_child" value=False class="if_drop_child form-check-input">否
                                             </label>
                                         </div>
                                     </div>
@@ -156,6 +192,10 @@
         if(if_modify_equipment[0].checked == true){if_modify_equipment = true}
         else{if_modify_equipment = false}
 
+        let if_drop_equipment = document.getElementsByClassName('if_drop_equipment');
+        if(if_drop_equipment[0].checked == true){if_drop_equipment = true}
+        else{if_drop_equipment = false}
+
         let if_add_child = document.getElementsByClassName('if_add_child');
         if(if_add_child[0].checked == true){if_add_child = true}
         else{if_add_child = false}
@@ -163,6 +203,10 @@
         let if_modify_child = document.getElementsByClassName('if_modify_child');
         if(if_modify_child[0].checked == true){if_modify_child = true}
         else{if_modify_child = false}
+
+        let if_drop_child = document.getElementsByClassName('if_drop_child');
+        if(if_drop_child[0].checked == true){if_drop_child = true}
+        else{if_drop_child = false}
 
         name = name == '' ? null : name;
         remarks = remarks == '' ? null : remarks;
@@ -178,8 +222,10 @@
                 if_role,
                 if_add_equipment,
                 if_modify_equipment,
+                if_drop_equipment,
                 if_add_child,
-                if_modify_child
+                if_modify_child,
+                if_drop_child
             },    //参数值,键值对
             type: "POST",   //请求方式
             beforeSend: function () {
