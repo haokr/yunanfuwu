@@ -75,25 +75,24 @@ def monitor():
         cityData = requests.get('https://restapi.amap.com/v3/config/district?key=1f5f34e6c96735e4be689afb6ec22a82&keywords='+province).json()
         equipments = [
             {
-                'id': e.id,
-                'name': e.name,
-                'class_': e.class_,
-                'gaode_latitude': e.gaode_latitude,
-                'gaode_longitude': e.gaode_longitude,
-                'location': e.location,
-                'ip': e.ip,
-                'use_department': e.use_department,
-                'remarks': e.remarks,
-                'manufacturer': e.manufacturer,
-                'model': e.model,
-                'position_province': e.position_province,
-                'position_city': e.position_city,
-                'position_district': e.position_district,
-                'admin_id': e.admin_id,
-                'contact': e.admin.contact,
-                'contact_tel': e.admin.contact_tel,
-                'status': e.status,
-                'create_time': e.create_time
+            'id': e.id,
+            'name': e.name,
+            'class_': e.class_,
+            'gaode_longitude': e.gaode_longitude,
+            'gaode_latitude': e.gaode_latitude,
+            'location': e.location,
+            'ip': e.ip,
+            'use_department': e.use_department,
+            'remarks': e.remarks,
+            'manufacturer': e.manufacturer,
+            'model': e.model,
+            'position_province': e.position_province,
+            'position_city': e.position_city,
+            'position_district': e.position_district,
+            'create_time': e.create_time,
+            'status': e.status,
+            'SIM_id': e.SIM_id,
+            'modify_time': e.modify_time
             }
             for e in Equipment.query.filter(Equipment.position_province == province, Equipment.live == True).all()
         ]
@@ -104,25 +103,24 @@ def monitor():
 
         equipments = [
             {
-                'id': e.id,
-                'name': e.name,
-                'class_': e.class_,
-                'gaode_latitude': e.gaode_latitude,
-                'gaode_longitude': e.gaode_longitude,
-                'location': e.location,
-                'ip': e.ip,
-                'use_department': e.use_department,
-                'remarks': e.remarks,
-                'manufacturer': e.manufacturer,
-                'model': e.model,
-                'position_province': e.position_province,
-                'position_city': e.position_city,
-                'position_district': e.position_district,
-                'admin_id': e.admin_id,
-                'contact': e.admin.contact,
-                'contact_tel': e.admin.contact_tel,
-                'status': e.status,
-                'create_time': e.create_time
+            'id': e.id,
+            'name': e.name,
+            'class_': e.class_,
+            'gaode_longitude': e.gaode_longitude,
+            'gaode_latitude': e.gaode_latitude,
+            'location': e.location,
+            'ip': e.ip,
+            'use_department': e.use_department,
+            'remarks': e.remarks,
+            'manufacturer': e.manufacturer,
+            'model': e.model,
+            'position_province': e.position_province,
+            'position_city': e.position_city,
+            'position_district': e.position_district,
+            'create_time': e.create_time,
+            'status': e.status,
+            'SIM_id': e.SIM_id,
+            'modify_time': e.modify_time
             }
             for e in Equipment.query.filter(Equipment.position_province == province, Equipment.live == True, Equipment.position_city == city).all()
         ]
@@ -134,25 +132,24 @@ def monitor():
 
         equipments = [
             {
-                'id': e.id,
-                'name': e.name,
-                'class_': e.class_,
-                'gaode_latitude': e.gaode_latitude,
-                'gaode_longitude': e.gaode_longitude,
-                'location': e.location,
-                'ip': e.ip,
-                'use_department': e.use_department,
-                'remarks': e.remarks,
-                'manufacturer': e.manufacturer,
-                'model': e.model,
-                'position_province': e.position_province,
-                'position_city': e.position_city,
-                'position_district': e.position_district,
-                'admin_id': e.admin_id,
-                'contact': e.admin.contact,
-                'contact_tel': e.admin.contact_tel,
-                'status': e.status,
-                'create_time': e.create_time
+            'id': e.id,
+            'name': e.name,
+            'class_': e.class_,
+            'gaode_longitude': e.gaode_longitude,
+            'gaode_latitude': e.gaode_latitude,
+            'location': e.location,
+            'ip': e.ip,
+            'use_department': e.use_department,
+            'remarks': e.remarks,
+            'manufacturer': e.manufacturer,
+            'model': e.model,
+            'position_province': e.position_province,
+            'position_city': e.position_city,
+            'position_district': e.position_district,
+            'create_time': e.create_time,
+            'status': e.status,
+            'SIM_id': e.SIM_id,
+            'modify_time': e.modify_time
             }
             for e in Equipment.query.filter(Equipment.position_province == province, Equipment.live == True, Equipment.position_city == city, Equipment.district == district).all()
         ]
@@ -281,25 +278,24 @@ def alarm_record():
         cityData = requests.get('https://restapi.amap.com/v3/config/district?key=1f5f34e6c96735e4be689afb6ec22a82&keywords='+province).json()
         equipments = [
             {
-                'id': e.id,
-                'name': e.name,
-                'class_': e.class_,
-                'gaode_latitude': e.gaode_latitude,
-                'gaode_longitude': e.gaode_longitude,
-                'location': e.location,
-                'ip': e.ip,
-                'use_department': e.use_department,
-                'remarks': e.remarks,
-                'manufacturer': e.manufacturer,
-                'model': e.model,
-                'position_province': e.position_province,
-                'position_city': e.position_city,
-                'position_district': e.position_district,
-                'admin_id': e.admin_id,
-                'contact': e.admin.contact,
-                'contact_tel': e.admin.contact_tel,
-                'status': e.status,
-                'create_time': e.create_time
+            'id': e.id,
+            'name': e.name,
+            'class_': e.class_,
+            'gaode_longitude': e.gaode_longitude,
+            'gaode_latitude': e.gaode_latitude,
+            'location': e.location,
+            'ip': e.ip,
+            'use_department': e.use_department,
+            'remarks': e.remarks,
+            'manufacturer': e.manufacturer,
+            'model': e.model,
+            'position_province': e.position_province,
+            'position_city': e.position_city,
+            'position_district': e.position_district,
+            'create_time': e.create_time,
+            'status': e.status,
+            'SIM_id': e.SIM_id,
+            'modify_time': e.modify_time
             }
             for e in Equipment.query.filter(Equipment.position_province == province, Equipment.live == True).all()
         ]
@@ -310,25 +306,24 @@ def alarm_record():
 
         equipments = [
             {
-                'id': e.id,
-                'name': e.name,
-                'class_': e.class_,
-                'gaode_latitude': e.gaode_latitude,
-                'gaode_longitude': e.gaode_longitude,
-                'location': e.location,
-                'ip': e.ip,
-                'use_department': e.use_department,
-                'remarks': e.remarks,
-                'manufacturer': e.manufacturer,
-                'model': e.model,
-                'position_province': e.position_province,
-                'position_city': e.position_city,
-                'position_district': e.position_district,
-                'admin_id': e.admin_id,
-                'contact': e.admin.contact,
-                'contact_tel': e.admin.contact_tel,
-                'status': e.status,
-                'create_time': e.create_time
+            'id': e.id,
+            'name': e.name,
+            'class_': e.class_,
+            'gaode_longitude': e.gaode_longitude,
+            'gaode_latitude': e.gaode_latitude,
+            'location': e.location,
+            'ip': e.ip,
+            'use_department': e.use_department,
+            'remarks': e.remarks,
+            'manufacturer': e.manufacturer,
+            'model': e.model,
+            'position_province': e.position_province,
+            'position_city': e.position_city,
+            'position_district': e.position_district,
+            'create_time': e.create_time,
+            'status': e.status,
+            'SIM_id': e.SIM_id,
+            'modify_time': e.modify_time
             }
             for e in Equipment.query.filter(Equipment.position_province == province, Equipment.live == True, Equipment.position_city == city).all()
         ]
@@ -340,25 +335,24 @@ def alarm_record():
 
         equipments = [
             {
-                'id': e.id,
-                'name': e.name,
-                'class_': e.class_,
-                'gaode_latitude': e.gaode_latitude,
-                'gaode_longitude': e.gaode_longitude,
-                'location': e.location,
-                'ip': e.ip,
-                'use_department': e.use_department,
-                'remarks': e.remarks,
-                'manufacturer': e.manufacturer,
-                'model': e.model,
-                'position_province': e.position_province,
-                'position_city': e.position_city,
-                'position_district': e.position_district,
-                'admin_id': e.admin_id,
-                'contact': e.admin.contact,
-                'contact_tel': e.admin.contact_tel,
-                'status': e.status,
-                'create_time': e.create_time
+            'id': e.id,
+            'name': e.name,
+            'class_': e.class_,
+            'gaode_longitude': e.gaode_longitude,
+            'gaode_latitude': e.gaode_latitude,
+            'location': e.location,
+            'ip': e.ip,
+            'use_department': e.use_department,
+            'remarks': e.remarks,
+            'manufacturer': e.manufacturer,
+            'model': e.model,
+            'position_province': e.position_province,
+            'position_city': e.position_city,
+            'position_district': e.position_district,
+            'create_time': e.create_time,
+            'status': e.status,
+            'SIM_id': e.SIM_id,
+            'modify_time': e.modify_time
             }
             for e in Equipment.query.filter(Equipment.position_province == province, Equipment.live == True, Equipment.position_city == city, Equipment.district == district).all()
         ]
