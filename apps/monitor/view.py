@@ -1,6 +1,6 @@
 from flask import request, render_template, jsonify, session
 from app import socketio
-from models import Equipment, User, Alarm_record, Equipment_report_log
+from models import Equipment, User, Alarm_record, Equipment_report_log, UI_report_log
 from flask_socketio import join_room
 from datetime import datetime
 from db import db
@@ -212,8 +212,11 @@ def UIReport(eid):
     codeDict = {
         '000': '注册',
         '001': '正常',
-        '101': '报警',
-        '102': '故障'
+        '101': '故障',
+        '102': '电压报警',
+        '103': '电流报警',
+        '104': '漏电报警',
+        '105': '温度报警'
     }
     if code == '000':
         equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
@@ -244,9 +247,28 @@ def UIReport(eid):
             reportData = {
                 'equipment_id': eid,
                 'class_': class_,
+                'describe': data['describe'],
+                # 电压
+                'U1': data['U1'],
+                'U1': data['U1'],
+                'U1': data['U1'],
+                # 电流
+                'I1': data['I1'],
+                'I1': data['I1'],
+                'I1': data['I1'],
+                # 设备用电
+                'J1': data['J1'],
+                # 温度
+                'T1': data['T1'],
+                'T1': data['T1'],
+                'T1': data['T1'],
+                'T1': data['T1'],
+                # 剩余电流，漏电
+                'L1': data['L1'],
+
                 'report_time': datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
             }
-            report = Equipment_report_log(**reportData)
+            report = UI_report_log(**reportData)
             db.session.add(report)
             db.session.commit()
         except Exception as e:
@@ -258,6 +280,7 @@ def UIReport(eid):
             alarmData = {
                 'equipment_id': eid,
                 'class_': class_,
+                'describe': data['describe']
                 'alarm_time': datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
             }
             alarm = Alarm_record(**alarmData)
@@ -265,9 +288,28 @@ def UIReport(eid):
             reportData = {
                 'equipment_id': eid,
                 'class_': class_,
+                'describe': data['describe'],
+                # 电压
+                'U1': data['U1'],
+                'U1': data['U1'],
+                'U1': data['U1'],
+                # 电流
+                'I1': data['I1'],
+                'I1': data['I1'],
+                'I1': data['I1'],
+                # 设备用电
+                'J1': data['J1'],
+                # 温度
+                'T1': data['T1'],
+                'T1': data['T1'],
+                'T1': data['T1'],
+                'T1': data['T1'],
+                # 剩余电流，漏电
+                'L1': data['L1'],
+
                 'report_time': datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
             }
-            report = Equipment_report_log(**reportData)
+            report = UI_report_log(**reportData)
 
             db.session.add(report)
             db.session.add(alarm)

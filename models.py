@@ -123,6 +123,7 @@ class Alarm_record(db.Model):
 
     equipment_id = db.Column(db.String(30), db.ForeignKey('equipment.id'))
     equipment = db.relationship('Equipment', backref=db.backref('alarm_records', lazy='dynamic'))
+    describe = db.Column(db.String(30))
 
     class_ = db.Column(db.String(10), nullable=False)
 
@@ -143,6 +144,7 @@ class Equipment_report_log(db.Model):
     
     equipment_id = db.Column(db.String(30), db.ForeignKey('equipment.id'))
     equipment = db.relationship('Equipment', backref=db.backref('report_logs', lazy='dynamic'))
+    describe = db.Column(db.String(30))
 
     class_ = db.Column(db.String(10), nullable=False)
 
@@ -159,6 +161,7 @@ class UI_report_log(db.Model):
     equipment = db.relationship('Equipment', backref=db.backref('ui_report_logs', lazy='dynamic'))
 
     class_ = db.Column(db.String(10), nullable=False)
+    describe = db.Column(db.String(30))
 
     # 电压
     U1 = db.Column(db.Float(), nullable=False)
