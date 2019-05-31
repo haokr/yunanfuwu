@@ -49,7 +49,7 @@
                                 <div class="card-body">
                                     <div class="card-left pt-1 float-left">
                                         <h3 class="mb-0 fw-r">
-                                            <span class="count float-left">{{ data.todayAlarmCount / data.equipmentCount * 100 }}</span>
+                                            <span class="count float-left">{{ data.todayAlarmCount / data.equipmentCount * 100  if data.equipmentCount != 0 else 0 }}</span>
                                             <span>%</span>
                                         </h3>
                                         <p class="text-light mt-1 m-0">今日报警比例</p>
@@ -69,7 +69,7 @@
                                 <div class="card-body">
                                     <div class="card-left pt-1 float-left">
                                         <h3 class="mb-0 fw-r">
-                                            <span class="count">{{ data.todayFaultCount / data.equipmentCount * 100 }}</span>
+                                            <span class="count">{{ data.todayFaultCount / data.equipmentCount * 100 if data.equipmentCount != 0 else 0}}</span>
                                             <span>%</span>
                                         </h3>
                                         <p class="text-light mt-1 m-0">今日故障比例</p>

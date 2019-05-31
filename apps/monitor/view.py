@@ -36,8 +36,13 @@ def monitorPage():
         gaode_center_latitude += e.gaode_latitude
         gaode_center_longitude += e.gaode_longitude
         eCount += 1
-    gaode_center_longitude /=  eCount
-    gaode_center_latitude /= eCount
+
+    if eCount == 0:
+        gaode_center_latitude = 39.904989
+        gaode_center_longitude = 116.405285
+    else:
+        gaode_center_longitude /=  eCount
+        gaode_center_latitude /= eCount
 
     data = {
         'base': {
@@ -194,6 +199,92 @@ def report(eid):
     )
     return 'fine'
 
+def UIReport(eid):
+    '''
+        电压电流报警
+    '''
+    code = request.form.get('code')
+    dateTime = request.form.get('datetime')
+    data = request.form.get('data')
+
+    codeDict = {
+        '000': '注册',
+        '001': '正常',
+        '101': '报警',
+        '102': '故障'
+    }
+    if code == '000':
+        equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
+        ip = request.form.get('ip')
+        if not (ip and equipment):
+            return 'fail, zhuce mei you ip'
+        try:    
+            equipment.ip = ip
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            return 'error when commit db'    
+        return 'regist success'
+
+    class_ = codeDict.get(code, None)
+    class_ = class_ if class_ else code
+
+    try:    
+        equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
+        equipment.status = class_
+        db.session.commit()
+    except Exception as e:
+        print(e)
+
+    # 日志
+    if code[0] == '0':
+        try:
+            reportData = {
+                'equipment_id': eid,
+                'class_': class_,
+                'report_time': datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
+            }
+            report = Equipment_report_log(**reportData)
+            db.session.add(report)
+            db.session.commit()
+        except Exception as e:
+            print(e)
+    # 报警
+    elif code[0] == '1':
+        try:
+            # 报警
+            alarmData = {
+                'equipment_id': eid,
+                'class_': class_,
+                'alarm_time': datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
+            }
+            alarm = Alarm_record(**alarmData)
+            # 日志
+            reportData = {
+                'equipment_id': eid,
+                'class_': class_,
+                'report_time': datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
+            }
+            report = Equipment_report_log(**reportData)
+
+            db.session.add(report)
+            db.session.add(alarm)
+            db.session.commit()
+        except Exception as e:
+            print(e)
+
+    socketio.emit(
+        'report', 
+        {
+            'code': code, 
+            'describe': class_,
+            'reporter': eid,
+            'datetime': dateTime
+        }, 
+        room=eid,
+        callback=callback
+    )
+    return 'fine'
 
 def joinRoom(eid):
     '''

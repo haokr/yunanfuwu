@@ -90,7 +90,7 @@ def register():
         except Exception as e:
             print(e)
             return {'msg': 'fail', 'data': 'commit fail'}
-    return redirect(url_for('user.root'))
+    return jsonify({'msg': 'success', 'data': 'success'})
 
 
 def showAddUser(uid):

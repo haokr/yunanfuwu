@@ -39,7 +39,6 @@ def before_request():
 @app.before_request
 def loginedUserClass():
 	class_ = session.get('class_')
-	print(class_)
 	if request.path == '/user/login' or request.path == '/gov/login':
 		pass
 	elif class_ == 'user' and request.path.startswith('/gov/'):

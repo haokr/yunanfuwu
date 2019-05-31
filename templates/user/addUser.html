@@ -61,12 +61,12 @@
                                 <input type="text" id="address" name="address" class="form-control">
                             </div>
                         </div>
-                        <!-- discribe -->
+                        <!-- describe -->
                         <div class="row form-group">
-                            <div class="col col-md-3"><label for="discribe" class=" form-control-label">描述</label>
+                            <div class="col col-md-3"><label for="describe" class=" form-control-label">描述</label>
                             </div>
                             <div class="col-6 col-md-7">
-                                <input type="text" id="discribe" name="discribe" class="form-control">
+                                <input type="text" id="describe" name="describe" class="form-control">
                             </div>
                         </div>
 
@@ -92,7 +92,7 @@
         let username = document.getElementById('username').value;
         let password = document.getElementById('password').value;
         let address = document.getElementById('address').value;
-        let discribe = document.getElementById('discribe').value;
+        let describe = document.getElementById('describe').value;
         let contact = document.getElementById('contact').value;
         let contact_tel = document.getElementById('contact_tel').value;
 
@@ -100,7 +100,7 @@
         username = username == '' ? null : username;
         password = password == '' ? null : password;
         address = address == '' ? null : address;
-        discribe = discribe == '' ? null : discribe;
+        describe = describe == '' ? null : describe;
         contact = contact == '' ? null : contact;
         contact_tel = contact_tel == '' ? null : contact_tel;
 
@@ -118,7 +118,9 @@
                 username,
                 password,
                 address,
-                discribe
+                describe,
+                contact,
+                contact_tel
             },    //参数值,键值对
             type: "POST",   //请求方式
             beforeSend: function () {
