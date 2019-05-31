@@ -107,7 +107,7 @@ def showAddUser(uid):
         if user.parent == None:
             parentname = '无'
         else:
-            parentname = user.parent.username
+            parentname = user.parent.name
         data = {
             'base': {
                 'pageTitle': '设备信息-云安服务',
@@ -168,7 +168,7 @@ def showUser(uid):
         parentname = '无'
         parentid = '无'
     else:
-        parentname = user.parent.username
+        parentname = user.parent.name
         parentid = user.parent.id
     data = {
         'base': {
