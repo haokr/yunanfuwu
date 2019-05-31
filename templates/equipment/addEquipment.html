@@ -103,21 +103,17 @@
 	    document.getElementById("submit").disabled=false;
 
         let name = document.getElementById('name').value;
+        let class_ = document.getElementById('class_').value;
         let use_department = document.getElementById('use_department').value;
         let location = document.getElementById('location').value;
-        let ip = document.getElementById('ip').value;
-        let gaode_longitude = document.getElementById('gaode_longitude').value;
-        let gaode_latitude = document.getElementById('gaode_latitude').value;
         let manufacturer = document.getElementById('manufacturer').value;
         let model = document.getElementById('model').value;
         let remarks = document.getElementById('remarks').value;
 
         name = name == '' ? null : name;
+        class_ = class_ == '' ? null : class_;
         use_department = use_department == '' ? null : use_department;
         location = location == '' ? null : location;
-        ip = ip == '' ? null : ip;
-        gaode_latitude = gaode_latitude == '' ? null : gaode_latitude;
-        gaode_longitude = gaode_longitude == '' ? null : gaode_longitude;
         manufacturer = manufacturer == '' ? null : manufacturer;
         model = model == '' ? null : model;
         remarks = remarks == '' ? null : remarks;
@@ -131,9 +127,7 @@
                 name,
                 use_department,
                 location,
-                ip,
-                gaode_latitude,
-                gaode_longitude,
+                class_,
                 manufacturer,
                 model,
                 remarks
