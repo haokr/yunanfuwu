@@ -48,7 +48,7 @@ class User(db.Model):
     parent_id = db.Column(db.String(30), db.ForeignKey('user.id'))
     parent = db.relationship('User',remote_side=[id], backref=db.backref('children', lazy='dynamic'))
 
-    role_id = db.Column(db.String(30), db.ForeignKey('role.id'))
+    role_id = db.Column(db.String(30), db.ForeignKey('role.id'), default='ro_veqzdDMDEAvykjLMmMGVrF')
 
     group = db.relationship('Group', uselist=False)
 
