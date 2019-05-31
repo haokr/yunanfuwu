@@ -108,6 +108,7 @@
             alert('请完善信息');
             return
         }
+        console.log(describe)
 
         $.ajax({
             url: '/user/add/{{ parent }}',    //请求的url地址

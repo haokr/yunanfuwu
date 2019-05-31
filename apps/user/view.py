@@ -259,7 +259,7 @@ def addChild(uid):
     contact = request.form.get('contact')
     contact_tel = request.form.get('contact_tel')
     parent_id = uid
-    
+    print(describe)
     if not (username and password):
         return jsonify({'msg': 'fail', 'data': 'parm error'})
 
