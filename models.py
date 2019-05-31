@@ -153,10 +153,10 @@ class Equipment_report_log(db.Model):
 # 电流电压监控日志
 class UI_report_log(db.Model):
     __tablename__ = 'ui_report_log'
-    id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda: 'erl_' + shortuuid.uuid())
+    id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda: 'uirl_' + shortuuid.uuid())
     
     equipment_id = db.Column(db.String(30), db.ForeignKey('equipment.id'))
-    equipment = db.relationship('Equipment', backref=db.backref('report_logs', lazy='dynamic'))
+    equipment = db.relationship('Equipment', backref=db.backref('ui_report_logs', lazy='dynamic'))
 
     class_ = db.Column(db.String(10), nullable=False)
 

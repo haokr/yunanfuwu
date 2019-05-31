@@ -55,10 +55,12 @@ def showEquipments():
             'position_province': e.position_province,
             'position_city': e.position_city,
             'position_district': e.position_district,
-            'create_time': e.create_time,
+            'contact': e.admin.contact,
+            'contact_tel': e.admin.contact_tel,
             'status': e.status,
             'SIM_id': e.SIM_id,
-            'modify_time': e.modify_time
+            'modify_time': e.modify_time,
+            'create_time': e.create_time
             }
             for e in equipments if e.live
         ]
@@ -209,7 +211,6 @@ def addEquipment():
     name = request.form.get('name')
     use_department = request.form.get('use_department')
     location = request.form.get('location')
-    ip = request.form.get('ip')
     gaode_latitude = request.form.get('gaode_latitude')
     gaode_longitude = request.form.get('gaode_longitude')
     manufacturer = request.form.get('manufacturer')
@@ -220,7 +221,6 @@ def addEquipment():
         'name': name,
         'use_department': use_department,
         'location': location,
-        'ip': ip,
         'gaode_latitude': gaode_latitude,
         'gaode_longitude': gaode_longitude,
         'class_': '消防',

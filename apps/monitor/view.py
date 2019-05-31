@@ -31,7 +31,7 @@ def monitorPage():
     eCount = 0
 
     for e in equipments:
-        if int(e.gaode_longitude) == 0 or int(e.gaode_latitude) == 0:
+        if not e.gaode_longitude or not e.gaode_latitude or int(e.gaode_longitude) == 0 or int(e.gaode_latitude) == 0:
             continue
         gaode_center_latitude += e.gaode_latitude
         gaode_center_longitude += e.gaode_longitude
@@ -73,6 +73,8 @@ def monitorPage():
             'position_city': e.position_city,
             'position_district': e.position_district,
             'create_time': e.create_time,
+            'contact': e.admin.contact,
+            'contact_tel': e.admin.contact_tel,
             'status': e.status,
             'SIM_id': e.SIM_id,
             'modify_time': e.modify_time,
