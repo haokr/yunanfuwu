@@ -151,27 +151,40 @@ class Equipment_report_log(db.Model):
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
 # 电流电压监控日志
-# class UI_report_log(db.Model):
-#     __tablename__ = 'ui_report_log'
-#     id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda: 'erl_' + shortuuid.uuid())
+class UI_report_log(db.Model):
+    __tablename__ = 'ui_report_log'
+    id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda: 'erl_' + shortuuid.uuid())
     
-#     equipment_id = db.Column(db.String(30), db.ForeignKey('equipment.id'))
-#     equipment = db.relationship('Equipment', backref=db.backref('report_logs', lazy='dynamic'))
+    equipment_id = db.Column(db.String(30), db.ForeignKey('equipment.id'))
+    equipment = db.relationship('Equipment', backref=db.backref('report_logs', lazy='dynamic'))
 
-#     class_ = db.Column(db.String(10), nullable=False)
+    class_ = db.Column(db.String(10), nullable=False)
 
-#     u1 = db.Column(db.Float(), nullable=False)
-#     u2 = db.Column(db.Float(), nullable=False)
-#     u3 = db.Column(db.Float(), nullable=False)
+    # 电压
+    U1 = db.Column(db.Float(), nullable=False)
+    U2 = db.Column(db.Float(), nullable=False)
+    U3 = db.Column(db.Float(), nullable=False)
 
-#     i1 = db.Column(db.Float(), nullable=False)
-#     i2 = db.Column(db.Float(), nullable=False)
-#     i3 = db.Column(db.Float(), nullable=False)
+    # 电流
+    I1 = db.Column(db.Float(), nullable=False)
+    I2 = db.Column(db.Float(), nullable=False)
+    I3 = db.Column(db.Float(), nullable=False)
 
+    # 设备用电
+    J1 = db.Column(db.Float(precision='8,4'), nullable=False)
 
-#     report_time = db.Column(db.DateTime, nullable=False)
-#     create_time = db.Column(db.DateTime, default=datetime.now)
-#     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+    # 温度
+    T1 = db.Column(db.Float(), nullable=False)
+    T2 = db.Column(db.Float(), nullable=False)
+    T3 = db.Column(db.Float(), nullable=False)
+    T4 = db.Column(db.Float(), nullable=False)
+
+    # 剩余电流，漏电
+    L1 = db.Column(db.Float(), nullable=False)
+
+    report_time = db.Column(db.DateTime, nullable=False)
+    create_time = db.Column(db.DateTime, default=datetime.now)
+    modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
 
 # 行政账号
