@@ -27,7 +27,11 @@
                             <div class="col col-md-3"><label for="class_" class=" form-control-label">类型</label>
                             </div>
                             <div class="col-6 col-md-7">
-                                <input type="text" id="class_" name="class_" class="form-control">
+                                <select name="class_" id="class_" class="form-control">
+                                    <option value="消防">消防</option>
+                                    <option value="电气">电气</option>
+                                    <option value="反控">反控</option>
+                                </select>   
                             </div>
                         </div>
 
@@ -84,6 +88,17 @@
                                 <input type="text" id="remarks" name="remarks" class="form-control">
                             </div>
                         </div>
+
+                        <!-- gaode_location -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="gaode_location" class=" form-control-label">经纬度</label>
+                            </div>
+                            <div class="col-6 col-md-7">
+                                <input type="text" id="gaode_location" disabled="true" name="gaode_location" class="form-control">
+                                <div id='map' style="height: 300px;"></div>
+                            </div>
+                        </div>
+
                         <div class='col-md-6 offset-md-3'>
                             <br><br>
                             <button type="button" id='submit' onclick="addEquipment()" class="btn btn-primary btn-lg btn-block">添加</button>
@@ -109,6 +124,7 @@
         let manufacturer = document.getElementById('manufacturer').value;
         let model = document.getElementById('model').value;
         let remarks = document.getElementById('remarks').value;
+        let gaode_location = document.getElementById('gaode_location').value
 
         name = name == '' ? null : name;
         class_ = class_ == '' ? null : class_;
@@ -117,7 +133,12 @@
         manufacturer = manufacturer == '' ? null : manufacturer;
         model = model == '' ? null : model;
         remarks = remarks == '' ? null : remarks;
+        gaode_location = gaode_location == '' ? null : gaode_location;
 
+        if (!name || !class_ || !use_department || !gaode_location || !gaode_location.indexOf(',')) {
+            alert('请完善信息！')
+            return
+        }
 
         $.ajax({
             url: '/equipment/?child={{ child }}',    //请求的url地址
@@ -130,7 +151,8 @@
                 class_,
                 manufacturer,
                 model,
-                remarks
+                remarks,
+                gaode_location
             },    //参数值,键值对
             type: "POST",   //请求方式
             beforeSend: function () {
@@ -155,6 +177,45 @@
             }
         });
     }
+</script>
+
+{% endblock %}
+
+{% block js %}
+
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.8&key=efb66f1d0e0a897af3702fdb233c0812"></script>
+
+<script type="text/javascript">
+    var map = new AMap.Map('map',{
+        zoom: 10,  //设置地图显示的缩放级别
+        resizeEnable: true,
+        // center: [116.397428, 39.90923],//设置地图中心点坐标
+        lang:'zh_cn',  //设置地图语言类型
+    });
+
+    //为地图注册click事件获取鼠标点击出的经纬度坐标
+    var clickEventListener = map.on('click', function(e) {
+        document.getElementById("gaode_location").value = e.lnglat.getLng() + ',' + e.lnglat.getLat();
+
+        if (marker) {
+            marker.setMap(null);
+            marker = null;
+        }
+        addMarker(e.lnglat.getLng(),e.lnglat.getLat());
+    });
+
+
+    var marker;
+    // 实例化点标记
+    function addMarker(lng,lat) {
+        marker = new AMap.Marker({
+            icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+            position: [lng, lat]
+        });
+        marker.setMap(map);
+    }
+
+ 
 </script>
 
 {% endblock %}

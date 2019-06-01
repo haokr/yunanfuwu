@@ -216,11 +216,12 @@ def addEquipment():
     name = request.form.get('name')
     use_department = request.form.get('use_department')
     location = request.form.get('location')
-    gaode_latitude = request.form.get('gaode_latitude')
-    gaode_longitude = request.form.get('gaode_longitude')
+    gaode_location = request.form.get('gaode_location')
     manufacturer = request.form.get('manufacturer')
     model = request.form.get('model')
     remarks = request.form.get('remarks')
+
+    gaode_longitude, gaode_latitude = [ float(x) for x in gaode_location.split(',')]
 
     equipmentInfo = {
         'name': name,
