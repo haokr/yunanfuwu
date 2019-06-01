@@ -20,20 +20,20 @@
                         <table id="bootstrap-data-table" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
+                                    <th scope='col' >#</th>
                                     <th>角色名称</th>
                                     <th>备注</th>
                                     <th>创建时间</th>
-                                    <th>修改时间</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
                             <tbody>
                             {% for role in roles %}
                                 <tr>
+                                    <td scope='row'>{{ loop.index }}</td>
                                     <td>{{role.name}}</td>
                                     <td>{{role.remarks}}</td>
                                     <td>{{role.create_time}}</td>
-                                    <td>{{role.modify_time}}</td>
                                     <td><a href="./show/{{ role.id }}">修改</a></td>
                                 </tr>
                             {% endfor %}
