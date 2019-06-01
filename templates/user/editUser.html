@@ -5,9 +5,9 @@
 <div class="animated fadeIn">
     <div class="row">
 
-        <div class="col-md-11">
+        <div class="col-md-12">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header" style="background-color: #79baf0;">
                     <strong class="card-title">修改用户信息</strong>
                     <a href="/user/add/{{ user.id }}">
                             <button type="button" class="float-right btn btn-outline-primary btn-sm">
@@ -19,7 +19,7 @@
                 <div class="card-body card-block">
                     <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal">
                         <!-- ID -->
-                        <div class="row form-group">
+                        <div class="row form-group" style="display: none">
                             <div class="col col-md-3"><label class=" form-control-label">ID</label></div>
                             <div class="col-12 col-md-9">
                                 <p id='uid' class="form-control-static">{{ user.id }}</p>
@@ -117,7 +117,7 @@
         <div class="col-md-12">
 
                         <div class="card">
-                            <div class="card-header">
+                            <div class="card-header" style="background-color: #79baf0;">
                                 <strong class="card-title">子账号</strong>
                             </div>
                             <div class="card-body">
