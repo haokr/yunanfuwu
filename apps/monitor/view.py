@@ -137,6 +137,7 @@ def report(eid):
             return 'fail, zhuce mei you ip'
         try:    
             equipment.ip = ip
+            equipment.status = '正常'
             db.session.commit()
         except Exception as e:
             print(e)
@@ -226,6 +227,7 @@ def UIReport(eid):
             return 'fail, zhuce mei you ip'
         try:    
             equipment.ip = ip
+            equipment.status = '正常'
             db.session.commit()
         except Exception as e:
             print(e)
