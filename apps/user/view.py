@@ -86,8 +86,6 @@ def register():
             group = Group(admin_id=user.id, name=username)
             db.session.add(group)
             db.session.commit()
-            session['id'] = user.id
-            session['username'] = username
         except Exception as e:
             print(e)
             return {'msg': 'fail', 'data': 'commit fail'}
@@ -115,8 +113,8 @@ def showAddUser(uid):
                 'avatarImgUrl': '/static/img/yunan_logo_1.png',
                 'pageNow': '用户信息',
                 'username': session.get('username'),
-            'name': session.get('name'),
-            'userid': session.get('id')
+                'name': session.get('name'),
+                'userid': session.get('id')
             },
             'user': {
                 'id': user.id,
@@ -152,8 +150,8 @@ def showAddUser(uid):
                 'avatarImgUrl': '/static/img/yunan_logo_1.png',
                 'pageNow': '添加设备',
                 'username': session.get('username'),
-            'name': session.get('name'),
-            'userid': session.get('id')
+                'name': session.get('name'),
+                'userid': session.get('id')
             },
             'parent': uid
         }
@@ -239,6 +237,8 @@ def modifyUser(uid):
             user.update({key: value})
             user.modify_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
             db.session.commit()
+            if key == 'name':
+                session['name'] = value
             return jsonify({'msg': 'success', 'data': 'modify equipment success'})
         except Exception as e:
             print(e)
