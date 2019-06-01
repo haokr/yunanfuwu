@@ -48,7 +48,8 @@ def dataPage():
             if re.operator_id == None:
                 nowFaultCount += 1
     # 过去两周报警信息统计
-    beginDay = datetime(to_year, to_month, to_day-14)     
+    oneDay = timedelta(days=1)
+    beginDay = datetime(to_year, to_month, to_day) - oneDay*14
     twoWeeksReportCounts = []
     for i in range(14):
         begin = beginDay + timedelta(days=i)
