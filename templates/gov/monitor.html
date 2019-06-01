@@ -7,6 +7,18 @@
         width: 45px;
         height: 45px;
     }
+    /*label的样式*/
+    .amap-marker-label{
+        position: absolute;
+        z-index: 2;
+        border: 1px solid #ccc;
+        background-color: white;
+      　white-space: nowrap;
+      　cursor: default;
+      　padding: 3px;
+      　font-size: 12px;
+      　line-height: 14px;
+    }
 </style>
 {% endblock %}
 
@@ -70,7 +82,10 @@
                 { 'lng': {{ e.gaode_longitude }},  // 经度
                   'lnt': {{ e.gaode_latitude }},    // 维度
                   'state': '001',   // 状态，根据状态调图片
-                  'eid': '{{ e.id }}' 
+                  'eid': '{{ e.id }}',
+                  'e_name':'{{ e.name }}',
+                  'use_department':'{{ use_department }}',
+                  'info':[]
                 }
             ],
             {% endfor %}
@@ -92,8 +107,46 @@
             });
             // 设置点标记的动画效果，此处为弹跳效果
             marker.setAnimation('AMAP_ANIMATION_BOUNCE');
+
+            //　将点标记的信息录入对象中
+            positions[i][0]['info'][0] = "<dt>设备名称:"+positions[i][0]['e_name']+"</dt>"
+            positions[i][0]['info'][1] = "<dt>使用单位:"+positions[i][0]['use_department']+"</dt>"
+            positions[i][0]['info'][2] = "<dt>设备状态:正常</dt>"
+            positions[i][0]['info'][3] = ""
+            // 给点标记增加点击功能
+            marker.on('click', function(e){
+                var lng = e.lnglat.getLng()
+                var lnt = e.lnglat.getLat()
+                //　判断点击的是哪个点标记
+                for (let i = 0 ; i < positions.length ; i++) {
+                    //　点坐标范围内有效 lng[0, 0.02]  lnt[0, 0.02]
+                  if (lng <= (positions[i][0]['lng']+0.02) && lng >= positions[i][0]['lng']  && lnt <= (positions[i][0]['lnt'] +0.02) &&  lnt >= positions[i][0]['lnt']  ) {
+                    // 读取点标记信息
+                    var info = positions[i][0]['info'][0]+positions[i][0]['info'][1]+positions[i][0]['info'][2]+positions[i][0]['info'][3]
+                    // 显示 label
+                    positions[i][1].setLabel({
+                        offset: new AMap.Pixel(20, 20),  //设置文本标注偏移量
+                        content: "<div class='info' >"+info+"</div>", //设置文本标注内容
+                        direction: 'right' //设置文本标注方位
+                    });
+                  }
+                }
+            });
+
             markers.push(marker);
             positions[i].push(marker)
+
+           //　给地图增加点击功能
+            map.on('click', function(e){
+            for (let i = 0 ; i < positions.length ; i++) {
+                // 重置 label
+                positions[i][1].setLabel({
+                    offset: new AMap.Pixel(20, 20),  //设置文本标注偏移量
+                    content: "", //设置文本标注内容
+                    direction: 'right' //设置文本标注方位
+                });
+            }
+            });
                 
         }
         map.add(markers);
@@ -120,23 +173,32 @@
     socket.on('report', function(data, callback) {
         console.log(data);
         let eid = data['reporter']
-        
+        var nowtime = data.datetime
         // 更改点标记
         if (data.code == '101') {
             for (let i = 0 ; i < positions.length ; i++) {
                 if (positions[i][0]['eid'] == eid) {
+                    // 将对象中的信息更新
+                    positions[i][0]['info'][2] = "<dt>设备状态:故障</dt>"
+                    positions[i][0]['info'][3] = "<dt>更新时间:"+nowtime+"</dt>"
                     positions[i][1].setIcon('/static/img/mapPoint/red.png')
                 }
             }
         } else if (data.code == '102'){
             for (let i = 0 ; i < positions.length ; i++) {
                 if (positions[i][0]['eid'] == eid) {
+                    // 将对象中的信息更新
+                    positions[i][0]['info'][2] = "<dt>设备状态:报警</dt>"
+                    positions[i][0]['info'][3] = "<dt>更新时间:"+nowtime+"</dt>"
                     positions[i][1].setIcon('/static/img/mapPoint/yellow.png')
                 }
             }
         } else if (data.code.startsWith('0')) {
             for (let i = 0 ; i < positions.length ; i++) {
                 if (positions[i][0]['eid'] == eid) {
+                    // 将对象中的信息更新
+                    positions[i][0]['info'][2] = "<dt>设备状态:正常</dt>"
+                    positions[i][0]['info'][2] = "<dt>更新时间:"+nowtime+"</dt>"
                     positions[i][1].setIcon('/static/img/mapPoint/blue.png')
                 }
             }
