@@ -22,7 +22,8 @@ def getRoles():
                 'pageNow': '设备监控',
                 'avatarImgUrl': '/static/img/yunan_logo_1.png',
                 'username': session.get('username'),
-                'userid': session.get('id')
+            'name': session.get('name'),
+            'userid': session.get('id')
             },
             'equipments': [
                 {
@@ -59,7 +60,8 @@ def getRoles():
                 'pageNow': '设备监控',
                 'avatarImgUrl': '/static/img/yunan_logo_1.png',
                 'username': session.get('username'),
-                'userid': session.get('id')
+            'name': session.get('name'),
+            'userid': session.get('id')
             },
             'roles': [
                 {
@@ -97,7 +99,8 @@ def showRole(rid):
                 'pageNow': '设备监控',
                 'avatarImgUrl': '/static/img/yunan_logo_1.png',
                 'username': session.get('username'),
-                'userid': session.get('id')
+            'name': session.get('name'),
+            'userid': session.get('id')
             },
             'equipments': [
                 {
@@ -135,7 +138,8 @@ def showRole(rid):
                 'avatarImgUrl': '/static/img/yunan_logo_1.png',
                 'pageNow': '用户信息',
                 'username': session.get('username'),
-                'userid': session.get('id')
+            'name': session.get('name'),
+            'userid': session.get('id')
             },
             'role': {
                     'id': role.id,
@@ -200,7 +204,8 @@ def modifyRole(rid):
                 'pageNow': '设备监控',
                 'avatarImgUrl': '/static/img/yunan_logo_1.png',
                 'username': session.get('username'),
-                'userid': session.get('id')
+            'name': session.get('name'),
+            'userid': session.get('id')
             },
             'equipments': [
                 {
@@ -352,7 +357,8 @@ def showaddRole():
                 'avatarImgUrl': '/static/img/yunan_logo_1.png',
                 'pageNow': '设备信息',
                 'username': session.get('username'),
-                'userid': session.get('id')
+            'name': session.get('name'),
+            'userid': session.get('id')
             },
             'child': child_id,
             'equipments': [
@@ -387,7 +393,8 @@ def showaddRole():
                 'avatarImgUrl': '/static/img/yunan_logo_1.png',
                 'pageNow': '添加设备',
                 'username': session.get('username'),
-                'userid': session.get('id')
+            'name': session.get('name'),
+            'userid': session.get('id')
             }
         }
         return render_template('roles/addRoles.html', **data)

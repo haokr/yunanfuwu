@@ -82,6 +82,7 @@ def dataPage():
             'pageNow': '设备监控',
             'avatarImgUrl': '/static/img/yunan_logo_1.png',
             'username': session.get('username'),
+            'name': session.get('name'),
             'userid': session.get('id')
         },
         'data': {

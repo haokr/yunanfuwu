@@ -36,6 +36,7 @@ def showEquipments():
             'avatarImgUrl': '/static/img/yunan_logo_1.png',
             'pageNow': '设备信息',
             'username': session.get('username'),
+            'name': session.get('name'),
             'userid': session.get('id')
         },
         'child': child_id,
@@ -77,11 +78,12 @@ def showEditEquipment(eid):
     '''
     e = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
     data = {
-        'base': {
+        'base':{
             'pageTitle': '设备信息-云安服务',
             'avatarImgUrl': '/static/img/yunan_logo_1.png',
             'pageNow': '设备信息',
             'username': session.get('username'),
+            'name': session.get('name'),
             'userid': session.get('id')
         },
         'equipment': {
@@ -128,7 +130,8 @@ def showAddEquipment():
                 'avatarImgUrl': '/static/img/yunan_logo_1.png',
                 'pageNow': '设备信息',
                 'username': session.get('username'),
-                'userid': session.get('id')
+            'name': session.get('name'),
+            'userid': session.get('id')
             },
             'child': child_id,
             'equipments': [
@@ -164,7 +167,8 @@ def showAddEquipment():
                 'avatarImgUrl': '/static/img/yunan_logo_1.png',
                 'pageNow': '添加设备',
                 'username': session.get('username'),
-                'userid': session.get('id')
+            'name': session.get('name'),
+            'userid': session.get('id')
             },
             'child': child_id
         }
@@ -184,6 +188,7 @@ def controlPage():
             'avatarImgUrl': '/static/img/yunan_logo_1.png',
             'pageNow': '设备反控',
             'username': session.get('username'),
+            'name': session.get('name'),
             'userid': session.get('id')
         },
         'eid': eid

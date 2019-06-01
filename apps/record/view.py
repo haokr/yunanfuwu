@@ -32,6 +32,7 @@ def root():
             'pageNow': '报警记录',
             'avatarImgUrl': '/static/img/yunan_logo_1.png',
             'username': session.get('username'),
+            'name': session.get('name'),
             'userid': session.get('id')
 		},
 		'alarm_records': alarm_records

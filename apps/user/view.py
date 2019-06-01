@@ -32,6 +32,7 @@ def login():
     user = User.query.filter(User.username == username, User.password == password, User.live == True).first()
     if user:
         session['id'] = user.id
+        session['name'] = user.name
         session['username'] = username
         session['class_'] = 'user'
         return redirect(url_for('monitor.monitorPage'))
@@ -114,7 +115,8 @@ def showAddUser(uid):
                 'avatarImgUrl': '/static/img/yunan_logo_1.png',
                 'pageNow': '用户信息',
                 'username': session.get('username'),
-                'userid': session.get('id')
+            'name': session.get('name'),
+            'userid': session.get('id')
             },
             'user': {
                 'id': user.id,
@@ -150,7 +152,8 @@ def showAddUser(uid):
                 'avatarImgUrl': '/static/img/yunan_logo_1.png',
                 'pageNow': '添加设备',
                 'username': session.get('username'),
-                'userid': session.get('id')
+            'name': session.get('name'),
+            'userid': session.get('id')
             },
             'parent': uid
         }
@@ -176,6 +179,7 @@ def showUser(uid):
             'avatarImgUrl': '/static/img/yunan_logo_1.png',
             'pageNow': '用户信息',
             'username': session.get('username'),
+            'name': session.get('name'),
             'userid': session.get('id')
         },
         'user': {
