@@ -29,7 +29,7 @@
                         <div class="row form-group">
                             <div class="col col-md-3"><label for="name-input" class=" form-control-label">名称</label></div>
                             <div class="col-6 col-md-7">
-                                    <input type="text" id="name-input" name="name" style='display: none' value="{{ user.name }}" class="form-control">
+                                    <input type="text" id="name-input" name="name" style='display: none' value="{{ user.name or '' }}" class="form-control">
                                     <p class="form-control-static" id='name-p' style='display: block'>{{ user.name or '' }}</p>
                                 
                             </div>
@@ -50,7 +50,7 @@
                         <div class="row form-group">
                                 <div class="col col-md-3"><label for="address-input" class=" form-control-label">位置</label></div>
                                 <div class="col-6 col-md-7">
-                                        <input type="text" id="address-input" name="address" style='display: none' value="{{ user.address }}" class="form-control">
+                                        <input type="text" id="address-input" name="address" style='display: none' value="{{ user.address or '' }}" class="form-control">
                                         <p class="form-control-static" id='address-p' style='display: block'>{{ user.address or '' }}</p>
                                     
                                 </div>
@@ -64,7 +64,7 @@
                         <div class="row form-group">
                             <div class="col col-md-3"><label for="contact-input" class=" form-control-label">联系人</label></div>
                             <div class="col-6 col-md-7">
-                                    <input type="text" id="contact-input" name="contact" style='display: none' value="{{ user.contact }}" class="form-control">
+                                    <input type="text" id="contact-input" name="contact" style='display: none' value="{{ user.contact or '' }}" class="form-control">
                                     <p class="form-control-static" id='contact-p' style='display: block'>{{ user.contact or '' }}</p>
                                 
                             </div>
@@ -78,7 +78,7 @@
                         <div class="row form-group">
                             <div class="col col-md-3"><label for="contact_tel-input" class=" form-control-label">联系人电话</label></div>
                             <div class="col-6 col-md-7">
-                                    <input type="text" id="contact_tel-input" name="contact_tel" style='display: none' value="{{ user.contact_tel }}" class="form-control">
+                                    <input type="text" id="contact_tel-input" name="contact_tel" style='display: none' value="{{ user.contact_tel or '' }}" class="form-control">
                                     <p class="form-control-static" id='contact_tel-p' style='display: block'>{{ user.contact_tel or '' }}</p>
                                 
                             </div>
@@ -92,7 +92,7 @@
                         <div class="row form-group">
                                 <div class="col col-md-3"><label for="describe-input" class=" form-control-label">描述</label></div>
                                 <div class="col-6 col-md-7">
-                                        <input type="text" id="describe-input" name="status" style='display: none' value="{{ user.describe }}" class="form-control">
+                                        <input type="text" id="describe-input" name="status" style='display: none' value="{{ user.describe or '' }}" class="form-control">
                                         <p class="form-control-static" id='describe-p' style='display: block'>{{ user.describe or '' }}</p>
 
                                 </div>
