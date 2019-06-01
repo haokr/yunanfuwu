@@ -184,6 +184,7 @@ def showUser(uid):
                 'id': user.id,
                 'name': user.name,
                 'username': user.username,
+                'password': user.password,
                 'parent': parentname,
                 'parentid': parentid,
                 'address': user.address,

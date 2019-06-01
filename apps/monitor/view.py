@@ -25,25 +25,6 @@ def monitorPage():
     user_id = session.get('id')
     equipments = User.query.filter(User.id == user_id).first().group.equipments
 
-    gaode_center_longitude = 0
-    gaode_center_latitude = 0
-
-    eCount = 0
-
-    for e in equipments:
-        if not e.gaode_longitude or not e.gaode_latitude or int(e.gaode_longitude) == 0 or int(e.gaode_latitude) == 0:
-            continue
-        gaode_center_latitude += e.gaode_latitude
-        gaode_center_longitude += e.gaode_longitude
-        eCount += 1
-
-    if eCount == 0:
-        gaode_center_latitude = 39.904989
-        gaode_center_longitude = 116.405285
-    else:
-        gaode_center_longitude /=  eCount
-        gaode_center_latitude /= eCount
-
     data = {
         'base': {
             'pageTitle': '监控-云安服务',
@@ -52,10 +33,6 @@ def monitorPage():
             'username': session.get('username'),
             'name': session.get('name'),
             'userid': session.get('id')
-        },
-        'gaode_map_center': {
-            'longitude': gaode_center_longitude,
-            'latitude': gaode_center_latitude
         },
         'equipments': [
             {

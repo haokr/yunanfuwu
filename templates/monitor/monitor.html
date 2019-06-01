@@ -78,13 +78,9 @@
 
 <script>
     //  地图对象
-    let center_longitude = {{ gaode_map_center.longitude}}
-    let center_latitude = {{ gaode_map_center.latitude }}
-    console.log(center_latitude, center_longitude)
 	var map = new AMap.Map('vmap',
 			{
-				center:[center_longitude, center_latitude ],
-				// 缩放度
+				// // 缩放度
 				zoom:11
 			}
 	);
