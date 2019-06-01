@@ -37,7 +37,7 @@
                         <div class="row form-group">
                                 <div class="col col-md-3"><label class=" form-control-label">设备类型</label></div>
                                 <div class="col-12 col-md-9">
-                                    <p class="form-control-static">{{ equipment.class_ }}</p>
+                                    <p class="form-control-static">{{ equipment.class_ or ''  }}</p>
                                 </div>
                         </div>
                         <!-- use_department -->
@@ -72,28 +72,28 @@
                         <div class="row form-group">
                                 <div class="col col-md-3"><label class=" form-control-label">状态</label></div>
                                 <div class="col-12 col-md-9">
-                                    <p class="form-control-static">{{ equipment.status }}</p>
+                                    <p class="form-control-static">{{ equipment.status or ''  }}</p>
                                 </div>
                         </div>
                         <!-- ip -->
                         <div class="row form-group">
                                 <div class="col col-md-3"><label class=" form-control-label">IP</label></div>
                                 <div class="col-12 col-md-9">
-                                    <p class="form-control-static">{{ equipment.ip }}</p>
+                                    <p class="form-control-static">{{ equipment.ip or ''  }}</p>
                                 </div>
                         </div>
                         <!-- gaode_longitude -->
                         <div class="row form-group">
                                 <div class="col col-md-3"><label class=" form-control-label">经度</label></div>
                                 <div class="col-12 col-md-9">
-                                    <p class="form-control-static">{{ equipment.gaode_longitude }}</p>
+                                    <p class="form-control-static">{{ equipment.gaode_longitude or ''  }}</p>
                                 </div>
                         </div>
                         <!-- gaode_latitude -->
                         <div class="row form-group">
                                 <div class="col col-md-3"><label class=" form-control-label">纬度</label></div>
                                 <div class="col-12 col-md-9">
-                                    <p class="form-control-static">{{ equipment.gaode_latitude }}</p>
+                                    <p class="form-control-static">{{ equipment.gaode_latitude or '' }}</p>
                                 </div>
                         </div>
                         <!-- 生产商 -->
@@ -128,7 +128,7 @@
                         <div class="row form-group">
                                 <div class="col col-md-3"><label class=" form-control-label">SIM卡号</label></div>
                                 <div class="col-12 col-md-9">
-                                    <p class="form-control-static">{{ equipment.SIM_id }}</p>
+                                    <p class="form-control-static">{{ equipment.SIM_id or ''  }}</p>
                                 </div>
                         </div>
                         <!-- remarks -->
