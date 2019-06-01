@@ -4,6 +4,7 @@ from db import db
 
 from socket import socket, AF_INET, SOCK_STREAM
 import time
+import requests
 
 
 '''
@@ -223,6 +224,16 @@ def addEquipment():
 
     gaode_longitude, gaode_latitude = [ float(x) for x in gaode_location.split(',')]
 
+    cityData = requests.get('https://restapi.amap.com/v3/geocode/regeo?output=xml&location={}&key=1f5f34e6c96735e4be689afb6ec22a82&radius=10&extensions=base'.format(gaode_location))
+
+    gaode_province = city['regeocode']['addressComponent']['province']
+    gaode_city = city['regeocode']['addressComponent']['city']
+    gaode_district = city['regeocode']['addressComponent']['district']
+
+    gaode_province = gaode_province if gaode_province else None
+    gaode_city = gaode_city if gaode_city else None
+    gaode_district = gaode_district if gaode_district else None
+
     equipmentInfo = {
         'name': name,
         'use_department': use_department,
@@ -233,7 +244,10 @@ def addEquipment():
         'manufacturer': manufacturer,
         'model': model,
         'remarks': remarks,
-        'admin': user
+        'admin': user,
+        'gaode_province': gaode_province,
+        'gaode_city': gaode_city,
+        'gaode_district': gaode_district
     }
 
     try:
