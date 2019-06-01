@@ -182,7 +182,7 @@ def showRole(rid):
                 for a in others
             ]
         }
-        return render_template('roles/exitRoles.html', **data)
+        return render_template('roles/editRoles.html', **data)
 
 
 def modifyRole(rid):
