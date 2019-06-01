@@ -280,7 +280,7 @@ def UIReport(eid):
             alarmData = {
                 'equipment_id': eid,
                 'class_': class_,
-                'describe': data['describe']
+                'describe': data['describe'],
                 'alarm_time': datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
             }
             alarm = Alarm_record(**alarmData)
