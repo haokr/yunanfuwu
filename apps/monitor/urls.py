@@ -24,6 +24,9 @@ def monitorPage():
 def report(eid):
     return view.report(eid)
 
+@monitor.route('/uireport/<eid>', methods=['POST'])
+def UIReport(eid):
+    return view.UIReport(eid)
 
 '''
     WebSocketIO

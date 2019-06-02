@@ -230,19 +230,19 @@ def UIReport(eid):
                 'describe': data['describe'],
                 # 电压
                 'U1': data['U1'],
-                'U1': data['U1'],
-                'U1': data['U1'],
+                'U2': data['U2'],
+                'U3': data['U3'],
                 # 电流
                 'I1': data['I1'],
-                'I1': data['I1'],
-                'I1': data['I1'],
+                'I2': data['I2'],
+                'I3': data['I3'],
                 # 设备用电
                 'J1': data['J1'],
                 # 温度
                 'T1': data['T1'],
-                'T1': data['T1'],
-                'T1': data['T1'],
-                'T1': data['T1'],
+                'T2': data['T2'],
+                'T3': data['T3'],
+                'T4': data['T4'],
                 # 剩余电流，漏电
                 'L1': data['L1'],
 
@@ -271,19 +271,19 @@ def UIReport(eid):
                 'describe': data['describe'],
                 # 电压
                 'U1': data['U1'],
-                'U1': data['U1'],
-                'U1': data['U1'],
+                'U2': data['U2'],
+                'U3': data['U3'],
                 # 电流
                 'I1': data['I1'],
-                'I1': data['I1'],
-                'I1': data['I1'],
+                'I2': data['I2'],
+                'I3': data['I3'],
                 # 设备用电
                 'J1': data['J1'],
                 # 温度
                 'T1': data['T1'],
-                'T1': data['T1'],
-                'T1': data['T1'],
-                'T1': data['T1'],
+                'T2': data['T2'],
+                'T3': data['T3'],
+                'T4': data['T4'],
                 # 剩余电流，漏电
                 'L1': data['L1'],
 
