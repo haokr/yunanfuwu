@@ -215,6 +215,7 @@ def addEquipment():
     user = User.query.filter(User.id == user_id).first()
 
     name = request.form.get('name')
+    class_ = request.form.get('class_')
     use_department = request.form.get('use_department')
     location = request.form.get('location')
     gaode_location = request.form.get('gaode_location')
@@ -224,15 +225,16 @@ def addEquipment():
 
     gaode_longitude, gaode_latitude = [ float(x) for x in gaode_location.split(',')]
 
-    cityData = requests.get('https://restapi.amap.com/v3/geocode/regeo?output=xml&location={}&key=1f5f34e6c96735e4be689afb6ec22a82&radius=10&extensions=base'.format(gaode_location))
+    cityData = requests.get('https://restapi.amap.com/v3/geocode/regeo?output=json&location={}&key=1f5f34e6c96735e4be689afb6ec22a82&radius=10&extensions=base'.format(gaode_location)).json()
 
-    gaode_province = city['regeocode']['addressComponent']['province']
-    gaode_city = city['regeocode']['addressComponent']['city']
-    gaode_district = city['regeocode']['addressComponent']['district']
 
-    gaode_province = gaode_province if gaode_province else None
-    gaode_city = gaode_city if gaode_city else None
-    gaode_district = gaode_district if gaode_district else None
+    position_province = cityData['regeocode']['addressComponent']['province']
+    position_city = cityData['regeocode']['addressComponent']['city']
+    position_district = cityData['regeocode']['addressComponent']['district']
+
+    position_province = position_province if position_province else None
+    position_city = position_city if position_city else None
+    position_district = position_district if position_district else None
 
     equipmentInfo = {
         'name': name,
@@ -240,15 +242,18 @@ def addEquipment():
         'location': location,
         'gaode_latitude': gaode_latitude,
         'gaode_longitude': gaode_longitude,
-        'class_': '消防',
+        'class_': class_,
         'manufacturer': manufacturer,
         'model': model,
         'remarks': remarks,
         'admin': user,
-        'gaode_province': gaode_province,
-        'gaode_city': gaode_city,
-        'gaode_district': gaode_district
+        'position_province': position_province,
+        'position_city': position_city,
+        'position_district': position_district
     }
+
+    if equipmentInfo['class_'] == '电气':
+        equipmentInfo['id'] = 'e_' + str(int(time.time()))
 
     try:
         equipment = Equipment(**equipmentInfo)
