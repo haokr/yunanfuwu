@@ -28,7 +28,7 @@ socketio.init_app(app, manage_session=False)
 def before_request():
     user_id = session.get("id")
     ignore = ['/user/login', '/user/register', '/gov/regist', '/gov/login']
-    isReport = request.path.startswith('/monitor/report/')
+    isReport = request.path.startswith('/monitor/report/') or request.path.startswith('/monitor/uireport/') 
     isStatic = request.path.startswith('/static')
 
     if request.path == '/favicon.ico':
