@@ -123,7 +123,7 @@
             marker.content = positions[i][0]['content'][0]+positions[i][0]['content'][1]+positions[i][0]['content'][2]
             marker.on('click', markerClick);
             marker.emit('click', {target: marker});
-            
+
             markers.push(marker);
             positions[i].push(marker)
 
@@ -180,7 +180,7 @@
                     positions[i][1].content = positions[i][0]['content'][0]+positions[i][0]['content'][1]+positions[i][0]['content'][2]+positions[i][0]['content'][3]
                     positions[i][1].on('click', markerClick);
                     positions[i][1].emit('click', {target: positions[i][1]});
-                    positions[i][1].setIcon('/static/img/mapPoint/red.png');
+                    positions[i][1].setIcon('/static/img/mapPoint/yellow.png');
                 }
             }
         } else if (data.code == '102'){
@@ -192,7 +192,7 @@
                     positions[i][1].content = positions[i][0]['content'][0]+positions[i][0]['content'][1]+positions[i][0]['content'][2]+positions[i][0]['content'][3]
                     positions[i][1].on('click', markerClick);
                     positions[i][1].emit('click', {target: positions[i][1]});
-                    positions[i][1].setIcon('/static/img/mapPoint/yellow.png');
+                    positions[i][1].setIcon('/static/img/mapPoint/red.png');
                 }
             }
         } else if (data.code.startsWith('0')) {
