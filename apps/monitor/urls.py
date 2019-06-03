@@ -15,6 +15,10 @@ monitor = Blueprint('monitor', __name__)
 def monitorPage():
     return view.monitorPage()
 
+@monitor.route('/electrical')
+def electricalMonitorPage():
+	return view.electricalMonitorPage()
+
 '''
     report
 '''
