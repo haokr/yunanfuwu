@@ -153,6 +153,10 @@
 
     }
 
+    // 标点显示自适应
+    map.setFitView();
+
+
     // 选择地区
     function changeDistrict(e) {
         let gaode_center = e.getAttribute("gaode_center");
@@ -162,6 +166,7 @@
 
         var zoom = 12;
         map.setZoomAndCenter(zoom, [gaode_longitude, gaode_latitude]); //同时设置地图层级与中心点
+
     }
 
     // socket
