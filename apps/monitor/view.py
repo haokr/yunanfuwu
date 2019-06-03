@@ -107,6 +107,8 @@ def report(eid):
         '102': '报警'
     }
 
+    print(code, dateTime)
+
     if code == '000':
         equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
         ip = request.form.get('ip')
@@ -187,6 +189,9 @@ def UIReport(eid):
     code = request.form.get('code')
     dateTime = request.form.get('datetime')
     data = request.form.get('data')
+
+
+    print(code, dateTime, data)
 
     codeDict = {
         '000': '注册',
