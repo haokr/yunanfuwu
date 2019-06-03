@@ -63,6 +63,26 @@ def monitorPage():
     }
     return render_template('monitor/monitor.html', **data) 
 
+def electricalMonitorPage():
+    '''
+        连接前后端中设备连接信息
+        通过web展示其中信息
+    :return: 监控设备信息
+    '''
+    user_id = session.get('id')
+
+    data = {
+        'base': {
+            'pageTitle': '监控-云安服务',
+            'pageNow': '电气监控',
+            'avatarImgUrl': '/static/img/yunan_logo_1.png',
+            'username': session.get('username'),
+            'name': session.get('name'),
+            'userid': session.get('id')
+        }
+    }
+    return render_template('monitor/electrical.html', **data) 
+
 
 def connect():
     '''
@@ -303,7 +323,8 @@ def UIReport(eid):
             'code': code, 
             'describe': class_,
             'reporter': eid,
-            'datetime': dateTime
+            'datetime': dateTime,
+            'data': data
         }, 
         room=eid,
         callback=callback

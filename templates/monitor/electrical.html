@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+
+{% block content %}
+            <div class="animated fadeIn">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="sales-chart" style="height: 300px;"></div>
+                            </div>
+                        </div>
+                    </div><!-- /# column -->
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="sales-chart-t" style="height: 300px;"></div>
+                            </div>
+                        </div>
+                    </div><!-- /# column -->
+                </div>
+
+                
+
+            </div><!-- .animated -->
+{% endblock %}
+    <!-- /#right-panel -->
+
+{% block js %}
+    <!-- Scripts -->
+    <script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.matchHeight.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <!--  Chart js -->
+    <script src="assets/js/lib/chart-js/Chart.bundle.js"></script>
+    <script src="assets/js/init/chartjs-init.js"></script>
+    <!--Flot Chart-->
+    <script src="assets/js/lib/flot-chart/jquery.flot.js"></script>
+    <script src="assets/js/lib/flot-chart/jquery.flot.spline.js"></script>
+
+    <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+    <script type="text/javascript">
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'http://echarts.baidu.com/build/dist'
+            }
+        });
+        // 使用
+        require(
+            [
+                'echarts',
+                'echarts/chart/line', // 使用柱状图就加载bar模块，按需加载
+                'echarts/chart/bar',
+            ],
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('sales-chart'));
+                var option = {
+                            title : {
+                                text: '本周电压变化'
+                            },
+                            tooltip : {
+                                trigger: 'axis'
+                            },
+                            legend: {
+                                data:['最高电压','最低电压']
+                            },
+                            toolbox: {
+                                show : true,
+                                feature : {
+                                    mark : {show: true},
+                                    dataView : {show: true, readOnly: false},
+                                    magicType : {show: true, type: ['line', 'bar']},
+                                    restore : {show: true},
+                                    saveAsImage : {show: true}
+                                }
+                            },
+                            calculable : true,
+                            xAxis : [
+                                {
+                                    type : 'category',
+                                    boundaryGap : false,
+                                    data : ['周一','周二','周三','周四','周五','周六','周日']
+                                }
+                            ],
+                            yAxis : [
+                                {
+                                    type : 'value',
+                                    max :230,
+                                    axisLabel : {
+                                        formatter: '{value} V'
+                                    }
+                                }
+                            ],
+                            series : [
+                                {
+                                    name:'最高电压',
+                                    type:'line',
+                                    data:[220, 210, 230, 200, 180, 190, 220],
+                                    markPoint : {
+                                        data : [
+                                            {type : 'max', name: '最大值'},
+                                            {type : 'min', name: '最小值'}
+                                        ]
+                                    },
+                                    markLine : {
+                                        data : [
+                                            {type : 'average', name: '平均值'}
+                                        ]
+                                    }
+                                },
+                                {
+                                    name:'最低电压',
+                                    type:'line',
+                                    data:[180, 190, 180, 180, 178, 180, 180],
+                                    markPoint : {
+                                        data : [
+                                            {name : '周最低', value : 190, xAxis: 1, yAxis: 190}
+                                        ]
+                                    },
+                                    markLine : {
+                                        data : [
+                                            {type : 'average', name : '平均值'}
+                                        ]
+                                    }
+                                }
+                            ]
+                    };
+
+                    
+
+                // 为echarts对象加载数据
+                myChart.setOption(option);
+            }
+        );
+
+    </script>
+
+    <script type="text/javascript">
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'http://echarts.baidu.com/build/dist'
+            }
+        });
+        // 使用
+        require(
+            [
+                'echarts',
+                'echarts/chart/line', // 使用柱状图就加载bar模块，按需加载
+                'echarts/chart/bar',
+            ],
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('sales-chart-t'));
+                var option = {
+                            title : {
+                                text: '本周电流变化'
+                            },
+                            tooltip : {
+                                trigger: 'axis'
+                            },
+                            legend: {
+                                data:['最高电流','最低电流']
+                            },
+                            toolbox: {
+                                show : true,
+                                feature : {
+                                    mark : {show: true},
+                                    dataView : {show: true, readOnly: false},
+                                    magicType : {show: true, type: ['line', 'bar']},
+                                    restore : {show: true},
+                                    saveAsImage : {show: true}
+                                }
+                            },
+                            calculable : true,
+                            xAxis : [
+                                {
+                                    type : 'category',
+                                    boundaryGap : false,
+                                    data : ['周一','周二','周三','周四','周五','周六','周日']
+                                }
+                            ],
+                            yAxis : [
+                                {
+                                    type : 'value',
+                                    max :20,
+                                    axisLabel : {
+                                        formatter: '{value} A'
+                                    }
+                                }
+                            ],
+                            series : [
+                                {
+                                    name:'最高电流',
+                                    type:'line',
+                                    data:[20, 19, 18, 17, 18, 19, 16],
+                                    markPoint : {
+                                        data : [
+                                            {type : 'max', name: '最大值'},
+                                            {type : 'min', name: '最小值'}
+                                        ]
+                                    },
+                                    markLine : {
+                                        data : [
+                                            {type : 'average', name: '平均值'}
+                                        ]
+                                    }
+                                },
+                                {
+                                    name:'最低电流',
+                                    type:'line',
+                                    data:[5, 4, 3, 2, 1, 2, 3],
+                                    markPoint : {
+                                        data : [
+                                            {name : '周最低', value : 1, xAxis: 4, yAxis: 1}
+                                        ]
+                                    },
+                                    markLine : {
+                                        data : [
+                                            {type : 'average', name : '平均值'}
+                                        ]
+                                    }
+                                }
+                            ]
+                    };
+
+                    
+
+                // 为echarts对象加载数据
+                myChart.setOption(option);
+            }
+        );
+
+    </script>
+
+{% endblock %}
