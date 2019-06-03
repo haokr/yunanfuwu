@@ -84,17 +84,23 @@
                   'state': '001',   // 状态，根据状态调图片
                   'eid': '{{ e.id }}',
                   'e_name':'{{ e.name }}',
-                  'use_department':'{{ use_department }}',
-                  'info':[]
+                  'use_department':'{{ e.use_department }}',
+                  'content':[]
                 }
             ],
             {% endfor %}
         ]
     // 标注列表
     var markers = [];
+    var pictures =  {'001':'/static/img/mapPoint/blue.png', '102':'/static/img/mapPoint/yellow.png', '101':'/static/img/mapPoint/red.png'};  // 标点图片
+    var infoWindow = new AMap.InfoWindow({offset: new AMap.Pixel(0, -60)});
+        // 点击函数
+    function markerClick(e) {
+            infoWindow.setContent(e.target.content);
+            infoWindow.open(map, e.target.getPosition());
+        }
     if (positions.length) {
        for(var i=0; i < positions.length; i += 1){
-           var pictures =  {'001':'/static/img/mapPoint/blue.png', '102':'/static/img/mapPoint/yellow.png', '101':'/static/img/mapPoint/red.png'};  // 标点图片
            var marker = new AMap.Marker({
                       // 经纬度
                   position:[positions[i][0]['lng'], positions[i][0]['lnt']],
@@ -109,30 +115,15 @@
             marker.setAnimation('AMAP_ANIMATION_BOUNCE');
 
             //　将点标记的信息录入对象中
-            positions[i][0]['info'][0] = "<dt>设备名称:"+positions[i][0]['e_name']+"</dt>"
-            positions[i][0]['info'][1] = "<dt>使用单位:"+positions[i][0]['use_department']+"</dt>"
-            positions[i][0]['info'][2] = "<dt>设备状态:正常</dt>"
-            positions[i][0]['info'][3] = ""
+            positions[i][0]['content'][0] = "<dt>设备名称: "+positions[i][0]['e_name']+"</dt>"
+            positions[i][0]['content'][1] = "<dt>使用单位: "+positions[i][0]['use_department']+"</dt>"
+            positions[i][0]['content'][2] = "<dt>设备状态: 正常</dt>"
             // 给点标记增加点击功能
-            marker.on('click', function(e){
-                var lng = e.lnglat.getLng()
-                var lnt = e.lnglat.getLat()
-                //　判断点击的是哪个点标记
-                for (let i = 0 ; i < positions.length ; i++) {
-                    //　点坐标范围内有效 lng[0, 0.02]  lnt[0, 0.02]
-                  if (lng <= (positions[i][0]['lng']+0.02) && lng >= positions[i][0]['lng']  && lnt <= (positions[i][0]['lnt'] +0.02) &&  lnt >= positions[i][0]['lnt']  ) {
-                    // 读取点标记信息
-                    var info = positions[i][0]['info'][0]+positions[i][0]['info'][1]+positions[i][0]['info'][2]+positions[i][0]['info'][3]
-                    // 显示 label
-                    positions[i][1].setLabel({
-                        offset: new AMap.Pixel(20, 20),  //设置文本标注偏移量
-                        content: "<div class='info' >"+info+"</div>", //设置文本标注内容
-                        direction: 'right' //设置文本标注方位
-                    });
-                  }
-                }
-            });
-
+            
+            marker.content = positions[i][0]['content'][0]+positions[i][0]['content'][1]+positions[i][0]['content'][2]
+            marker.on('click', markerClick);
+            marker.emit('click', {target: marker});
+            
             markers.push(marker);
             positions[i].push(marker)
 
@@ -184,27 +175,36 @@
             for (let i = 0 ; i < positions.length ; i++) {
                 if (positions[i][0]['eid'] == eid) {
                     // 将对象中的信息更新
-                    positions[i][0]['info'][2] = "<dt>设备状态:故障</dt>"
-                    positions[i][0]['info'][3] = "<dt>更新时间:"+nowtime+"</dt>"
-                    positions[i][1].setIcon('/static/img/mapPoint/red.png')
+                    positions[i][0]['content'][2] = "<dt>设备状态: 故障</dt>"
+                    positions[i][0]['content'][3] = "<dt>更新时间: "+nowtime+"</dt>"
+                    positions[i][1].content = positions[i][0]['content'][0]+positions[i][0]['content'][1]+positions[i][0]['content'][2]+positions[i][0]['content'][3]
+                    positions[i][1].on('click', markerClick);
+                    positions[i][1].emit('click', {target: positions[i][1]});
+                    positions[i][1].setIcon('/static/img/mapPoint/red.png');
                 }
             }
         } else if (data.code == '102'){
             for (let i = 0 ; i < positions.length ; i++) {
                 if (positions[i][0]['eid'] == eid) {
                     // 将对象中的信息更新
-                    positions[i][0]['info'][2] = "<dt>设备状态:报警</dt>"
-                    positions[i][0]['info'][3] = "<dt>更新时间:"+nowtime+"</dt>"
-                    positions[i][1].setIcon('/static/img/mapPoint/yellow.png')
+                    positions[i][0]['content'][2] = "<dt>设备状态:报警</dt>"
+                    positions[i][0]['content'][3] = "<dt>更新时间:"+nowtime+"</dt>"
+                    positions[i][1].content = positions[i][0]['content'][0]+positions[i][0]['content'][1]+positions[i][0]['content'][2]+positions[i][0]['content'][3]
+                    positions[i][1].on('click', markerClick);
+                    positions[i][1].emit('click', {target: positions[i][1]});
+                    positions[i][1].setIcon('/static/img/mapPoint/yellow.png');
                 }
             }
         } else if (data.code.startsWith('0')) {
             for (let i = 0 ; i < positions.length ; i++) {
                 if (positions[i][0]['eid'] == eid) {
                     // 将对象中的信息更新
-                    positions[i][0]['info'][2] = "<dt>设备状态:正常</dt>"
-                    positions[i][0]['info'][2] = "<dt>更新时间:"+nowtime+"</dt>"
-                    positions[i][1].setIcon('/static/img/mapPoint/blue.png')
+                    positions[i][0]['content'][2] = "<dt>设备状态:正常</dt>"
+                    positions[i][0]['content'][2] = "<dt>更新时间:"+nowtime+"</dt>"
+                    positions[i][1].content = positions[i][0]['content'][0]+positions[i][0]['content'][1]+positions[i][0]['content'][2]+positions[i][0]['content'][3]
+                    positions[i][1].on('click', markerClick);
+                    positions[i][1].emit('click', {target: positions[i][1]});
+                    positions[i][1].setIcon('/static/img/mapPoint/blue.png');
                 }
             }
         }
