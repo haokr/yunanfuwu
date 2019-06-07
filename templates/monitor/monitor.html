@@ -215,7 +215,7 @@
                 if (positions[i][0]['eid'] == eid) {
                     // 将对象中的信息更新
                     positions[i][0]['content'][2] = "<dt>设备状态:正常</dt>"
-                    positions[i][0]['content'][2] = "<dt>更新时间:"+nowtime+"</dt>"
+                    positions[i][0]['content'][3] = "<dt>更新时间:"+nowtime+"</dt>"
                     positions[i][1].content = positions[i][0]['content'][0]+positions[i][0]['content'][1]+positions[i][0]['content'][2]+positions[i][0]['content'][3]
                     positions[i][1].on('click', markerClick);
                     positions[i][1].emit('click', {target: positions[i][1]});

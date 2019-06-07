@@ -329,6 +329,18 @@ def UIReport(eid):
         room=eid,
         callback=callback
     )
+    socketio.emit(
+        'uireport', 
+        {
+            'code': code, 
+            'describe': class_,
+            'reporter': eid,
+            'datetime': dateTime,
+            'data': data
+        }, 
+        room=eid,
+        callback=callback
+    )
     return 'fine'
 
 def joinRoom(eid):
