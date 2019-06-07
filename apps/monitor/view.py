@@ -206,9 +206,46 @@ def UIReport(eid):
     '''
     code = request.form.get('code')
     dateTime = request.form.get('datetime')
-    data = request.form.get('data')
+    
+    describe = request.form.get('describe')
 
-    print(data)
+    U1 = request.form.get('U1')
+    U2 = request.form.get('U2')
+    U3 = request.form.get('U3')
+
+    I1 = request.form.get('I1')
+    I2 = request.form.get('I2')
+    I3 = request.form.get('I3')
+
+    J1 = request.form.get('J1')
+
+    T1 = request.form.get('T1')
+    T2 = request.form.get('T2')
+    T3 = request.form.get('T3')
+    T4 = request.form.get('T4')
+
+    L1 = request.form.get('L1')
+
+    data = {
+                'describe': describe,
+                # 电压
+                'U1': U1,
+                'U2': U2,
+                'U3': U3,
+                # 电流
+                'I1': I1,
+                'I2': I2,
+                'I3': I3,
+                # 设备用电
+                'J1': data['J1'],
+                # 温度
+                'T1': T1,
+                'T2': T2,
+                'T3': T3,
+                'T4': T4,
+                # 剩余电流，漏电
+                'L1': L1,
+    }
 
     codeDict = {
         '000': '注册',
@@ -319,7 +356,6 @@ def UIReport(eid):
         except Exception as e:
             print(e)
 
-    print(data)
     socketio.emit(
         'report', 
         {
