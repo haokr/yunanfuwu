@@ -324,7 +324,7 @@ def UIReport(eid):
             'describe': class_,
             'reporter': eid,
             'datetime': dateTime,
-            'data': data
+            'data': jsonify(data)
         }, 
         room=eid,
         callback=callback
@@ -336,7 +336,7 @@ def UIReport(eid):
             'describe': class_,
             'reporter': eid,
             'datetime': dateTime,
-            'data': data
+            'data': jsonify(data)
         }, 
         room=eid,
         callback=callback
