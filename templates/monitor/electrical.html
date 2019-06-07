@@ -205,9 +205,9 @@
      
         //更新数据
         var option = chart.getOption();
-        option.series[0].data.pop()
+        option.series[0].data.shift()
         option.series[0].data.push(data) 
-        option.xAxis[0].data.pop()
+        option.xAxis[0].data.shift()
         option.xAxis[0].data.push(timeLabel)
         chart.setOption(option);    
     }
