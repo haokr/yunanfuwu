@@ -208,6 +208,8 @@ def UIReport(eid):
     dateTime = request.form.get('datetime')
     data = request.form.get('data')
 
+    print(data)
+
     codeDict = {
         '000': '注册',
         '001': '正常',
@@ -317,6 +319,7 @@ def UIReport(eid):
         except Exception as e:
             print(e)
 
+    print(data)
     socketio.emit(
         'report', 
         {
@@ -324,7 +327,7 @@ def UIReport(eid):
             'describe': class_,
             'reporter': eid,
             'datetime': dateTime,
-            'data': jsonify(data)
+            'data': data
         }, 
         room=eid,
         callback=callback
@@ -336,7 +339,7 @@ def UIReport(eid):
             'describe': class_,
             'reporter': eid,
             'datetime': dateTime,
-            'data': jsonify(data)
+            'data': data
         }, 
         room=eid,
         callback=callback
