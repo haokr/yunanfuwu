@@ -190,7 +190,7 @@
             for (let i = 0 ; i < positions.length ; i++) {
                 if (positions[i][0]['eid'] == eid) {
                     // 将对象中的信息更新
-                    positions[i][0]['content'][2] = "<dt>设备状态: 故障</dt>"
+                    positions[i][0]['content'][2] = "<dt>设备状态: <span style='color: red'>故障</span></dt>"
                     positions[i][0]['content'][3] = "<dt>更新时间: "+nowtime+"</dt>"
                     positions[i][1].content = positions[i][0]['content'][0]+positions[i][0]['content'][1]+positions[i][0]['content'][2]+positions[i][0]['content'][3]
                     positions[i][1].on('click', markerClick);
@@ -202,7 +202,7 @@
             for (let i = 0 ; i < positions.length ; i++) {
                 if (positions[i][0]['eid'] == eid) {
                     // 将对象中的信息更新
-                    positions[i][0]['content'][2] = "<dt>设备状态:报警</dt>"
+                    positions[i][0]['content'][2] = "<dt>设备状态:<span style='color: red'>报警</span></dt>"
                     positions[i][0]['content'][3] = "<dt>更新时间:"+nowtime+"</dt>"
                     positions[i][1].content = positions[i][0]['content'][0]+positions[i][0]['content'][1]+positions[i][0]['content'][2]+positions[i][0]['content'][3]
                     positions[i][1].on('click', markerClick);
@@ -214,7 +214,7 @@
             for (let i = 0 ; i < positions.length ; i++) {
                 if (positions[i][0]['eid'] == eid) {
                     // 将对象中的信息更新
-                    positions[i][0]['content'][2] = "<dt>设备状态:正常</dt>"
+                    positions[i][0]['content'][2] = "<dt>设备状态:<span style='color: green'>正常</span></dt>"
                     positions[i][0]['content'][3] = "<dt>更新时间:"+nowtime+"</dt>"
                     positions[i][1].content = positions[i][0]['content'][0]+positions[i][0]['content'][1]+positions[i][0]['content'][2]+positions[i][0]['content'][3]
                     positions[i][1].on('click', markerClick);
