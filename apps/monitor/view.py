@@ -7,15 +7,6 @@ from db import db, redis_cli
 import time
 
 
-def callback(flag):
-    '''
-        回调
-    :param flag:
-    :return:
-    '''
-    return flag
-
-
 def monitorPage():
     '''
         连接前后端中设备连接信息
@@ -91,7 +82,6 @@ def connect():
         用户有设备返回添加
     :return: 设备连接状态
     '''
-    print(request.headers)
     sid = request.sid
     session['sid'] = sid
     uid = session.get('id')
@@ -107,7 +97,6 @@ def connect():
             'join', 
             {'data': 'OK', 'joiner': session.get('username')}, 
             room=e.id,
-            callback=callback
         )
     return {'msg': 'success', 'data': 'OK, The user {} has joined equipments room'.format(session.get('username'))}
 
@@ -144,12 +133,7 @@ def report(eid):
 
     class_ = codeDict.get(code, None)
     class_ = class_ if class_ else code
-    try:
-        equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
-        equipment.status = class_
-        db.session.commit()
-    except Exception as e:
-        print(e)
+
 
     # 正常
     if code[0] == '0':
@@ -162,6 +146,7 @@ def report(eid):
                 alarmRecord = Alarm_record.query.filter(Alarm_record.id==isAlarm).first()
                 alarmRecord.end_time = datetime.now()
                 db.session.commit()
+                redis_cli.delete(eid)
 
         except Exception as e:
             print(e)
@@ -172,15 +157,18 @@ def report(eid):
             isAlarm = redis_cli.get(eid)
             if not isAlarm:
                 equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
+                equipment.status = class_
                 alarmData = {
                     'equipment_id': eid,
                     'class_': class_,
                     'alarm_time': datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
                 }
                 alarm = Alarm_record(**alarmData)
-                
                 db.session.add(alarm)
+                db.session.flush()
+                redis_cli.set(eid, alarm.id)
                 db.session.commit()
+
         except Exception as e:
             print(e)
 
@@ -362,7 +350,6 @@ def UIReport(eid):
             'data': data
         }, 
         room=eid,
-        callback=callback
     )
     socketio.emit(
         'uireport', 
@@ -374,7 +361,6 @@ def UIReport(eid):
             'data': data
         }, 
         room=eid,
-        callback=callback
     )
     return 'fine'
 

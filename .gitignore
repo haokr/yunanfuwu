@@ -129,3 +129,7 @@ dmypy.json
 
 # flask-seession dir
 flask_session/
+
+migrations/
+
+.gitignore

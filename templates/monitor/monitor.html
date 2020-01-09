@@ -32,7 +32,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="Vector-map-js">
-                                <div id="vmap" class="vmap">
+                                <div id="vmap" class="vmap" style="height: 500px">
 
                                 </div>
                             </div>
@@ -170,7 +170,7 @@
 
     // socket
     var socket = io.connect('http://' + document.domain + ':' + location.port,{
-        'transports': ['websocket']
+    //    'transports': ['websocket']
     });
     console.log('http://' + document.domain + ':' + location.port)
     socket.on('connect', function(data) {
@@ -227,7 +227,6 @@
             }
         }
 
-        callback(1)
     })
     socket.on('join', function(data, callback) {
         console.log(data)
@@ -235,7 +234,6 @@
     })
     socket.on('jump', function(data, callback) {
         console.log(data)
-        callback(1)
     })
 
 
