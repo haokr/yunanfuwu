@@ -103,7 +103,8 @@
             [
                 { 'lng': {{ e.gaode_longitude }},  // 经度
                   'lnt': {{ e.gaode_latitude }},    // 维度
-                  'state': '001',   // 状态，根据状态调图片
+                  'state': {{'001' if e.status == '正常' else '102' if e.status == '故障' or e.status == 'off' else '102'}},   // 状态，根据状态调图片
+                  'status': '{{ e.status }}' ,
                   'eid': '{{ e.id }}',
                   'e_name':'{{ e.name }}',
                   'use_department':'{{ e.use_department }}',
@@ -139,7 +140,7 @@
             //　将点标记的信息录入对象中
             positions[i][0]['content'][0] = "<dt>设备名称: "+positions[i][0]['e_name']+"</dt>"
             positions[i][0]['content'][1] = "<dt>使用单位: "+positions[i][0]['use_department']+"</dt>"
-            positions[i][0]['content'][2] = "<dt>设备状态: 正常</dt>"
+            positions[i][0]['content'][2] = "<dt>设备状态: "+ positions[i][0]['status'] +"</dt>"
             // 给点标记增加点击功能
             
             marker.content = positions[i][0]['content'][0]+positions[i][0]['content'][1]+positions[i][0]['content'][2]
