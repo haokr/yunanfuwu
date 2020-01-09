@@ -1,5 +1,5 @@
 from flask import request, render_template, jsonify, session
-from app import socketio
+from socketIO import socketio
 from models import Equipment, User, Alarm_record, Equipment_report_log, UI_report_log
 from flask_socketio import join_room
 from datetime import datetime
@@ -91,6 +91,7 @@ def connect():
         用户有设备返回添加
     :return: 设备连接状态
     '''
+    print(request.headers)
     sid = request.sid
     session['sid'] = sid
     uid = session.get('id')
@@ -196,7 +197,7 @@ def report(eid):
             'datetime': dateTime
         }, 
         room=eid,
-        callback=callback
+#        callback=callback
     )
     return 'fine'
 
@@ -392,3 +393,46 @@ def joinRoom(eid):
     join_room(eid, sid=session.get('sid'), namespace='/')
     socketio.emit('jump', {'data': 'OK', 'joiner': session.get('username')}, room=eid)
     return 'Hello {} is joined'.format(session.get('username'))
+
+
+
+
+def wx_showEquipments():
+    '''
+        查询当前用户拥有的设备
+        获取设备信息
+        设备信息展示
+    :return: 设备信息
+    '''
+    user_id = session.get('id')
+    child_id = request.args.get('child', None)
+    user_id = child_id if child_id and child_id != 'None' else user_id
+    equipments = User.query.filter(User.id == user_id).first().group.equipments
+    data = {
+        'equipments': [
+            {
+            'id': e.id,
+            'name': e.name,
+            'class_': e.class_,
+            'gaode_longitude': e.gaode_longitude,
+            'gaode_latitude': e.gaode_latitude,
+            'location': e.location,
+            'ip': e.ip,
+            'use_department': e.use_department,
+            'remarks': e.remarks,
+            'manufacturer': e.manufacturer,
+            'model': e.model,
+            'position_province': e.position_province,
+            'position_city': e.position_city,
+            'position_district': e.position_district,
+            'contact': e.admin.contact,
+            'contact_tel': e.admin.contact_tel,
+            'status': e.status,
+            'SIM_id': e.SIM_id,
+            'modify_time': e.modify_time,
+            'create_time': e.create_time
+            }
+            for e in equipments if e.live
+        ]
+    }
+    return jsonify(data)

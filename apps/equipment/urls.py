@@ -18,11 +18,11 @@ def showAddEquipment():
 def showEditEquipment(eid):
     return view.showEditEquipment(eid)
 
-
 # 设备展示
 @equipment.route('/show')
 def showEquipments():
     return view.showEquipments()
+
 
 # 反控页面
 @equipment.route('/control')
@@ -58,3 +58,4 @@ def root():
 @equipment.route('/drop', methods=['POST'])
 def drop():
     return view.drop()
+

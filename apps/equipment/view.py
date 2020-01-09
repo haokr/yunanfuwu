@@ -364,3 +364,4 @@ def control(eid):
     s.close()
     return jsonify({'msg': 'success', 'data': 'success'})
 
+

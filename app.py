@@ -23,11 +23,10 @@ Session(app)
 db.init_app(app)
 socketio.init_app(app, manage_session=False)
 
-
 @app.before_request
 def before_request():
     user_id = session.get("id")
-    ignore = ['/user/login', '/user/register', '/gov/regist', '/gov/login']
+    ignore = ['/user/login', '/user/register', '/gov/regist', '/gov/login', '/user/wxlogin', '/monitor/wxshow', '']
     isReport = request.path.startswith('/monitor/report/') or request.path.startswith('/monitor/uireport/') 
     isStatic = request.path.startswith('/static')
 
@@ -60,4 +59,5 @@ app.register_blueprint(role, url_prefix='/role')
 app.register_blueprint(gov, url_prefix='/gov')
 
 if __name__ == '__main__':
-    socketio.run(app)
+#    app.wsgi_app = LighttpdCGIRootFix(app.wsgi_app)
+    socketio.run(app, debug=True)

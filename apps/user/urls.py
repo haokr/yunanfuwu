@@ -52,6 +52,7 @@ def login():
         return view.getlogin()
 
 
+
 # 登出路由
 @user.route('/logout', methods=['POST'])
 def logout():
@@ -67,3 +68,7 @@ def register():
         return view.register()
 
 
+# 微信用户登陆路由
+@user.route('/wxlogin', methods=['POST'])
+def wx_login():
+    return view.wx_login()

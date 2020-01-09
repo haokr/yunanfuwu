@@ -47,3 +47,8 @@ def connect():
 def join(eid):
     return view.joinRoom(eid)
 
+
+# 微信上设备展示
+@monitor.route('/wxshow', methods=['GET'])
+def wx_showEquipments():
+    return view.wx_showEquipments()

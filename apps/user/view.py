@@ -332,3 +332,32 @@ def dropchild(cid):
                 return jsonify({'msg': 'fail', 'data': 'modify child error when select equipments'})
         else:
             return jsonify({'msg': 'fail', 'data': 'there are equipment or child'})
+
+
+
+def wx_login():
+    '''
+        微信登陆
+        获取用户用户名及密码
+        验证用户
+    :return:
+    '''
+    username_password = request.values.get('username')
+    try:
+        username_password = username_password[1:-1].replace('"','')
+        username_password = username_password.split(',')
+        username_password = {x.split(':')[0]:x.split(':')[1] for x in username_password}
+        username = username_password['username']
+        password = username_password['password']
+    except:
+        return 'error'
+    user = User.query.filter(User.username == username, User.password == password, User.live == True).first()
+    print(username)
+    if user:
+        session['id'] = user.id
+        session['name'] = user.name
+        session['username'] = username
+        session['class_'] = 'user'
+        return 'success'
+    else:
+        return 'false'
