@@ -1,9 +1,9 @@
 from flask import request, render_template, jsonify, session
 from socketIO import socketio
-from models import Equipment, User, Alarm_record, Equipment_report_log, UI_report_log
+from models import Equipment, User, Alarm_record, UI_report_log
 from flask_socketio import join_room
 from datetime import datetime
-from db import db
+from db import db, redis_cli
 import time
 
 
@@ -151,40 +151,36 @@ def report(eid):
     except Exception as e:
         print(e)
 
-    # 日志
+    # 正常
     if code[0] == '0':
         try:
-            reportData = {
-                'equipment_id': eid,
-                'class_': class_,
-                'report_time': datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
-            }
-            report = Equipment_report_log(**reportData)
-            db.session.add(report)
-            db.session.commit()
+            report_time: datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
+            isAlarm = redis_cli.get(eid)
+            if isAlarm:
+                equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
+                equipment.status = '正常'
+                alarmRecord = Alarm_record.query.filter(Alarm_record.id==isAlarm).first()
+                alarmRecord.end_time = datetime.now()
+                db.session.commit()
+
         except Exception as e:
             print(e)
     # 报警
     elif code[0] == '1':
         try:
             # 报警
-            alarmData = {
-                'equipment_id': eid,
-                'class_': class_,
-                'alarm_time': datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
-            }
-            alarm = Alarm_record(**alarmData)
-            # 日志
-            reportData = {
-                'equipment_id': eid,
-                'class_': class_,
-                'report_time': datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
-            }
-            report = Equipment_report_log(**reportData)
-
-            db.session.add(report)
-            db.session.add(alarm)
-            db.session.commit()
+            isAlarm = redis_cli.get(eid)
+            if not isAlarm:
+                equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
+                alarmData = {
+                    'equipment_id': eid,
+                    'class_': class_,
+                    'alarm_time': datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
+                }
+                alarm = Alarm_record(**alarmData)
+                
+                db.session.add(alarm)
+                db.session.commit()
         except Exception as e:
             print(e)
 
@@ -196,8 +192,7 @@ def report(eid):
             'reporter': eid,
             'datetime': dateTime
         }, 
-        room=eid,
-#        callback=callback
+        room=eid
     )
     return 'fine'
 
