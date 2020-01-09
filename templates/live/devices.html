@@ -1,0 +1,10 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% for device in devices %}
+        <a href="{{ device.href }}">{{ device.name }}</a>
+    {% endfor %}
+
+{% endblock %}
