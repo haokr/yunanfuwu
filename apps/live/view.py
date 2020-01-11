@@ -2,9 +2,33 @@ from flask import request, session, jsonify, render_template, url_for, redirect
 
 
 def devices():
-    devices_ = [{'name': 'test1', 'href': "#"}]
-    return render_template('live/devices.html', {'devices': })
+    data = {
+        'base':{
+            'pageTitle': '设备信息-云安服务',
+            'avatarImgUrl': '/static/img/yunan_logo_1.png',
+            'pageNow': '设备信息',
+            'username': session.get('username'),
+            'name': session.get('name'),
+            'userid': session.get('id')
+        },
+        'devices': [
+            {'name': 'test1', 'href': "#"},
+            {'name': 'test2', 'href': '#'}
+            ]
+    }
+    return render_template('live/devices.html', **data)
 
 
-def living(sid):
-    pass
+def living(device_id):
+    data = {
+        'base':{
+            'pageTitle': '设备信息-云安服务',
+            'avatarImgUrl': '/static/img/yunan_logo_1.png',
+            'pageNow': '设备信息',
+            'username': session.get('username'),
+            'name': session.get('name'),
+            'userid': session.get('id')
+        },
+    }
+    
+    return render_template('live/living.html', **data)
