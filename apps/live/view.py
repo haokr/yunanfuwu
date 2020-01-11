@@ -4,9 +4,9 @@ from flask import request, session, jsonify, render_template, url_for, redirect
 def devices():
     data = {
         'base':{
-            'pageTitle': '设备信息-云安服务',
+            'pageTitle': '监控设备-云安服务',
             'avatarImgUrl': '/static/img/yunan_logo_1.png',
-            'pageNow': '设备信息',
+            'pageNow': '监控设备',
             'username': session.get('username'),
             'name': session.get('name'),
             'userid': session.get('id')
@@ -22,9 +22,9 @@ def devices():
 def living(device_id):
     data = {
         'base':{
-            'pageTitle': '设备信息-云安服务',
+            'pageTitle': '实时监控-云安服务',
             'avatarImgUrl': '/static/img/yunan_logo_1.png',
-            'pageNow': '设备信息',
+            'pageNow': '实时监控',
             'username': session.get('username'),
             'name': session.get('name'),
             'userid': session.get('id')
