@@ -1,0 +1,21 @@
+
+{% extends 'base.html' %}
+
+{% block js %}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+    <script>
+        var playerElement = document.getElementById("player-wrapper");
+        var player = new Clappr.Player({
+            source: 'https://cmgw-vpc.lechange.com:8890/LCO/3G0728CPAG00976/0/0/20200111T005348/dev_3G0728CPAG00976_20200111T005348.m3u8?proto=https',
+            mute: true,
+            height: 360,
+            width: 640,
+            autoPlay: true
+        }); 
+        player.attachTo(playerElement);
+    </script>
+{% endblock js %}
+
+{% block content %}
+    <div id="player-wrapper" style="margin-left: 26%;"></div>
+{% endblock content %}
