@@ -13,6 +13,7 @@ from apps.user.urls import user
 from apps.monitor.urls import monitor
 from apps.role.urls import role
 from apps.gov.urls import gov
+from apps.live.urls import live
 
 
 app = Flask(__name__, static_folder='static')
@@ -57,6 +58,7 @@ app.register_blueprint(monitor, url_prefix='/monitor')
 app.register_blueprint(data, url_prefix='/data')
 app.register_blueprint(role, url_prefix='/role')
 app.register_blueprint(gov, url_prefix='/gov')
+app.register_blueprint(live, url_prefix='/live')
 
 if __name__ == '__main__':
 #    app.wsgi_app = LighttpdCGIRootFix(app.wsgi_app)
