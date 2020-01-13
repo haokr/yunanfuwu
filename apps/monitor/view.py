@@ -157,6 +157,7 @@ def report(eid):
         try:
             # 报警
             isAlarm = redis_cli.get(eid)
+
             if not isAlarm:
                 equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
                 equipment.status = class_
@@ -167,7 +168,7 @@ def report(eid):
                 }
                 alarm = Alarm_record(**alarmData)
 
-                all_alert(equipment.admin_id, msg=f"警报！设备{eid}于{alarmData['alarm_time']}发出报警!")
+                all_alert(equipment.admin, msg=f"警报！设备{eid}于{alarmData['alarm_time']}发出报警!")
 
                 db.session.add(alarm)
                 db.session.flush()
@@ -424,9 +425,8 @@ def wx_showEquipments():
     return jsonify(data)
 
 
-def all_alert(user_id, msg):
-    # 给用户及其父账号发送邮件
-    user = User.query.filter(User.id == user_id).all()[0]
+# 给用户及其父账号发送邮件
+def all_alert(user, msg):
     stack = [user.email]
     while True:
         if user.parent:
