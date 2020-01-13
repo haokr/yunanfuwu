@@ -263,7 +263,7 @@ def control_move_ptz_op(device_id):
     def method(code):
         if code in op_methods:
             op_data["operation"] = op_methods[code]
-            res = requests.post(api + "modifyLivePlanStatus",
+            res = requests.post(api + "controlMovePTZ",
                                 data=json.dumps(data),
                                 headers=headers)
             # print(res.text)

@@ -164,6 +164,9 @@ def report(eid):
                     'alarm_time': datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
                 }
                 alarm = Alarm_record(**alarmData)
+
+                send_mail(content=f"警报！设备{eid}于{alarmData['alarm_time']}发出报警!")
+
                 db.session.add(alarm)
                 db.session.flush()
                 redis_cli.set(eid, alarm.id)
@@ -417,3 +420,38 @@ def wx_showEquipments():
         ]
     }
     return jsonify(data)
+
+
+# 发送邮件(qq.com)
+
+import smtplib
+from email.mime.text import MIMEText
+def send_mail(msg_from=None, passwd=None, msg_to=None, subject=None, content):
+    # 发送者的邮箱
+    msg_from = '3312447390@qq.com'
+    # 发送者邮箱的权限码
+    passwd = 'vqbzsgcmezrvchfd'
+    # 接收的邮箱
+    msg_to = '1171443643@qq.com'
+
+    # 标题
+    subject = "警告"
+    # 内容
+    if not content:
+        content = "有紧急事故"
+    # 生成一个MIMEText对象（还有一些其他参数）
+    msg = MIMEText(content)
+    # 放入邮件主题
+    msg['Subject'] = subject
+    # 放入发件人
+    msg['From'] = msg_from
+
+    try:
+        s = smtplib.SMTP_SSL("smtp.qq.com", 465)
+        s.login(msg_from, passwd)
+        s.sendmail(msg_from, msg_to, msg.as_string())
+        return True
+    except s.SMTPException as e:
+        print(e)
+    finally:
+        s.quit()
