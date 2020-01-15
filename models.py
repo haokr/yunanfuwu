@@ -1,15 +1,19 @@
 # -*- coding: utf-8 -*-
 
-from db import db
-import shortuuid
 from datetime import datetime
+
+import shortuuid
+
+from db import db
 
 # 设备分组关系中间表
 equipment_group_relationship = db.Table('equipment_group_relationship',
-        db.Column('group_id', db.String(30), db.ForeignKey('group.id'), primary_key=True),
-        db.Column('equipment_id', db.String(30), db.ForeignKey('equipment.id'), primary_key=True),
-        db.Column('create_time', db.DateTime, default=datetime.now)
-    )
+                                        db.Column('group_id', db.String(30), db.ForeignKey('group.id'),
+                                                  primary_key=True),
+                                        db.Column('equipment_id', db.String(30), db.ForeignKey('equipment.id'),
+                                                  primary_key=True),
+                                        db.Column('create_time', db.DateTime, default=datetime.now)
+                                        )
 
 
 # 角色
@@ -46,7 +50,9 @@ class User(db.Model):
     contact_tel = db.Column(db.String(15))
     live = db.Column(db.BOOLEAN, nullable=False, default=True)
     parent_id = db.Column(db.String(30), db.ForeignKey('user.id'))
-    parent = db.relationship('User',remote_side=[id], backref=db.backref('children', lazy='dynamic'))
+    parent = db.relationship('User', remote_side=[id], backref=db.backref('children', lazy='dynamic'))
+
+    email = db.Column(db.String(100), nullable=True, default=None)
 
     role_id = db.Column(db.String(30), db.ForeignKey('role.id'), default='ro_veqzdDMDEAvykjLMmMGVrF')
 
@@ -58,11 +64,10 @@ class User(db.Model):
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
 
-
 # 用户操作记录
 class User_record(db.Model):
     __tablename__ = 'user_record'
-    id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda : 'ur_' + shortuuid.uuid())
+    id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda: 'ur_' + shortuuid.uuid())
     user_id = db.Column(db.String(30), db.ForeignKey('user.id'))
     user = db.relationship('User', backref=db.backref('record', lazy='dynamic'))
     ip = db.Column(db.String(24))
@@ -74,11 +79,12 @@ class User_record(db.Model):
 # 分组管理
 class Group(db.Model):
     __tablename__ = 'group'
-    id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda : 'g_' + shortuuid.uuid())
+    id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda: 'g_' + shortuuid.uuid())
     name = db.Column(db.String(30), nullable=False, default='GROUPNAME')
 
     # 将 设备分组 通过中间表关联起来
-    equipments = db.relationship('Equipment', secondary=equipment_group_relationship, backref=db.backref('group', lazy='dynamic'))
+    equipments = db.relationship('Equipment', secondary=equipment_group_relationship,
+                                 backref=db.backref('group', lazy='dynamic'))
 
     admin_id = db.Column(db.String(30), db.ForeignKey('user.id'))
     admin = db.relationship('User', uselist=False)
@@ -90,7 +96,7 @@ class Group(db.Model):
 # 设备
 class Equipment(db.Model):
     __equipment__ = 'equipment'
-    id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda : 'e_' + shortuuid.uuid())
+    id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda: 'e_' + shortuuid.uuid())
     name = db.Column(db.String(30), nullable=False)
     class_ = db.Column(db.String(20), nullable=False)
     gaode_longitude = db.Column(db.Float(precision='15,8'))
@@ -101,7 +107,7 @@ class Equipment(db.Model):
     remarks = db.Column(db.String(50))
     manufacturer = db.Column(db.String(30))
     model = db.Column(db.String(15))
-    
+
     live = db.Column(db.BOOLEAN, nullable=False, default=True)
     position_province = db.Column(db.String(20))
     position_city = db.Column(db.String(20))
@@ -119,7 +125,7 @@ class Equipment(db.Model):
 # 报警记录
 class Alarm_record(db.Model):
     __tablename__ = 'alarm_record'
-    id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda : 'ar_' + shortuuid.uuid())
+    id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda: 'ar_' + shortuuid.uuid())
 
     equipment_id = db.Column(db.String(30), db.ForeignKey('equipment.id'))
     equipment = db.relationship('Equipment', backref=db.backref('alarm_records', lazy='dynamic'))
@@ -129,7 +135,7 @@ class Alarm_record(db.Model):
 
     operator_id = db.Column(db.String(30), db.ForeignKey('user.id'))
     operator = db.relationship('User', backref=db.backref('dealed_alarms', lazy='dynamic'))
-    
+
     alarm_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime)
     create_time = db.Column(db.DateTime, default=datetime.now)
@@ -140,7 +146,7 @@ class Alarm_record(db.Model):
 class UI_report_log(db.Model):
     __tablename__ = 'ui_report_log'
     id = db.Column(db.String(30), primary_key=True, nullable=False, default=lambda: 'uirl_' + shortuuid.uuid())
-    
+
     equipment_id = db.Column(db.String(30), db.ForeignKey('equipment.id'))
     equipment = db.relationship('Equipment', backref=db.backref('ui_report_logs', lazy='dynamic'))
 

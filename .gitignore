@@ -127,6 +127,9 @@ dmypy.json
 # vscode setting
 .vscode/
 
+#pycharm setting
+.idea/
+
 # flask-seession dir
 flask_session/
 
