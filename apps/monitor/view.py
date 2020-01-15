@@ -471,7 +471,7 @@ def send_mail(msg_from=None, passwd=None, msg_to=None, subject=None, content=Non
         s.login(msg_from, passwd)
         s.sendmail(msg_from, msg_to, msg.as_string())
         return True
-    except s.SMTPException as e:
+    except smtplib.SMTPException as e:
         print(e)
     finally:
         s.quit()
