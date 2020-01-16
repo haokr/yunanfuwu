@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, session
 from apps.live import view
 
 
@@ -14,5 +14,6 @@ def devices():
 # 获取直播页面
 @live.route('/living', methods=['GET'])
 def living():
-    return view.living('test')
+    session['liveToken'] = "2b25b1f4cfd8411e98539757e10d892c"
+    return view.living()
 

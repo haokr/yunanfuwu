@@ -1,4 +1,4 @@
-from flask improt g
+# from flask import g
 import hashlib
 import json
 import random
@@ -13,7 +13,7 @@ api = "https://openapi.lechange.cn/openapi/"
 time = round(time.time())
 # 随机生成32位字符串，要求5分钟内不能重复
 nonce = "".join(random.choices(string.digits + "abcdef", k=32))
-app_secret = "302e2ed3eaf54b0386971b3924b32b"
+app_secret = "43be721f9ce84bd2bc09164ddcbae7"
 # 生成md5值
 sign = hashlib.md5(
     f"time:{time},nonce:{nonce},appSecret:{app_secret}".encode()).hexdigest()
@@ -22,7 +22,7 @@ data = {
     "system": {
         "ver": "1.0",
         "sign": sign,
-        "appId": "lc3b37c5d030684342",
+        "appId": "lc3cb586d5ab8649ea",
         "time": time,
         "nonce": nonce
     },
@@ -33,7 +33,8 @@ headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                   'Chrome/79.0.3945.117 Safari/537.36',
 }
-accessToken = g['accessToken']
+# accessToken = g['accessToken']
+accessToken = "At_93580388aae0411ea536d5c0aa1eebe3"
 
 def get_admin_access_token():
     """
@@ -46,7 +47,7 @@ def get_admin_access_token():
     print(res.text)
     response = res.json()
     print(response)
-    if response['result']['code'] == 0:
+    if response['result']['code'] == "0":
         return response['result']['data']['accessToken']
     else:
         return False
@@ -77,7 +78,7 @@ def get_device_base_list():
                         data=json.dumps(data),
                         headers=headers)
     response = res.json()
-    if response['result']['code'] == 0:
+    if response['result']['code'] == "0":
         return response['result']['data']['accessToken']
     else:
         return False
@@ -98,13 +99,13 @@ def get_set_device_snap_enhanced(device_id):
                         headers=headers)
     print(res.json())
     response = res.json()
-    if response['result']['code'] == 0:
+    if response['result']['code'] == "0":
         return [i['deviceid'] for i in response['result']['data']['deviceList']]
     else:
         return False
 
 
-def get_live():
+def get_live_list():
     """
     获取直播列表
     :return: 
@@ -119,7 +120,7 @@ def get_live():
     # print(res.text)
     response = res.json()
     print(response)
-    if response['result']['code'] == 0:
+    if response['result']['code'] == "0":
         return True
     else:
         return False
@@ -142,7 +143,7 @@ def create_live(device_id):
                         headers=headers)
     response = res.json()
     print(response)
-    if response['result']['code'] == 0:
+    if response['result']['code'] == "0":
         return response['result']['data']['streams']
     else:
         return False
@@ -163,7 +164,7 @@ def delete_live(liveToken):
     # print(res.text)
     response = res.json()
     print(response)
-    if response['result']['code'] == 0:
+    if response['result']['code'] == "0":
         return True
     else:
         return False
@@ -183,7 +184,7 @@ def query_live_status(liveToken):
                         headers=headers)
     response = res.json()
     print(response)
-    if response['result']['code'] == 0:
+    if response['result']['code'] == "0":
         """
         状态，
         0:正在直播中,
@@ -216,7 +217,7 @@ def modify_live_status(liveToken, status):
     # print(res.text)
     response = res.json()
     print(response)
-    if response['result']['code'] == 0:
+    if response['result']['code'] == "0":
         return True
     else:
         return False
@@ -269,7 +270,7 @@ def control_move_ptz_op(device_id):
             # print(res.text)
             response = res.json()
             print(response)
-            if response['result']['code'] == 0:
+            if response['result']['code'] == "0":
                 return True
             else:
                 return False
@@ -277,3 +278,7 @@ def control_move_ptz_op(device_id):
             return False
 
     return type("Op", (object,), {v: lambda: method(k) for k, v in op_methods.items()})
+
+
+if __name__ == "__main__":
+    get_live_list()

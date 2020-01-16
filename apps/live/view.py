@@ -1,4 +1,5 @@
 from flask import request, session, jsonify, render_template, url_for, redirect
+from utils import *
 
 
 def devices():
@@ -30,5 +31,9 @@ def living(device_id):
             'userid': session.get('id')
         },
     }
-    
     return render_template('live/living.html', **data)
+
+
+def closeLive(liveToken):
+    return close_live(liveToken)
+    
