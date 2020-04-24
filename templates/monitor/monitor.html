@@ -97,6 +97,8 @@
 			}
 	);
 
+	window.map = map
+
     // 设备列表
 	var positions = [
              {% for e in equipments %}
@@ -115,6 +117,7 @@
         ]
     // 标注列表
     var markers = [];
+	window.maskers = markers
     var pictures =  {'001':'/static/img/mapPoint/blue.png', '102':'/static/img/mapPoint/yellow.png', '101':'/static/img/mapPoint/red.png'};  // 标点图片
     var infoWindow = new AMap.InfoWindow({offset: new AMap.Pixel(0, -60)});
     // 点击函数
@@ -122,51 +125,55 @@
             infoWindow.setContent(e.target.content);
             infoWindow.open(map, e.target.getPosition());
         }
-    if (positions.length) {
-       for(var i=0; i < positions.length; i += 1){
-           var marker = new AMap.Marker({
-                      // 经纬度
-                  position:[positions[i][0]['lng'], positions[i][0]['lnt']],
-                  // 图片
-                  icon: pictures[positions[i][0]['state']],
-                  // 偏移量
-                  offset: new AMap.Pixel(-13, -36),
-                  // 设置是否可拖拽
-                  draggable: false,
-            });
-            // 设置点标记的动画效果，此处为弹跳效果
-            marker.setAnimation('AMAP_ANIMATION_BOUNCE');
 
-            //　将点标记的信息录入对象中
-            positions[i][0]['content'][0] = "<dt>设备名称: "+positions[i][0]['e_name']+"</dt>"
-            positions[i][0]['content'][1] = "<dt>使用单位: "+positions[i][0]['use_department']+"</dt>"
-            positions[i][0]['content'][2] = "<dt>设备状态: "+ positions[i][0]['status'] +"</dt>"
-            // 给点标记增加点击功能
-            
-            marker.content = positions[i][0]['content'][0]+positions[i][0]['content'][1]+positions[i][0]['content'][2]
-            marker.on('click', markerClick);
-            marker.emit('click', {target: marker});
+    function showEquipmentsMark(positions, markers){
+        if (positions.length) {
+           for(var i=0; i < positions.length; i += 1){
+               var marker = new AMap.Marker({
+                          // 经纬度
+                      position:[positions[i][0]['lng'], positions[i][0]['lnt']],
+                      // 图片
+                      icon: pictures[positions[i][0]['state']],
+                      // 偏移量
+                      offset: new AMap.Pixel(-13, -36),
+                      // 设置是否可拖拽
+                      draggable: false,
+                });
+                // 设置点标记的动画效果，此处为弹跳效果
+                marker.setAnimation('AMAP_ANIMATION_BOUNCE');
 
-            markers.push(marker);
-            positions[i].push(marker)
+                //　将点标记的信息录入对象中
+                positions[i][0]['content'][0] = "<dt>设备名称: "+positions[i][0]['e_name']+"</dt>"
+                positions[i][0]['content'][1] = "<dt>使用单位: "+positions[i][0]['use_department']+"</dt>"
+                positions[i][0]['content'][2] = "<dt>设备状态: "+ positions[i][0]['status'] +"</dt>"
+                // 给点标记增加点击功能
 
-            //　给地图增加点击功能
-            map.on('click', function(e){
-            for (let i = 0 ; i < positions.length ; i++) {
-                // 重置 label
-                positions[i][1].setLabel({
-                    offset: new AMap.Pixel(20, 20),  //设置文本标注偏移量
-                    content: "", //设置文本标注内容
-                    direction: 'right' //设置文本标注方位
+                marker.content = positions[i][0]['content'][0]+positions[i][0]['content'][1]+positions[i][0]['content'][2]
+                marker.on('click', markerClick);
+                marker.emit('click', {target: marker});
+
+                markers.push(marker);
+                positions[i].push(marker)
+
+                //　给地图增加点击功能
+                map.on('click', function(e){
+                for (let i = 0 ; i < positions.length ; i++) {
+                    // 重置 label
+                    positions[i][1].setLabel({
+                        offset: new AMap.Pixel(20, 20),  //设置文本标注偏移量
+                        content: "", //设置文本标注内容
+                        direction: 'right' //设置文本标注方位
+                    });
+                }
                 });
             }
-            });
+
+            map.add(markers);
+
         }
-
-        map.add(markers);
-
     }
 
+    showEquipmentsMark(positions, markers)
     map.setFitView();
 
     // socket
@@ -236,6 +243,7 @@
     socket.on('jump', function(data, callback) {
         console.log(data)
     })
+
 
 
 </script>

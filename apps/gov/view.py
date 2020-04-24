@@ -65,6 +65,8 @@ def monitor():
     user_id = session.get('id')
     user_name = session.get('name')
     gov = Gov.query.filter(Gov.id == user_id).first()
+    position = request.args.get("position")
+    unit = request.args.get("unit")
 
     gaode_center_longitude = gov.gaode_center_longitude
     gaode_center_latitude = gov.gaode_center_latitude
@@ -101,6 +103,7 @@ def monitor():
             'modify_time': e.modify_time
             }
             for e in Equipment.query.filter(Equipment.position_province == province, Equipment.live == True).all()
+            if (not position or (e.position_city == position or e.position_province == position or e.position_district == position))
         ]
     elif level == 2:
         province = gov.province
@@ -129,6 +132,7 @@ def monitor():
             'modify_time': e.modify_time
             }
             for e in Equipment.query.filter(Equipment.position_province == province, Equipment.live == True, Equipment.position_city == city).all()
+            if (not position or (e.position_city == position or e.position_province == position or e.position_district == position))
         ]
     elif level == 3:
         province = gov.province
@@ -158,7 +162,18 @@ def monitor():
             'modify_time': e.modify_time
             }
             for e in Equipment.query.filter(Equipment.position_province == province, Equipment.live == True, Equipment.position_city == city, Equipment.district == district).all()
+            if (not position or (e.position_city == position or e.position_province == position or e.position_district == position))
         ]
+
+    units = set()
+    for e in equipments:
+        units.add(e["use_department"])
+    units = list(units)
+
+    equipments = [e for e in equipments
+                  if (unit and e['use_department'] == unit)
+                  or not unit
+                  ]
 
     returnData = {
         'base': {
@@ -168,7 +183,8 @@ def monitor():
             'gaode_latitude': gaode_center_latitude,
             'pageNow': '设备监控',
             'level': level,
-            'city': cityData['districts'][0]
+            'city': cityData['districts'][0],
+            'units': units,
         },
         'equipments': equipments
     }

@@ -9,6 +9,8 @@ def root():
 	user = User.query.filter(User.id == user_id).first()
 	equipments = user.group.equipments
 
+	children = User.query.filter(User.parent_id == user_id, User.live == True).all()
+
 	alarm_records = []
 
 	for e in equipments:
@@ -33,7 +35,14 @@ def root():
             'avatarImgUrl': '/static/img/yunan_logo_1.png',
             'username': session.get('username'),
             'name': session.get('name'),
-            'userid': session.get('id')
+            'userid': session.get('id'),
+			'children' : [
+                {
+                    'id': c.id,
+                    'name': c.name
+                }
+                for c in children
+            ],
 		},
 		'alarm_records': alarm_records
 	}

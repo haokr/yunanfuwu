@@ -59,3 +59,9 @@ def root():
 def drop():
     return view.drop()
 
+
+# 查询用户设备
+@equipment.route('/userequipment', methods=['GET'])
+def userequipment():
+    return view.getUserEquipments()
+

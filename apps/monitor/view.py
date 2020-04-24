@@ -16,7 +16,13 @@ def monitorPage():
     :return: 监控设备信息
     '''
     user_id = session.get('id')
-    equipments = User.query.filter(User.id == user_id).first().group.equipments
+    child_id = request.args.get("child")
+    equipments = None 
+    if not child_id:
+        equipments = User.query.filter(User.id == user_id).first().group.equipments
+    else:
+        equipments = User.query.filter(User.id == child_id).first().group.equipments
+    children = User.query.filter(User.parent_id == user_id, User.live == True).all()
 
     data = {
         'base': {
@@ -25,7 +31,14 @@ def monitorPage():
             'avatarImgUrl': '/static/img/yunan_logo_1.png',
             'username': session.get('username'),
             'name': session.get('name'),
-            'userid': session.get('id')
+            'userid': session.get('id'),
+            'children': [
+                {
+                    'id': c.id,
+                    'name': c.name
+                }
+                for c in children
+            ],
         },
         'equipments': [
             {
@@ -64,6 +77,7 @@ def electricalMonitorPage():
     :return: 监控设备信息
     '''
     user_id = session.get('id')
+    children = User.query.filter(User.parent_id == user_id, User.live == True).all()
 
     data = {
         'base': {
@@ -72,7 +86,14 @@ def electricalMonitorPage():
             'avatarImgUrl': '/static/img/yunan_logo_1.png',
             'username': session.get('username'),
             'name': session.get('name'),
-            'userid': session.get('id')
+            'userid': session.get('id'),
+            'children': [
+                {
+                    'id': c.id,
+                    'name': c.name
+                }
+                for c in children
+            ],
         }
     }
     return render_template('monitor/electrical.html', **data)

@@ -77,6 +77,8 @@ def dataPage():
     # lineChartData = list(zip(twoWeeksDays, twoWeeksReportCounts))
     # print(lineChartData)
 
+
+    children = User.query.filter(User.parent_id == user_id, User.live == True).all()
     data = {
         'base': {
             'pageTitle': '监控-云安服务',
@@ -84,7 +86,14 @@ def dataPage():
             'avatarImgUrl': '/static/img/yunan_logo_1.png',
             'username': session.get('username'),
             'name': session.get('name'),
-            'userid': session.get('id')
+            'userid': session.get('id'),
+            'children': [
+                {
+                    'id': c.id,
+                    'name': c.name
+                }
+                for c in children
+            ]
         },
         'data': {
             'equipmentCount': equipmentCount,

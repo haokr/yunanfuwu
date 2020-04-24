@@ -56,7 +56,17 @@
                         <ul class="sub-menu children dropdown-menu">
                             <li id='{{base.city.adcode}}' gaode_center='{{ base.city.center }}' onclick="changeDistrict(this)" ><i class="menu-icon fa fa-street-view"></i><a href="/gov/monitor">{{ base.city.name }}</a></li>
                             {% for d in base.city.districts %}
-                                <li id='{{d.adcode}}' gaode_center='{{ d.center }}' onclick="changeDistrict(this)" ><i class="menu-icon fa fa-street-view"></i><a href="#">{{ d.name }}</a></li>
+                                <li id='{{d.adcode}}' gaode_center='{{ d.center }}' onclick="changeDistrict(this)" ><i class="menu-icon fa fa-street-view"></i><a href="/gov/monitor?position={{ d.name }}">{{ d.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart"></i>辖区单位</a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li><i class="menu-icon fa fa-line-chart"></i><a href="/gov/monitor">全部</a></li>
+                            {% for unit in base.units %}
+                                <li><i class="menu-icon fa fa-line-chart"></i><a href="/gov/monitor?unit={{ unit }}">{{ unit }}</a></li>
                             {% endfor %}
                         </ul>
                     </li>

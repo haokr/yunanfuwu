@@ -13,17 +13,25 @@ def getRoles():
     user_id = session.get('id')
     user = User.query.filter(User.id == user_id).first()
     role = Role.query.filter(Role.id == user.role_id).first()
+    children = User.query.filter(User.parent_id == user_id, User.live == True).all()
     if role.if_role == False:
         user_id = session.get('id')
         equipments = User.query.filter(User.id == user_id).first().group.equipments
         data = {
             'base': {
                 'pageTitle': '监控-云安服务',
-                'pageNow': '设备监控',
+                'pageNow': '角色管理',
                 'avatarImgUrl': '/static/img/yunan_logo_1.png',
                 'username': session.get('username'),
-            'name': session.get('name'),
-            'userid': session.get('id')
+                'name': session.get('name'),
+                'userid': session.get('id'),
+                'children': [
+                    {
+                        'id': c.id,
+                        'name': c.name
+                    }
+                    for c in children
+                ],
             },
             'equipments': [
                 {
@@ -57,11 +65,18 @@ def getRoles():
         data = {
             'base': {
                 'pageTitle': '监控-云安服务',
-                'pageNow': '设备监控',
+                'pageNow': '角色管理',
                 'avatarImgUrl': '/static/img/yunan_logo_1.png',
                 'username': session.get('username'),
-            'name': session.get('name'),
-            'userid': session.get('id')
+                'name': session.get('name'),
+                'userid': session.get('id'),
+                'children': [
+                    {
+                        'id': c.id,
+                        'name': c.name
+                    }
+                    for c in children
+                ],
             },
             'roles': [
                 {
@@ -93,14 +108,22 @@ def showRole(rid):
     if role.if_role == False:
         user_id = session.get('id')
         equipments = User.query.filter(User.id == user_id).first().group.equipments
+        children = User.query.filter(User.parent_id == user_id, User.live == True).all()
         data = {
             'base': {
                 'pageTitle': '监控-云安服务',
                 'pageNow': '设备监控',
                 'avatarImgUrl': '/static/img/yunan_logo_1.png',
                 'username': session.get('username'),
-            'name': session.get('name'),
-            'userid': session.get('id')
+                'name': session.get('name'),
+                'userid': session.get('id'),
+                'children': [
+                    {
+                        'id': c.id,
+                        'name': c.name
+                    }
+                    for c in children
+                ],
             },
             'equipments': [
                 {
@@ -132,14 +155,22 @@ def showRole(rid):
         role = Role.query.filter(Role.id == rid, Role.create_user ==user_id).first()
         userlist = User.query.filter(User.role_id == rid).all()
         others = User.query.filter(User.parent_id == user_id, User.role_id != role.id).all()
+        children = User.query.filter(User.parent_id == user_id, User.live == True).all()
         data = {
             'base': {
                 'pageTitle': '设备信息-云安服务',
                 'avatarImgUrl': '/static/img/yunan_logo_1.png',
                 'pageNow': '用户信息',
                 'username': session.get('username'),
-            'name': session.get('name'),
-            'userid': session.get('id')
+                'name': session.get('name'),
+                'userid': session.get('id'),
+                'children': [
+                    {
+                        'id': c.id,
+                        'name': c.name
+                    }
+                    for c in children
+                ],
             },
             'role': {
                     'id': role.id,
@@ -198,14 +229,22 @@ def modifyRole(rid):
     if role.if_role == False:
         user_id = session.get('id')
         equipments = User.query.filter(User.id == user_id).first().group.equipments
+        children = User.query.filter(User.parent_id == user_id, User.live == True).all()
         data = {
             'base': {
                 'pageTitle': '监控-云安服务',
                 'pageNow': '设备监控',
                 'avatarImgUrl': '/static/img/yunan_logo_1.png',
                 'username': session.get('username'),
-            'name': session.get('name'),
-            'userid': session.get('id')
+                'name': session.get('name'),
+                'userid': session.get('id'),
+                'children': [
+                    {
+                        'id': c.id,
+                        'name': c.name
+                    }
+                    for c in children
+                ],
             },
             'equipments': [
                 {
@@ -345,11 +384,13 @@ def showaddRole():
     user_id = session.get('id')
     user = User.query.filter(User.id == user_id).first()
     role = Role.query.filter(Role.id == user.role_id).first()
+    children = User.query.filter(User.parent_id == user_id, User.live == True).all()
     if role.if_role == False:
         user_id = session.get('id')
         child_id = request.args.get('child', None)
         user_id = child_id if child_id and child_id != 'None' else user_id
 
+        children = User.query.filter(User.parent_id == user_id, User.live == True).all()
         equipments = User.query.filter(User.id == user_id).first().group.equipments
         data = {
             'base': {
@@ -357,8 +398,15 @@ def showaddRole():
                 'avatarImgUrl': '/static/img/yunan_logo_1.png',
                 'pageNow': '设备信息',
                 'username': session.get('username'),
-            'name': session.get('name'),
-            'userid': session.get('id')
+                'name': session.get('name'),
+                'userid': session.get('id'),
+                'children': [
+                    {
+                        'id': c.id,
+                        'name': c.name
+                    }
+                    for c in children
+                ],
             },
             'child': child_id,
             'equipments': [
@@ -393,8 +441,15 @@ def showaddRole():
                 'avatarImgUrl': '/static/img/yunan_logo_1.png',
                 'pageNow': '添加设备',
                 'username': session.get('username'),
-            'name': session.get('name'),
-            'userid': session.get('id')
+                'name': session.get('name'),
+                'userid': session.get('id'),
+                'children': [
+                    {
+                        'id': c.id,
+                        'name': c.name
+                    }
+                    for c in children
+                ],
             }
         }
         return render_template('roles/addRoles.html', **data)

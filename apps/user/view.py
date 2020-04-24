@@ -100,9 +100,9 @@ def showAddUser(uid):
     user_id = session.get('id')
     user = User.query.filter(User.id == user_id, User.live == True).first()
     role = Role.query.filter(Role.id == user.role_id).first()
+    children = User.query.filter(User.parent_id == user_id, User.live == True).all()
     if role.if_add_child == False:
         user = User.query.filter(User.id == uid, User.live == True).first()
-        children = User.query.filter(User.parent_id == uid, User.live == True).all()
         if user.parent == None:
             parentname = '无'
         else:
@@ -114,7 +114,14 @@ def showAddUser(uid):
                 'pageNow': '用户信息',
                 'username': session.get('username'),
                 'name': session.get('name'),
-                'userid': session.get('id')
+                'userid': session.get('id'),
+                'children': [
+                    {
+                        'id': c.id,
+                        'name': c.name
+                    }
+                    for c in children
+                ],
             },
             'user': {
                 'id': user.id,
@@ -151,7 +158,14 @@ def showAddUser(uid):
                 'pageNow': '添加设备',
                 'username': session.get('username'),
                 'name': session.get('name'),
-                'userid': session.get('id')
+                'userid': session.get('id'),
+                'children': [
+                    {
+                        'id': c.id,
+                        'name': c.name
+                    }
+                    for c in children
+                ],
             },
             'parent': uid
         }
@@ -178,7 +192,14 @@ def showUser(uid):
             'pageNow': '用户信息',
             'username': session.get('username'),
             'name': session.get('name'),
-            'userid': session.get('id')
+            'userid': session.get('id'),
+            'children': [
+                {
+                    'id': c.id,
+                    'name': c.name
+                }
+                for c in children
+            ],
         },
         'user': {
                 'id': user.id,

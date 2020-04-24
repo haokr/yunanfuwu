@@ -29,16 +29,24 @@ def showEquipments():
     user_id = session.get('id')
     child_id = request.args.get('child', None)
     user_id = child_id if child_id and child_id != 'None' else user_id
+    children = User.query.filter(User.parent_id == user_id, User.live == True).all()
 
     equipments = User.query.filter(User.id == user_id).first().group.equipments
     data = {
-        'base':{
+        'base': {
             'pageTitle': '设备信息-云安服务',
             'avatarImgUrl': '/static/img/yunan_logo_1.png',
             'pageNow': '设备信息',
             'username': session.get('username'),
             'name': session.get('name'),
-            'userid': session.get('id')
+            'userid': session.get('id'),
+            'children': [
+                {
+                    'id': c.id,
+                    'name': c.name
+                }
+                for c in children
+            ],
         },
         'child': child_id,
         'equipments': [
@@ -77,7 +85,9 @@ def showEditEquipment(eid):
     :param eid: 设备ID
     :return:
     '''
+    user_id = session.get("id")
     e = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
+    children = User.query.filter(User.parent_id == user_id, User.live == True).all()
     data = {
         'base':{
             'pageTitle': '设备信息-云安服务',
@@ -85,7 +95,14 @@ def showEditEquipment(eid):
             'pageNow': '设备信息',
             'username': session.get('username'),
             'name': session.get('name'),
-            'userid': session.get('id')
+            'userid': session.get('id'),
+            'children': [
+                {
+                    'id': c.id,
+                    'name': c.name
+                }
+                for c in children
+            ],
         },
         'equipment': {
             'id': e.id,
@@ -119,11 +136,13 @@ def showAddEquipment():
     user_id = session.get('id')
     user = User.query.filter(User.id == user_id).first()
     role = Role.query.filter(Role.id == user.role_id).first()
+    children = User.query.filter(User.parent_id == user_id, User.live == True).all()
     if role.if_add_equipment == False:
         user_id = session.get('id')
         child_id = request.args.get('child', None)
         user_id = child_id if child_id and child_id != 'None' else user_id
 
+        children = User.query.filter(User.parent_id == user_id, User.live == True).all()
         equipments = User.query.filter(User.id == user_id).first().group.equipments
         data = {
             'base': {
@@ -131,8 +150,15 @@ def showAddEquipment():
                 'avatarImgUrl': '/static/img/yunan_logo_1.png',
                 'pageNow': '设备信息',
                 'username': session.get('username'),
-            'name': session.get('name'),
-            'userid': session.get('id')
+                'name': session.get('name'),
+                'userid': session.get('id'),
+                'children': [
+                    {
+                        'id': c.id,
+                        'name': c.name
+                    }
+                    for c in children
+                ],
             },
             'child': child_id,
             'equipments': [
@@ -168,8 +194,15 @@ def showAddEquipment():
                 'avatarImgUrl': '/static/img/yunan_logo_1.png',
                 'pageNow': '添加设备',
                 'username': session.get('username'),
-            'name': session.get('name'),
-            'userid': session.get('id')
+                'name': session.get('name'),
+                'userid': session.get('id'),
+                'children': [
+                    {
+                        'id': c.id,
+                        'name': c.name
+                    }
+                    for c in children
+                ],
             },
             'child': child_id
         }
@@ -183,6 +216,7 @@ def controlPage():
     if not eid:
         return 'error parm'
 
+    children = User.query.filter(User.parent_id == user_id, User.live == True).all()
     data = {
         'base': {
             'pageTitle': '设备反控-云安服务',
@@ -190,7 +224,14 @@ def controlPage():
             'pageNow': '设备反控',
             'username': session.get('username'),
             'name': session.get('name'),
-            'userid': session.get('id')
+            'userid': session.get('id'),
+            'children': [
+                {
+                    'id': c.id,
+                    'name': c.name
+                }
+                for c in children
+            ],
         },
         'eid': eid
     }
@@ -365,3 +406,37 @@ def control(eid):
     return jsonify({'msg': 'success', 'data': 'success'})
 
 
+def getUserEquipments():
+    '''
+    TODO 获取用户的设备
+    :param id:
+    :return:
+    '''
+    user_id = session.get('id')
+    equipments = User.query.filter(User.id == user_id).first().group.equipments
+    data = [
+            {
+                'id': e.id,
+                'name': e.name,
+                'class_': e.class_,
+                'gaode_longitude': e.gaode_longitude,
+                'gaode_latitude': e.gaode_latitude,
+                'location': e.location,
+                'ip': e.ip,
+                'use_department': e.use_department,
+                'remarks': e.remarks,
+                'manufacturer': e.manufacturer,
+                'model': e.model,
+                'position_province': e.position_province,
+                'position_city': e.position_city,
+                'position_district': e.position_district,
+                'contact': e.admin.contact,
+                'contact_tel': e.admin.contact_tel,
+                'status': e.status,
+                'SIM_id': e.SIM_id,
+                'modify_time': e.modify_time,
+                'create_time': e.create_time
+            }
+            for e in equipments if e.live
+        ]
+    return jsonify(data)
