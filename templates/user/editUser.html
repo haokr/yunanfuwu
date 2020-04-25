@@ -74,6 +74,20 @@
                                 <p class="form-control-static">{{ user.parent }}</p>
                             </div>
                         </div>
+                        <!-- email -->
+                        <div class="row form-group">
+                                <div class="col col-md-3"><label for="email-input" class=" form-control-label">报警邮箱</label></div>
+                                <div class="col-6 col-md-7">
+                                        <input type="text" id="email-input" name="email" style='display: none' value="{{ user.email or '' }}" class="form-control">
+                                        <p class="form-control-static" id='email-p' style='display: block'>{{ user.email or '' }}</p>
+
+                                </div>
+                                <div class='col-4 col-md-2'>
+                                        <button id='email-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='email-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='email-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                </div>
+                        </div>
                         <!-- address -->
                         <div class="row form-group">
                                 <div class="col col-md-3"><label for="address-input" class=" form-control-label">位置</label></div>

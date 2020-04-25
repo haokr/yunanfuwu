@@ -203,21 +203,27 @@ def report(eid):
     if code[0] == '0':
         try:
             isAlarm = redis_cli.get(eid)
+            isAlarm = isAlarm.decode() if isAlarm else None
             if isAlarm:
+                alarmId = isAlarm.split(",")[0]
+
                 equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
                 equipment.status = '正常'
-                alarmRecord = Alarm_record.query.filter(Alarm_record.id == isAlarm).first()
+                alarmRecord = Alarm_record.query.filter(Alarm_record.id == alarmId).first()
                 alarmRecord.end_time = datetime.now()
                 db.session.commit()
                 redis_cli.delete(eid)
 
         except Exception as e:
-            print(e)
+            raise e
     # 报警
     elif code[0] == '1':
         try:
             # 报警
             isAlarm = redis_cli.get(eid)
+            isAlarm = isAlarm.decode() if isAlarm else None
+            oldAlarmClass = isAlarm.split(",")[1] if isAlarm else None
+            alarmId = isAlarm.split(",")[0] if isAlarm else None
 
             if not isAlarm:
                 equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
@@ -228,16 +234,36 @@ def report(eid):
                     'alarm_time': datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
                 }
                 alarm = Alarm_record(**alarmData)
-
-                all_alert(equipment.admin, msg=f"警报！设备{eid}于{alarmData['alarm_time']}发出报警!")
+                emailMsg = f"警报！ 设备报警！\n 设备id：{eid}\n 设备名称：{equipment.name}\n 设备位置：{equipment.location}\n 所属部门：{equipment.use_department}\n 报警时间：{alarmData['alarm_time']}\n 请及时检查！"
+                all_alert(equipment.admin, msg=emailMsg, subject="警报！设备报警！请及时查看！")
 
                 db.session.add(alarm)
                 db.session.flush()
-                redis_cli.set(eid, alarm.id)
+                redis_cli.set(eid, f"{alarm.id},{class_}")
                 db.session.commit()
+            elif oldAlarmClass != class_:
+                equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
+                equipment.status = class_
+                # 将原来的报警结束
+                alarmRecord = Alarm_record.query.filter(Alarm_record.id == alarmId).first()
+                alarmRecord.end_time = datetime.now()
+                redis_cli.delete(eid)
+                # 添加新的报警
+                alarmData = {
+                    'equipment_id': eid,
+                    'class_': class_,
+                    'alarm_time': datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
+                }
+                alarm = Alarm_record(**alarmData)
+                emailMsg = f"警报！ 设备报警！\n 设备id：{eid}\n 设备名称：{equipment.name}\n 设备位置：{equipment.location}\n 所属部门：{equipment.use_department}\n 报警时间：{alarmData['alarm_time']}\n 请及时检查！"
+                all_alert(equipment.admin, msg=emailMsg, subject="警报！设备报警！请及时查看！")
 
+                db.session.add(alarm)
+                db.session.flush()
+                redis_cli.set(eid, f"{alarm.id},{class_}")
+                db.session.commit()
         except Exception as e:
-            print(e)
+            raise e
 
     socketio.emit(
         'report',
@@ -487,7 +513,7 @@ def wx_showEquipments():
 
 
 # 给用户及其父账号发送邮件
-def all_alert(user, msg):
+def all_alert(user, msg, subject=None):
     stack = [user.email]
     while True:
         if user.parent:
@@ -497,7 +523,7 @@ def all_alert(user, msg):
             break
     for email in stack:
         if email:
-            send_mail(msg_to=email, content=msg)
+            send_mail(msg_to=email, content=msg, subject=subject)
 
 
 # 发送邮件(qq.com)
@@ -516,7 +542,8 @@ def send_mail(msg_from=None, passwd=None, msg_to=None, subject=None, content=Non
         return False
 
     # 标题
-    subject = "警告"
+    if not subject:
+        subject = "设备警告"
     # 内容
     if not content:
         content = "有紧急事故"
