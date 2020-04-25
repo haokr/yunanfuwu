@@ -105,7 +105,7 @@
             [
                 { 'lng': {{ e.gaode_longitude }},  // 经度
                   'lnt': {{ e.gaode_latitude }},    // 维度
-                  'state': {{'001' if e.status == '正常' else '102' if e.status == '故障' or e.status == 'off' else '102'}},   // 状态，根据状态调图片
+                  'state': "{{ "001" if e.status == '正常' else "102" if (e.status == '故障' or e.status == 'off') else "101"}}",   // 状态，根据状态调图片
                   'status': '{{ e.status }}' ,
                   'eid': '{{ e.id }}',
                   'e_name':'{{ e.name }}',
@@ -139,6 +139,7 @@
                       // 设置是否可拖拽
                       draggable: false,
                 });
+               console.log(positions[i][0]['state'])
                 // 设置点标记的动画效果，此处为弹跳效果
                 marker.setAnimation('AMAP_ANIMATION_BOUNCE');
 

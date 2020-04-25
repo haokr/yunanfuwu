@@ -49,11 +49,11 @@
                     </li>
                     <li class="menu-title">监控管理</li><!-- /.menu-title -->
                     <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart"></i>设备监控</a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-play-circle"></i>设备监控</a>
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="menu-icon fa fa-line-chart"></i><a href="/">全部</a></li>
                             {% for child in base.children %}
-                                <li><i class="menu-icon fa fa-line-chart"></i><a href="/monitor?child={{ child.id }}">{{ child.name }}</a></li>
+                                <li><i class="menu-icon fa fa-sign-in"></i><a href="/monitor?child={{ child.id }}">{{ child.name }}</a></li>
                             {% endfor %}
                         </ul>
                     </li>
@@ -68,6 +68,9 @@
                     </li>
                     <li>
                         <a href="/live/living"><i class="menu-icon fa fa-eye"></i>实时监控</a>
+                    </li>
+                    <li>
+                        <a href="/monitor/report"><i class="menu-icon fa fa-warning"></i>手动报警</a>
                     </li>
                     
                     <li class="menu-title">设备管理</li><!-- /.menu-title -->

@@ -19,6 +19,9 @@ def monitorPage():
 def electricalMonitorPage():
 	return view.electricalMonitorPage()
 
+@monitor.route("/report")
+def reportPage():
+	return view.reportPage()
 '''
     report
 '''

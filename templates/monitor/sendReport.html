@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="animated fadeIn">
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header" style="background-color: #79baf0;">
+                        <strong class="card-title">设备列表</strong>
+                        <a href="/equipment/show/add?child={{ child }}">
+
+                        </a>
+                        &nbsp;&nbsp;&nbsp;
+                    </div>
+                    <div class="card-body">
+                        <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope='col' >#</th>
+                                    <th scope='col' style="display: none;">id</th>
+                                    <th scope='col' >设备名称</th>
+                                    <th scope='col' >类型 </th>
+                                    <th scope='col' >使用单位</th>
+                                    <th scope='col' >设备地址</th>
+                                    <th scope="col" >操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for equipment in equipments %}
+                                    <tr>
+                                        <td scope='row'>{{ loop.index }}</td>
+                                        <td  style="display: none;">{{ equipment.id }}</td>
+                                        <td>{{ equipment.name or '' }}</td>
+                                        <td>{{ equipment.class_ or '' }}</td>
+                                        <td>{{ equipment.use_department or '' }}</td>
+                                        <td>{{ equipment.location or '' }}</td>
+                                        <td>
+                                            <a href="#" data="alarm" eid="{{ equipment.id }}" onclick="sendReport(this)">
+                                                <button type="button" class="btn btn-outline-primary btn-sm">
+                                                    报警
+                                                </button>
+                                            </a>
+                                            <a href="#" data="failure" eid="{{ equipment.id }}" onclick="sendReport(this)">
+                                                <button type="button" class="btn btn-outline-primary btn-sm">
+                                                    故障
+                                                </button>
+                                            </a>
+                                            <a href="#" data="normal" eid="{{ equipment.id }}" onclick="sendReport(this)">
+                                                <button type="button" class="btn btn-outline-primary btn-sm">
+                                                    正常
+                                                </button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div><!-- .animated -->
+
+{% endblock %}
+
+{% block js %}
+
+    <script type="text/javascript">
+
+        function dateFormat(fmt, date) {
+            let ret;
+            const opt = {
+                "Y+": date.getFullYear().toString(),        // 年
+                "M+": (date.getMonth() + 1).toString(),     // 月
+                "d+": date.getDate().toString(),            // 日
+                "H+": date.getHours().toString(),           // 时
+                "m+": date.getMinutes().toString(),         // 分
+                "s+": date.getSeconds().toString()          // 秒
+                // 有其他格式化字符需求可以继续添加，必须转化成字符串
+            };
+            for (let k in opt) {
+                ret = new RegExp("(" + k + ")").exec(fmt);
+                if (ret) {
+                    fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+                }
+                ;
+            }
+            ;
+            return fmt;
+        }
+
+        function sendReport(e) {
+            var dataType = $(e).attr("data")
+            var eid = $(e).attr("eid")
+            var dataCode = "001"
+            if (dataType == "alarm") {
+                dataCode = "102"
+            } else if (dataType == "failure") {
+                dataCode = "101"
+            } else if (dataType == "normal") {
+                dataCode = "001"
+            }
+
+            $.ajax({
+                url:"/monitor/report/" + eid, //请求的url地址
+                dataType:"text", //返回格式为json
+                method: "POST",
+                async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+                data:{
+                    "code": dataCode,
+                    "datetime": dateFormat("YYYY-MM-dd HH:mm:ss", new Date())
+                }, //参数值
+                type:"POST", //请求方式
+                beforeSend:function(){
+                    //请求前的处理
+                },
+                success:function(req){
+                    alert("成功")
+                },
+                complete:function(){
+                    //请求完成的处理
+                },
+                error:function(e){
+                    //请求出错处理
+                    console.log(e)
+                    alert("出错了")
+                }
+            });
+
+        }
+    </script>b
+
+{% endblock %}

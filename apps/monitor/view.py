@@ -99,6 +99,47 @@ def electricalMonitorPage():
     return render_template('monitor/electrical.html', **data)
 
 
+def reportPage():
+    '''
+    TODO 手动报警页面
+    :return:
+    '''
+    user_id = session.get('id')
+    child_id = request.args.get('child', None)
+    user_id = child_id if child_id and child_id != 'None' else user_id
+    children = User.query.filter(User.parent_id == user_id, User.live == True).all()
+
+    equipments = User.query.filter(User.id == user_id).first().group.equipments
+    data = {
+        'base': {
+            'pageTitle': '设备信息-云安服务',
+            'avatarImgUrl': '/static/img/yunan_logo_1.png',
+            'pageNow': '设备信息',
+            'username': session.get('username'),
+            'name': session.get('name'),
+            'userid': session.get('id'),
+            'children': [
+                {
+                    'id': c.id,
+                    'name': c.name
+                }
+                for c in children
+            ],
+        },
+        'child': child_id,
+        'equipments': [
+            {
+                'id': e.id,
+                'name': e.name,
+                'class_': e.class_,
+                'location': e.location,
+                'use_department': e.use_department
+            }
+            for e in equipments if e.live
+        ]
+    }
+    return render_template('monitor/sendReport.html', **data)
+
 def connect():
     '''
         通过用户ID获取用户的设备
@@ -161,7 +202,6 @@ def report(eid):
     # 正常
     if code[0] == '0':
         try:
-            report_time: datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
             isAlarm = redis_cli.get(eid)
             if isAlarm:
                 equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
