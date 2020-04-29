@@ -175,6 +175,7 @@ def report(eid):
     '''
     code = request.form.get('code')
     dateTime = request.form.get('datetime')
+    realTimeData = request.form.get("realTimeData", "")
     codeDict = {
         '000': '注册',
         '001': '正常',
@@ -271,7 +272,8 @@ def report(eid):
             'code': code,
             'describe': class_,
             'reporter': eid,
-            'datetime': dateTime
+            'datetime': dateTime,
+            'readTimeData': realTimeData
         },
         room=eid
     )

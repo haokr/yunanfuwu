@@ -24,6 +24,7 @@
                                     <th scope='col' >类型 </th>
                                     <th scope='col' >使用单位</th>
                                     <th scope='col' >设备地址</th>
+                                    <th scope="col" >实时数据</th>
                                     <th scope="col" >操作</th>
                                 </tr>
                             </thead>
@@ -37,6 +38,7 @@
                                         <td>{{ equipment.class_ or '' }}</td>
                                         <td>{{ equipment.use_department or '' }}</td>
                                         <td>{{ equipment.location or '' }}</td>
+                                        <td><input id="{{ equipment.id }}-realTimeData" type="text"></td>
                                         <td>
                                             <a href="#" data="alarm" eid="{{ equipment.id }}" onclick="sendReport(this)">
                                                 <button type="button" class="btn btn-outline-primary btn-sm">
@@ -107,6 +109,8 @@
                 dataCode = "001"
             }
 
+            var realTimeData = document.getElementById(eid+'-realTimeData').value
+
             $.ajax({
                 url:"/monitor/report/" + eid, //请求的url地址
                 dataType:"text", //返回格式为json
@@ -114,7 +118,8 @@
                 async:true,//请求是否异步，默认为异步，这也是ajax重要特性
                 data:{
                     "code": dataCode,
-                    "datetime": dateFormat("YYYY-MM-dd HH:mm:ss", new Date())
+                    "datetime": dateFormat("YYYY-MM-dd HH:mm:ss", new Date()),
+                    'realTimeData': realTimeData
                 }, //参数值
                 type:"POST", //请求方式
                 beforeSend:function(){

@@ -49,7 +49,7 @@
                                             <th scope='col'>状态</th>
                                             <th scope='col'>单位</th>
                                             <th scope='col'>系统类型</th>
-                                            <th scope='col'>部件地址</th>
+                                            <th scope='col'>采集数值</th>
                                             <th scope='col'>联系人</th>
                                             <th scope='col'>联系电话</th>
                                         </tr>
@@ -63,8 +63,8 @@
                                             <td id='{{ e.id }}-name'>{{ e.name or '' }}</td>
                                             <td id='{{ e.id }}-status'>{{ e.status or 'off' }}</td>
                                             <td id='{{ e.id }}-use_department'>{{ e.use_department or ''}}</td>
-                                            <td id='{{ e.id }}-eequipment_class'>{{ e.class_  or ''}}</td>
-                                            <td id='{{ e.id }}-location'>{{ e.location or '' }}</td>
+                                            <td id='{{ e.id }}-equipment_class'>{{ e.class_  or ''}}</td>
+                                            <td id='{{ e.id }}-realTimeData'>{{ e.realTimeData or '-' }}</td>
                                             <td id='{{ e.id }}-contact'>{{ e.contact or '' }}</td>
                                             <td id='{{ e.id }}-contact_tel'>{{ e.contact_tel or '' }}</td>
                                         </tr>
@@ -191,6 +191,10 @@
         let eid = data['reporter']
         var nowtime = data.datetime
         document.getElementById(eid+'-datetime').innerHTML = nowtime
+
+        document.getElementById(eid+'-realTimeData').innerHTML = data['readTimeData']
+        document.getElementById(eid+'-realTimeData').style.color = 'blue'
+
         document.getElementById(eid+'-status').innerHTML = data.describe
         if (data.code.startsWith('0')) {
             document.getElementById(eid+'-status').style.color = 'green'
