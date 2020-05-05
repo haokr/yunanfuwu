@@ -22,6 +22,10 @@ def electricalMonitorPage():
 @monitor.route("/report")
 def reportPage():
 	return view.reportPage()
+
+@monitor.route("/reportOnPhone")
+def reportPageOnPhone():
+	return view.reportPageOnPhone()
 '''
     report
 '''

@@ -142,6 +142,25 @@ class Alarm_record(db.Model):
     modify_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
 
+# 数据上报记录
+class Data_record(db.Model):
+    __tablename__ = 'data_record'
+    id = db.Column(db.String(30), primary_key=True, nullable=False,
+                   default=lambda: 'dr_' + shortuuid.uuid())
+
+    equipment_id = db.Column(db.String(30), db.ForeignKey('equipment.id'))
+    equipment = db.relationship(
+        'Equipment', backref=db.backref('data_records', lazy='dynamic'))
+    
+    class_ = db.Column(db.String(10), nullable=False)
+    data = db.Column(db.String(20), nullable=False)
+
+    record_time = db.Column(db.DateTime, nullable=False)
+    create_time = db.Column(db.DateTime, default=datetime.now)
+    modify_time = db.Column(
+        db.DateTime, default=datetime.now, onupdate=datetime.now)
+
+
 # 电流电压监控日志
 class UI_report_log(db.Model):
     __tablename__ = 'ui_report_log'

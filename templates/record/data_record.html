@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="animated fadeIn">
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <div class="card">
+                <div class="card-header" style="background-color: #EE3B3B">
+                    <strong class="card-title">上报数据记录</strong>
+                </div>
+                <div class="card-body">
+                    <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th style="display: none">设备ID</th>
+                                <th style="display: none">设备管理员ID</th>
+                                <th>接收时间</th>
+                                <th>设备名称</th>
+                                <th>状态</th>
+                                <th>使用单位</th>
+                                <th>设备类型</th>
+                                <th>采集数值</th>
+                                <th>联系人</th>
+                                <th>联系电话</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in data_records %}
+                            <tr>
+                                <td scope='row'>{{ loop.index }}</td>
+                                <td style="display: none;">{{ record.e_id }}</td>
+                                <td style="display: none">{{ record.admin_id}}</td>
+                                <td>{{ record.record_time }}</td>
+                                <td>{{ record.e_name or '' }}</td>
+                                <td>{{ record.class_ or '' }}</td>
+                                <td>{{ record.use_department or '' }}</td>
+                                <td>{{ record.e_class or '' }}</td>
+                                <td>{{ record.data or '' }}</td>
+                                <td>{{ record.contact or '' }}</td>
+                                <td>{{ record.contact_tel or '' }}</td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div><!-- .animated -->
+{% endblock %}

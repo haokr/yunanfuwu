@@ -40,7 +40,8 @@ def before_request():
 def loginedUserClass():
     class_ = session.get('class_')
     if request.path == '/user/login' or request.path == '/gov/login' or request.path.startswith(
-            '/static/') or request.path.startswith('/monitor/report/') or request.path.startswith('/monitor/uireport/'):
+            '/static/') or request.path.startswith('/monitor/report/') or request.path.startswith('/monitor/uireport/')\
+            or request.path.startswith('/monitor/reportOnPhone') :
         pass
     elif class_ == 'user' and request.path.startswith('/gov/'):
         return abort(404)

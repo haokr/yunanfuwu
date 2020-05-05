@@ -59,7 +59,7 @@
                                         <tr>
                                             <td scope='row'>{{ loop.index}}</td>
                                             <!-- <td id='{{ e.id }}' style="display: none">{{ e.id }}</td> -->
-                                            <td id='{{ e.id }}-datetime'>{{ e.datetime }}</td>
+                                            <td id='{{ e.id }}-datetime'>{{ e.datetime or '-'}}</td>
                                             <td id='{{ e.id }}-name'>{{ e.name or '' }}</td>
                                             <td id='{{ e.id }}-status'>{{ e.status or 'off' }}</td>
                                             <td id='{{ e.id }}-use_department'>{{ e.use_department or ''}}</td>

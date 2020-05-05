@@ -18,22 +18,31 @@
                         &nbsp;&nbsp;&nbsp;
                     </div>
                     <div class="card-body">
+
+
+                        <div id="qrpanel" style="display: none" class="sufee-alert alert with-close alert-info alert-dismissible fade show">
+                            <div id="qrcode"></div>
+                            <button type="button" class="close">
+                                <span aria-hidden="false" onclick="hideQR()">×</span>
+                            </button>
+                        </div>
+
                         <table id="bootstrap-data-table" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th scope='col' >#</th>
                                     <th scope='col' style="display: none;">id</th>
+
+                                    <th scope='col' >SIM_id</th>
                                     <th scope='col' >设备名称</th>
                                     <th scope='col' >状态</th>
                                     <th scope='col' >使用单位</th>
-                                    <th scope='col' >设备地址</th>
+                                    <th scope='col' >系统类型</th>
+                                    <th scope='col' >型号</th>
                                     <th scope='col' >联系人</th>
                                     <th scope='col' >联系电话</th>
-                                    <th scope='col' >生产商</th>
-                                    <th scope='col' >型号</th>
-                                    <th scope='col' >SIM_id</th>
+                                    <th scope='col' >设备地址</th>
                                     <th scope='col' >安装时间</th>
-                                    <th scope='col' >备注</th>
                                     <th scope='col' >操作</th>
                                 </tr>
                             </thead>
@@ -42,27 +51,29 @@
                                 {% for equipment in equipments %}
                                     <tr>
                                         <td scope='row'>{{ loop.index }}</td>
-                                        <td  style="display: none;">{{ equipment.id }}</td>
+                                        <td style="display: none;">{{ equipment.id }}</td>
+
+                                        <td>{{ equipment.SIM_id or '' }}</td>
                                         <td>{{ equipment.name or '' }}</td>
                                         <td>{{ equipment.status or '' }}</td>
                                         <td>{{ equipment.use_department or '' }}</td>
-                                        <td>{{ equipment.location or '' }}</td>
+                                        <td>{{ equipment.class_ or '' }}</td>
+                                        <td>{{ equipment.model or '' }}</td>
                                         <td>{{ equipment.contact or '' }}</td>
                                         <td>{{ equipment.contact_tel or '' }}</td>
-                                        <td>{{ equipment.manufacturer or '' }}</td>
-                                        <td>{{ equipment.model or '' }}</td>
-                                        <td>{{ equipment.SIM_id or '' }}</td>
+                                        <td>{{ equipment.localtion or '' }}</td>
                                         <td>{{ equipment.create_time or '' }}</td>
-                                        <td>{{ equipment.remark or '' }}</td>
                                         <td>
                                             <a href="./control?eid={{ equipment.id }}">控制</a>
                                             <a href="./show/{{ equipment.id }}">修改</a>
+                                            <a href="#" onclick="showQR('{{ equipment.id }}')">二维码</a>
                                         </td>
                                     </tr>
                                 {% endfor %}
                                 
                             </tbody>
                         </table>
+
                     </div>
                 </div>
             </div>
@@ -71,4 +82,29 @@
         </div>
     </div><!-- .animated -->
 
+{% endblock %}
+
+{% block js %}
+
+    <script src="/static/assets/js/qrcode.min.js"></script>
+    <script>
+        function showQR(eid) {
+            var pathName = window.document.location.pathname;
+            var curWwwPath = window.document.location.href;
+            var pos = curWwwPath.indexOf(pathName);
+            var localhostPaht=curWwwPath.substring(0,pos);
+            $("#qrcode").html("")
+            var qr = new QRCode(document.getElementById('qrcode'));
+            qr.clear();
+            qr.makeCode(localhostPaht + '/monitor/reportOnPhone?eid=' + eid);
+            $("#qrcode").css("margin", "auto")
+            $("#qrcode").css("width", "296px")
+            $("#qrpanel").css("display", "block")
+        }
+
+        function hideQR() {
+            $("#qrpanel").css("display", "none")
+        }
+
+    </script>
 {% endblock %}

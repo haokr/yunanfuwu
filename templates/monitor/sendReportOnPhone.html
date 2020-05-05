@@ -1,0 +1,252 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>云安上报系统</title>
+    <meta name="description" content="Ela Admin - HTML5 Admin Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+    <link rel="stylesheet" href="/static/assets/css/normalize.css">
+    <link rel="stylesheet" href="/static/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/assets/css/themify-icons.css">
+    <link rel="stylesheet" href="/static/assets/css/pe-icon-7-filled.css">
+    <link rel="stylesheet" href="/static/assets/css/flag-icon.min.css">
+    <link rel="stylesheet" href="/static/assets/css/cs-skin-elastic.css">
+    <link rel="stylesheet" href="/static/assets/css/lib/datatable/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="/static/assets/css/style.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
+
+</head>
+
+<body>
+
+    <div id="panel" class="panel">
+
+        <div class="content">
+            <div class="animated fadeIn">
+                <div class="row">
+
+                    <div class="col-md-11">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong class="card-title">云安平台上报系统</strong>
+                            </div>
+                            <div class="card-body card-block">
+                                <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                    <!-- ID -->
+                                    <div class="row form-group" style="display: none">
+                                        <div class="col col-md-3"><label class=" form-control-label">ID</label></div>
+                                        <div class="col-12 col-md-9">
+                                            <p id='eid' class="form-control-static">{{ equipment.id }}</p>
+                                        </div>
+                                    </div>
+                                    <!-- name -->
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label class=" form-control-label">设备名称</label></div>
+                                        <div class="col-12 col-md-9">
+                                            <p id='eid' class="form-control-static">{{ equipment.name }}</p>
+                                        </div>
+                                    </div>
+                                    <!-- status -->
+                                    <div class="row form-group">
+                                            <div class="col col-md-3"><label class=" form-control-label">状态</label></div>
+                                            <div class="col-12 col-md-9">
+                                                <p class="form-control-static">{{ equipment.status or ''  }}</p>
+                                            </div>
+                                    </div>
+                                     <!-- use_department -->
+                                    <div class="row form-group">
+                                            <div class="col col-md-3"><label class=" form-control-label">使用单位</label></div>
+                                            <div class="col-12 col-md-9">
+                                                <p class="form-control-static">{{ equipment.use_department or ''  }}</p>
+                                            </div>
+                                    </div>
+                                    <!-- class_ -->
+                                    <div class="row form-group">
+                                            <div class="col col-md-3"><label class=" form-control-label">设备类型</label></div>
+                                            <div class="col-12 col-md-9">
+                                                <p class="form-control-static">{{ equipment.class_ or ''  }}</p>
+                                            </div>
+                                    </div>
+                                    <!-- model -->
+                                    <div class="row form-group">
+                                            <div class="col col-md-3"><label class=" form-control-label">型号</label></div>
+                                            <div class="col-12 col-md-9">
+                                                <p class="form-control-static">{{ equipment.model or ''  }}</p>
+                                            </div>
+                                    </div>
+                                    <!-- contact -->
+                                    <div class="row form-group">
+                                            <div class="col col-md-3"><label class=" form-control-label">联系人</label></div>
+                                            <div class="col-12 col-md-9">
+                                                <p class="form-control-static">{{ equipment.contact or ''  }}</p>
+                                            </div>
+                                    </div>
+                                    <!-- contact tel-->
+                                    <div class="row form-group">
+                                            <div class="col col-md-3"><label class=" form-control-label">联系电话</label></div>
+                                            <div class="col-12 col-md-9">
+                                                <p class="form-control-static">{{ equipment.contact_tel or ''  }}</p>
+                                            </div>
+                                    </div>
+                                    <!-- contact tel-->
+                                    <div class="row form-group">
+                                            <div class="col col-md-3"><label class=" form-control-label">联系电话</label></div>
+                                            <div class="col-12 col-md-9">
+                                                <select name="select" id="class_" class="form-control">
+                                                    <option value="001" selected>正常</option>
+                                                    <option value="101">故障</option>
+                                                    <option value="102">报警</option>
+                                                </select>
+                                            </div>
+                                    </div>
+                                    <!-- data -->
+                                    <div class="row form-group">
+                                            <div class="col col-md-3"><label for="realTimeData-input" class=" form-control-label">当前数值</label></div>
+                                            <div class="col-12 col-md-9">
+                                                    <input type="text" id="realTimeData-input" name="realTimeData" class="form-control">
+                                            </div>
+                                    </div>
+                                    <div class='col-md-6 offset-md-3'>
+                                        <br><br>
+                                        <button type="button" id='submit' onclick="report()" class="btn btn-primary btn-lg btn-block">上  报</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div><!-- .animated -->
+        </div><!-- .content -->
+
+
+        <div class="clearfix"></div>
+
+        <footer class="site-footer">
+            <div class="footer-inner bg-white">
+                <div class="row">
+                    <div class="col-sm-6">
+                        Copyright &copy; 2019 云安服务
+                    </div>
+                    <div class="col-sm-6 text-right"> 理智团队
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div><!-- /#right-panel -->
+
+    <!-- Right Panel -->
+
+    <!-- Scripts -->
+    <script src="/static/assets/js/vendor/jquery-2.1.4.min.js"></script>
+    <script src="/static/assets/js/popper.min.js"></script>
+    <script src="/static/assets/js/bootstrap.min.js"></script>
+    <script src="/static/assets/js/jquery.matchHeight.min.js"></script>
+    <script src="/static/assets/js/main.js"></script>
+
+
+    <script src="/static/assets/js/lib/data-table/datatables.min.js"></script>
+    <script src="/static/assets/js/lib/data-table/dataTables.bootstrap.min.js"></script>
+    <script src="/static/assets/js/lib/data-table/dataTables.buttons.min.js"></script>
+    <script src="/static/assets/js/lib/data-table/buttons.bootstrap.min.js"></script>
+    <script src="/static/assets/js/lib/data-table/jszip.min.js"></script>
+    <script src="/static/assets/js/lib/data-table/vfs_fonts.js"></script>
+    <script src="/static/assets/js/lib/data-table/buttons.html5.min.js"></script>
+    <script src="/static/assets/js/lib/data-table/buttons.print.min.js"></script>
+    <script src="/static/assets/js/lib/data-table/buttons.colVis.min.js"></script>
+    <script src="/static/assets/js/init/datatables-init.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#bootstrap-data-table-export').DataTable();
+        });
+    </script>
+
+    <script>
+
+        function dateFormat(fmt, date) {
+            let ret;
+            const opt = {
+                "Y+": date.getFullYear().toString(),        // 年
+                "M+": (date.getMonth() + 1).toString(),     // 月
+                "d+": date.getDate().toString(),            // 日
+                "H+": date.getHours().toString(),           // 时
+                "m+": date.getMinutes().toString(),         // 分
+                "s+": date.getSeconds().toString()          // 秒
+                // 有其他格式化字符需求可以继续添加，必须转化成字符串
+            };
+            for (let k in opt) {
+                ret = new RegExp("(" + k + ")").exec(fmt);
+                if (ret) {
+                    fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+                }
+                ;
+            }
+            ;
+            return fmt;
+        }
+        function getQueryVariable(variable)
+        {
+               var query = window.location.search.substring(1);
+               var vars = query.split("&");
+               for (var i=0;i<vars.length;i++) {
+                       var pair = vars[i].split("=");
+                       if(pair[0] == variable){return pair[1];}
+               }
+               return(false);
+        }
+
+        function report(e) {
+            let content = document.getElementById("realTimeData-input").value;
+            document.getElementById("realTimeData-input").innerText = "";
+
+            let eid = document.getElementById('eid').innerText;
+
+            var code = $('#class_ option:selected').val();//选中的值
+
+            $.ajax({
+                url: "/monitor/report/" + eid,    //请求的url地址
+                dataType:"text",   //返回格式为json
+                async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+                data: {
+                    "code": code,
+                    "datetime": dateFormat("YYYY-MM-dd HH:mm:ss", new Date()),
+                    'realTimeData': content
+                },    //参数值,键值对
+                type:"POST",   //请求方式
+                beforeSend:function(){
+                    //请求前的处理
+                },
+                success:function(data){
+                    //请求成功时处理
+                    alert("上报成功")
+                },
+                complete:function(){
+                    //请求完成的处理
+                },
+                error:function(){
+                    //请求出错处理
+                    alert('请检查网络...')
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -5,7 +5,7 @@ from flask import request, render_template, jsonify, session
 from flask_socketio import join_room
 
 from db import db, redis_cli
-from models import Equipment, User, Alarm_record, UI_report_log
+from models import Equipment, User, Alarm_record, UI_report_log, Data_record
 from socketIO import socketio
 
 
@@ -62,7 +62,8 @@ def monitorPage():
                 'status': e.status,
                 'SIM_id': e.SIM_id,
                 'modify_time': e.modify_time,
-                'datetime': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
+                'datetime': e.data_records.order_by(Data_record.record_time.desc()).first().record_time if e.data_records.first() else "",
+                'realTimeData': e.data_records.order_by(Data_record.record_time.desc()).first().data if e.data_records.first() else ""
             }
             for e in equipments if e.live == True
         ]
@@ -140,6 +141,31 @@ def reportPage():
     }
     return render_template('monitor/sendReport.html', **data)
 
+
+def reportPageOnPhone():
+    '''
+    TODO 手机报警页面
+    :return:
+    '''
+    eid = request.args.get('eid', None)
+    e = Equipment.query.filter(Equipment.id == eid).first()
+    data = {
+        'equipment':
+            {
+                'id': e.id,
+                'name': e.name,
+                'class_': e.class_,
+                'status': e.status,
+                'model': e.model,
+                'contact': e.admin.contact,
+                'contact_tel': e.admin.contact_tel,
+                'use_department': e.use_department
+            }
+    }
+    return render_template('monitor/sendReportOnPhone.html', **data)
+
+
+
 def connect():
     '''
         通过用户ID获取用户的设备
@@ -199,6 +225,15 @@ def report(eid):
 
     class_ = codeDict.get(code, None)
     class_ = class_ if class_ else code
+
+    data_record = Data_record(**{
+        "equipment_id": eid,
+        "class_": codeDict.get(code, "正常"),
+        "data": realTimeData,
+        "record_time": datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
+    })
+    db.session.add(data_record)
+    db.session.commit()
 
     # 正常
     if code[0] == '0':
