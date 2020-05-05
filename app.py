@@ -26,22 +26,28 @@ socketio.init_app(app, manage_session=False)
 @app.before_request
 def before_request():
     user_id = session.get("id")
-    ignore = ['/user/login', '/user/register', '/gov/regist', '/gov/login', '/user/wxlogin', '/monitor/wxshow', '']
+    print(request.path)
+    ignore = ['/user/login', '/user/register', '/gov/regist', '/gov/login', '/user/wxlogin', '/monitor/wxshow', '/monitor/reportonphone', '']
     isReport = request.path.startswith('/monitor/report/') or request.path.startswith('/monitor/uireport/')
     isStatic = request.path.startswith('/static')
 
     if request.path == '/favicon.ico':
         return redirect('/static/img/yunan_logo_3.png')
-    if (not user_id) and (request.path not in ignore) and (not isReport) and (not isStatic):
+    if (not user_id) and (request.path.lower() not in ignore) and (not isReport) and (not isStatic):
         return redirect('/user/login')
+    print("pass1")
 
 
 @app.before_request
 def loginedUserClass():
     class_ = session.get('class_')
-    if request.path == '/user/login' or request.path == '/gov/login' or request.path.startswith(
-            '/static/') or request.path.startswith('/monitor/report/') or request.path.startswith('/monitor/uireport/')\
-            or request.path.startswith('/monitor/reportOnPhone') :
+    print(request.path)
+    if request.path == '/user/login' \
+            or request.path == '/gov/login' \
+            or request.path.startswith('/static/') \
+            or request.path.startswith('/monitor/report/') \
+            or request.path.startswith('/monitor/uireport/')\
+            or request.path.lower().startswith('/monitor/reportonphone/'):
         pass
     elif class_ == 'user' and request.path.startswith('/gov/'):
         return abort(404)
