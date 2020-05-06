@@ -26,7 +26,6 @@ socketio.init_app(app, manage_session=False)
 @app.before_request
 def before_request():
     user_id = session.get("id")
-    print(request.path)
     ignore = ['/user/login', '/user/register', '/gov/regist', '/gov/login', '/user/wxlogin', '/monitor/wxshow', '/monitor/reportonphone', '']
     isReport = request.path.startswith('/monitor/report/') or request.path.startswith('/monitor/uireport/')
     isStatic = request.path.startswith('/static')
@@ -35,13 +34,11 @@ def before_request():
         return redirect('/static/img/yunan_logo_3.png')
     if (not user_id) and (request.path.lower() not in ignore) and (not isReport) and (not isStatic):
         return redirect('/user/login')
-    print("pass1")
 
 
 @app.before_request
 def loginedUserClass():
     class_ = session.get('class_')
-    print(request.path)
     if request.path == '/user/login' \
             or request.path == '/gov/login' \
             or request.path.startswith('/static/') \

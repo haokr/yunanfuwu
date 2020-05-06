@@ -41,18 +41,23 @@
                                         <td><input id="{{ equipment.id }}-realTimeData" type="text"></td>
                                         <td>
                                             <a href="#" data="alarm" eid="{{ equipment.id }}" onclick="sendReport(this)">
-                                                <button type="button" class="btn btn-outline-primary btn-sm">
+                                                <button type="button" class="btn btn-danger btn-sm">
                                                     报警
                                                 </button>
                                             </a>
                                             <a href="#" data="failure" eid="{{ equipment.id }}" onclick="sendReport(this)">
-                                                <button type="button" class="btn btn-outline-primary btn-sm">
+                                                <button type="button" class="btn btn-warning btn-sm">
                                                     故障
                                                 </button>
                                             </a>
                                             <a href="#" data="normal" eid="{{ equipment.id }}" onclick="sendReport(this)">
-                                                <button type="button" class="btn btn-outline-primary btn-sm">
+                                                <button type="button" class="btn btn-primary btn-sm">
                                                     正常
+                                                </button>
+                                            </a>
+                                            <a href="#" data="register" eid="{{ equipment.id }}" onclick="sendReport(this)">
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    注册
                                                 </button>
                                             </a>
                                         </td>
@@ -72,7 +77,7 @@
 {% endblock %}
 
 {% block js %}
-
+    <script type="text/javascript" src="http://pv.sohu.com/cityjson?ie=utf-8"> </script>
     <script type="text/javascript">
 
         function dateFormat(fmt, date) {
@@ -107,6 +112,8 @@
                 dataCode = "101"
             } else if (dataType == "normal") {
                 dataCode = "001"
+            } else if (dataType == "register") {
+                dataCode = "000"
             }
 
             var realTimeData = document.getElementById(eid+'-realTimeData').value
@@ -119,7 +126,8 @@
                 data:{
                     "code": dataCode,
                     "datetime": dateFormat("YYYY-MM-dd HH:mm:ss", new Date()),
-                    'realTimeData': realTimeData
+                    'realTimeData': realTimeData,
+                    'ip': returnCitySN["cip"]
                 }, //参数值
                 type:"POST", //请求方式
                 beforeSend:function(){

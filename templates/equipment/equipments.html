@@ -61,11 +61,12 @@
                                         <td>{{ equipment.model or '' }}</td>
                                         <td>{{ equipment.contact or '' }}</td>
                                         <td>{{ equipment.contact_tel or '' }}</td>
-                                        <td>{{ equipment.localtion or '' }}</td>
+                                        <td>{{ equipment.location or '' }}</td>
                                         <td>{{ equipment.create_time or '' }}</td>
                                         <td>
                                             <a href="./control?eid={{ equipment.id }}">控制</a>
                                             <a href="./show/{{ equipment.id }}">修改</a>
+                                            <a href="#" onclick="drop('{{ equipment.id }}')">删除</a>
                                             <a href="#" onclick="showQR('{{ equipment.id }}')">二维码</a>
                                         </td>
                                     </tr>
@@ -104,6 +105,33 @@
 
         function hideQR() {
             $("#qrpanel").css("display", "none")
+        }
+
+        function drop(eid){
+            $.ajax({
+                url: "/equipment/drop",    //请求的url地址
+                dataType:"text",   //返回格式为json
+                async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+                data: {
+                    "eid": eid
+                },
+                type:"POST",   //请求方式
+                beforeSend:function(){
+                    //请求前的处理
+                },
+                success:function(data){
+                    //请求成功时处理
+                    alert("删除成功")
+                    window.location.reload()
+                },
+                complete:function(){
+                    //请求完成的处理
+                },
+                error:function(){
+                    //请求出错处理
+                    alert('删除失败...')
+                }
+            });
         }
 
     </script>

@@ -13,18 +13,47 @@
                 <div class="card-body card-block">
                     <form action="/equipment/" method="post" enctype="multipart/form-data" class="form-horizontal">
 
+
+                        <!-- SIM_id -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="SIM_id" class=" form-control-label">SIM卡号</label>
+                            </div>
+                            <div class="col-6 col-md-7">
+                                <input type="text" id="SIM_id" name="SIM_id" class="form-control">
+                            </div>
+                        </div>
                         <!-- name -->
                         <div class="row form-group">
-                            <div class="col col-md-3"><label for="name-input" class=" form-control-label">名称</label>
+                            <div class="col col-md-3"><label for="name-input" class=" form-control-label">设备名称</label>
                             </div>
                             <div class="col-6 col-md-7">
                                 <input type="text" id="name" name="name" class="form-control">
                             </div>
                         </div>
+                        <!-- status -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="name-input" class=" form-control-label">设备名称</label>
+                            </div>
+                            <div class="col-6 col-md-7">
+                                <select name="select" id="class_" class="form-control">
+                                    <option value="正常" selected>正常</option>
+                                    <option value="故障">故障</option>
+                                    <option value="报警">报警</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- use_department -->
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="use_department"
+                                    class=" form-control-label">使用单位</label></div>
+                            <div class="col-6 col-md-7">
+                                <input type="text" id="use_department" name="use_department" class="form-control">
+                            </div>
+                        </div>
 
                         <!-- class_ -->
                         <div class="row form-group">
-                            <div class="col col-md-3"><label for="class_" class=" form-control-label">类型</label>
+                            <div class="col col-md-3"><label for="class_" class=" form-control-label">系统类型</label>
                             </div>
                             <div class="col-6 col-md-7">
                                 <select name="class_" id="class_" class="form-control">
@@ -35,32 +64,6 @@
                             </div>
                         </div>
 
-                        <!-- use_department -->
-                        <div class="row form-group">
-                            <div class="col col-md-3"><label for="use_department"
-                                    class=" form-control-label">使用单位</label></div>
-                            <div class="col-6 col-md-7">
-                                <input type="text" id="use_department" name="use_department" class="form-control">
-                            </div>
-                        </div>
-
-                        <!-- 位置 -->
-                        <div class="row form-group">
-                            <div class="col col-md-3"><label for="location" class=" form-control-label">位置</label>
-                            </div>
-                            <div class="col-6 col-md-7">
-                                <input type="text" id="location" name="location" class="form-control">
-                            </div>
-                        </div>
-
-                        <!-- 生产商 -->
-                        <div class="row form-group">
-                            <div class="col col-md-3"><label for="manufacturer"
-                                    class=" form-control-label">生产商</label></div>
-                            <div class="col-6 col-md-7">
-                                <input type="text" id="manufacturer" name="manufacturer" class="form-control">
-                            </div>
-                        </div>
 
                         <!-- model -->
                         <div class="row form-group">
@@ -71,21 +74,12 @@
                             </div>
                         </div>
 
-                        <!-- SIM_id -->
+                        <!-- 位置 -->
                         <div class="row form-group">
-                            <div class="col col-md-3"><label for="SIM_id" class=" form-control-label">SIM卡号</label>
+                            <div class="col col-md-3"><label for="location" class=" form-control-label">设备地址</label>
                             </div>
                             <div class="col-6 col-md-7">
-                                <input type="text" id="SIM_id" name="SIM_id" class="form-control">
-                            </div>
-                        </div>
-
-                        <!-- remarks -->
-                        <div class="row form-group">
-                            <div class="col col-md-3"><label for="remarks" class=" form-control-label">备注</label>
-                            </div>
-                            <div class="col-6 col-md-7">
-                                <input type="text" id="remarks" name="remarks" class="form-control">
+                                <input type="text" id="location" name="location" class="form-control">
                             </div>
                         </div>
 
@@ -121,18 +115,15 @@
         let class_ = document.getElementById('class_').value;
         let use_department = document.getElementById('use_department').value;
         let location = document.getElementById('location').value;
-        let manufacturer = document.getElementById('manufacturer').value;
         let model = document.getElementById('model').value;
-        let remarks = document.getElementById('remarks').value;
         let gaode_location = document.getElementById('gaode_location').value
+        let status = $('#class_ option:selected').val();
 
         name = name == '' ? null : name;
         class_ = class_ == '' ? null : class_;
         use_department = use_department == '' ? null : use_department;
         location = location == '' ? null : location;
-        manufacturer = manufacturer == '' ? null : manufacturer;
         model = model == '' ? null : model;
-        remarks = remarks == '' ? null : remarks;
         gaode_location = gaode_location == '' ? null : gaode_location;
 
         if (!name || !class_ || !use_department || !gaode_location || !gaode_location.indexOf(',')) {
@@ -149,10 +140,9 @@
                 use_department,
                 location,
                 class_,
-                manufacturer,
                 model,
-                remarks,
-                gaode_location
+                gaode_location,
+                status
             },    //参数值,键值对
             type: "POST",   //请求方式
             beforeSend: function () {

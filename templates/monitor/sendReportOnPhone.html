@@ -122,7 +122,7 @@
                                     </div>
                                     <div class='col-md-6 offset-md-3'>
                                         <br><br>
-                                        <button type="button" id='submit' onclick="report()" class="btn btn-primary btn-lg btn-block">上  报</button>
+                                        <button type="button" id='submit' class="btn btn-primary btn-lg btn-block">上  报</button>
                                     </div>
                                 </form>
                             </div>
@@ -181,6 +181,11 @@
 
     <script>
 
+
+        function padStart(n,str){
+            str = String(str);
+            return Array(str.length>=n?0:n-str.length+1).join('0') + str;
+        }
         function dateFormat(fmt, date) {
             let ret;
             const opt = {
@@ -195,7 +200,7 @@
             for (let k in opt) {
                 ret = new RegExp("(" + k + ")").exec(fmt);
                 if (ret) {
-                    fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+                    fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (padStart(ret[1].length, opt[k])))
                 }
                 ;
             }
@@ -213,11 +218,16 @@
                return(false);
         }
 
-        function report(e) {
-            let content = document.getElementById("realTimeData-input").value;
-            document.getElementById("realTimeData-input").innerText = "";
 
-            let eid = document.getElementById('eid').innerText;
+        $("#submit").on('click' , function () {
+            report()
+        })
+
+        function report() {
+            let content = $("#realTimeData-input").val();
+            $("#realTimeData-input").html("");
+
+            let eid = $("#eid").text();
 
             var code = $('#class_ option:selected').val();//选中的值
 

@@ -19,11 +19,12 @@
                                             <th style="display: none">设备ID</th>
                                             <th style="display: none">报警ID</th>
                                             <th style="display: none">设备管理员ID</th>
+
+                                            <th>报警时间</th>
+                                            <th>报警类型</th>
                                             <th>设备名称</th>
                                             <th>使用单位</th>
                                             <th>设备位置</th>
-                                            <th>故障类型</th>
-                                            <th>报警日期</th>
                                             <th>联系人</th>
                                             <th>联系电话</th>
                                         </tr>
@@ -35,11 +36,12 @@
                                         <td style="display: none;">{{ a.e_id }}</td>
                                         <td style="display: none">{{ a.alarm_id }}</td>
                                         <td style="display: none">{{ a.admin_id}}</td>
+
+                                        <td>{{ a.alarm_time }}</td>
+                                        <td>{{ a.class_ or '' }}</td>
                                         <td>{{ a.e_name or '' }}</td>
                                         <td>{{ a.admin_name or '' }}</td>
                                         <td>{{ a.e_location or '' }}</td>
-                                        <td>{{ a.class_ or '' }}</td>
-                                        <td>{{ a.alarm_time }}</td>
                                         <td>{{ a.contact or '' }}</td>
                                         <td>{{ a.contact_tel or '' }}</td>
                                     </tr>

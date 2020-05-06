@@ -262,6 +262,7 @@ def addEquipment():
     gaode_location = request.form.get('gaode_location')
     manufacturer = request.form.get('manufacturer')
     model = request.form.get('model')
+    status = request.form.get("status")
     remarks = request.form.get('remarks')
 
     gaode_longitude, gaode_latitude = [ float(x) for x in gaode_location.split(',')]
@@ -287,6 +288,7 @@ def addEquipment():
         'manufacturer': manufacturer,
         'model': model,
         'remarks': remarks,
+        'status': status,
         'admin': user,
         'position_province': position_province,
         'position_city': position_city,
@@ -339,20 +341,20 @@ def modifyEquipment(eid):
 def drop():
     eid = request.form.get('eid', None)
     if not eid:
-        return {'msg': 'fail', 'data': 'parm error'}
+        return jsonify({'msg': 'fail', 'data': 'parm error'})
 
-    equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
+    equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True)
 
     if not equipment:
-        return {'msg': 'fail', 'data': 'not the equipment'}
+        return jsonify({'msg': 'fail', 'data': 'not the equipment'})
 
     try:
-        equipment.live == False
-        equipment.commit()
+        equipment.update({"live": False})
+        db.session.commit()
     except Exception as e:
         print(e)
-        return {'msg': 'fail', 'data': 'db commit error'}
-    return {'msg': 'success', 'data': 'success'}
+        return jsonify({'msg': 'fail', 'data': 'db commit error'})
+    return jsonify({'msg': 'success', 'data': 'success'})
 
 
 
