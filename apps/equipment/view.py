@@ -262,7 +262,7 @@ def addEquipment():
     gaode_location = request.form.get('gaode_location')
     manufacturer = request.form.get('manufacturer')
     model = request.form.get('model')
-    status = request.form.get("status")
+    SIM_id = request.form.get("SIM_id")
     remarks = request.form.get('remarks')
 
     gaode_longitude, gaode_latitude = [ float(x) for x in gaode_location.split(',')]
@@ -288,7 +288,7 @@ def addEquipment():
         'manufacturer': manufacturer,
         'model': model,
         'remarks': remarks,
-        'status': status,
+        'SIM_id': SIM_id,
         'admin': user,
         'position_province': position_province,
         'position_city': position_city,

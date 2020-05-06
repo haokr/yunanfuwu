@@ -30,18 +30,6 @@
                                 <input type="text" id="name" name="name" class="form-control">
                             </div>
                         </div>
-                        <!-- status -->
-                        <div class="row form-group">
-                            <div class="col col-md-3"><label for="name-input" class=" form-control-label">设备名称</label>
-                            </div>
-                            <div class="col-6 col-md-7">
-                                <select name="select" id="class_" class="form-control">
-                                    <option value="正常" selected>正常</option>
-                                    <option value="故障">故障</option>
-                                    <option value="报警">报警</option>
-                                </select>
-                            </div>
-                        </div>
                         <!-- use_department -->
                         <div class="row form-group">
                             <div class="col col-md-3"><label for="use_department"
@@ -117,7 +105,7 @@
         let location = document.getElementById('location').value;
         let model = document.getElementById('model').value;
         let gaode_location = document.getElementById('gaode_location').value
-        let status = $('#class_ option:selected').val();
+        let SIM_id = document.getElementById('SIM_id').value
 
         name = name == '' ? null : name;
         class_ = class_ == '' ? null : class_;
@@ -142,7 +130,7 @@
                 class_,
                 model,
                 gaode_location,
-                status
+                SIM_id
             },    //参数值,键值对
             type: "POST",   //请求方式
             beforeSend: function () {
