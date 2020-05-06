@@ -102,7 +102,7 @@ class Equipment(db.Model):
     gaode_longitude = db.Column(db.Float(precision='15,8'))
     gaode_latitude = db.Column(db.Float(precision='15,8'))
     location = db.Column(db.String(30))
-    ip = db.Column(db.String(24), unique=True)
+    ip = db.Column(db.String(24))
     use_department = db.Column(db.String(30))
     remarks = db.Column(db.String(50))
     manufacturer = db.Column(db.String(30))
