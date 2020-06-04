@@ -124,6 +124,20 @@
                                         <button id='model-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
                                 </div>
                         </div>
+                        <!-- 心跳间隔 -->
+                        <div class="row form-group">
+                                <div class="col col-md-3"><label for="heartbeat_interval-input" class=" form-control-label">心跳间隔</label></div>
+                                <div class="col-6 col-md-7">
+                                        <input type="text" id="heartbeat_interval-input" name="heartbeat_interval" style='display: none' value="{{ equipment.heartbeat_interval }}" class="form-control">
+                                        <p class="form-control-static" id='heartbeat_interval-p' style='display: block'>{{ equipment.heartbeat_interval or '' }}</p>
+
+                                </div>
+                                <div class='col-4 col-md-2'>
+                                        <button id='heartbeat_interval-modify' onclick='clickModify(this)' type="button" class="btn btn-link" style="color:gray">修改</button>
+                                        <button id='heartbeat_interval-sure' onclick='clickSure(this)' style='display: none' type="button" class="btn btn-outline-primary">确定</button>
+                                        <button id='heartbeat_interval-cancel' onclick='clickCancel(this)' style='display: none' type="button" class="btn btn-outline-danger">取消</button>
+                                </div>
+                        </div>
                         <!-- SIM_id -->
                         <div class="row form-group">
                                 <div class="col col-md-3"><label class=" form-control-label">SIM卡号</label></div>

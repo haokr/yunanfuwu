@@ -65,3 +65,8 @@ def drop():
 def userequipment():
     return view.getUserEquipments()
 
+
+# 设置设备心跳间隔
+@equipment.route('/heartbeat/<eid>', methods=['GET'])
+def heartbeat(eid):
+    return view.getHeartbeat(eid)

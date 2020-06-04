@@ -116,6 +116,7 @@ def showEditEquipment(eid):
             'remarks': e.remarks,
             'manufacturer': e.manufacturer,
             'model': e.model,
+            'heartbeat_interval': e.heartbeat_interval,
             'position_province': e.position_province,
             'position_city': e.position_city,
             'position_district': e.position_district,
@@ -442,3 +443,21 @@ def getUserEquipments():
             for e in equipments if e.live
         ]
     return jsonify(data)
+
+def getHeartbeat(eid):
+    user_id = session.get('id')
+    equipments = User.query.filter(User.id == user_id).first().group.equipments
+    equipment = None
+    for e in equipments:
+        if e.id == eid:
+            equipment = e
+            break
+    else:
+        return jsonify({
+            "msg": "fail: 设备id错误"
+        })
+
+    return jsonify({
+        "msg": "success",
+        "data": equipment.heartbeat_interval
+    })
