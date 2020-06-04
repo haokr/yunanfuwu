@@ -116,6 +116,7 @@ class Equipment(db.Model):
     admin_id = db.Column(db.String(30), db.ForeignKey('user.id'))
     admin = db.relationship('User', backref=db.backref('equipments', lazy='dynamic'))
 
+    heartbeat_interval = db.Column(db.Integer, default=60, comment="单位秒")
     status = db.Column(db.String(15), default='off')
     SIM_id = db.Column(db.String(20), default='0')
     create_time = db.Column(db.DateTime, default=datetime.now)
