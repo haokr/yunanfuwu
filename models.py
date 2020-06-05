@@ -171,29 +171,22 @@ class UI_report_log(db.Model):
     equipment = db.relationship('Equipment', backref=db.backref('ui_report_logs', lazy='dynamic'))
 
     class_ = db.Column(db.String(10), nullable=False)
-    describe = db.Column(db.String(30))
 
-    # 电压
-    U1 = db.Column(db.Float(), nullable=False)
-    U2 = db.Column(db.Float(), nullable=False)
-    U3 = db.Column(db.Float(), nullable=False)
+    HighPositiveActiveTotalElectricEnergy = db.Column(db.Float(), nullable=False, comment="总电能")
+    HighPositiveTotalReactivePower = db.Column(db.Float(), nullable=False, comment="总功率")
 
-    # 电流
-    I1 = db.Column(db.Float(), nullable=False)
-    I2 = db.Column(db.Float(), nullable=False)
-    I3 = db.Column(db.Float(), nullable=False)
+    AphaseVoltage = db.Column(db.Float(), nullable=False, comment="A相电压")
+    BphaseVoltage = db.Column(db.Float(), nullable=False, comment="B相电压")
+    CphaseVoltage = db.Column(db.Float(), nullable=False, comment="c相电压")
 
-    # 设备用电
-    J1 = db.Column(db.Float(precision='8,4'), nullable=False)
+    AphaseCurrent = db.Column(db.Float(), nullable=False, comment="A相电流")
+    BphaseCurrent = db.Column(db.Float(), nullable=False, comment="B相电流")
+    CphaseCurrent = db.Column(db.Float(), nullable=False, comment="C相电流")
 
-    # 温度
-    T1 = db.Column(db.Float(), nullable=False)
-    T2 = db.Column(db.Float(), nullable=False)
-    T3 = db.Column(db.Float(), nullable=False)
-    T4 = db.Column(db.Float(), nullable=False)
-
-    # 剩余电流，漏电
-    L1 = db.Column(db.Float(), nullable=False)
+    TotalActivePowerHigh = db.Column(db.Float(), nullable=False, comment="总有功功率")
+    AphaseActivePower = db.Column(db.Float(), nullable=False, comment="A相有功功率")
+    BphaseActivePower = db.Column(db.Float(), nullable=False, comment="B相有功功率")
+    CphaseActivePpwer = db.Column(db.Float(), nullable=False, comment="C相有功功率")
 
     report_time = db.Column(db.DateTime, nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
