@@ -11,3 +11,8 @@ def root():
 @record.route('/data')
 def data_record():
     return view.data_record()
+
+
+@record.route("/ui")
+def ui_record():
+    return view.ui_record()

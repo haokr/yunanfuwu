@@ -213,7 +213,9 @@ def report(eid):
         equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
         ip = request.form.get('ip')
         if not (ip and equipment):
-            return 'fail, zhuce mei you ip'
+            return jsonify({
+                "msg": "Please enter ip of equipment."
+            })
         try:
             equipment.ip = ip
             equipment.status = '正常'
@@ -322,44 +324,38 @@ def UIReport(eid):
     code = request.form.get('code')
     dateTime = request.form.get('datetime')
 
-    describe = request.form.get('describe')
+    HighPositiveActiveTotalElectricEnergy = request.form.get('HighPositiveActiveTotalElectricEnergy')
+    HighPositiveTotalReactivePower = request.form.get('HighPositiveTotalReactivePower')
 
-    U1 = request.form.get('U1')
-    U2 = request.form.get('U2')
-    U3 = request.form.get('U3')
+    AphaseVoltage = request.form.get('AphaseVoltage')
+    BphaseVoltage = request.form.get('BphaseVoltage')
+    CphaseVoltage = request.form.get('CphaseVoltage')
 
-    I1 = request.form.get('I1')
-    I2 = request.form.get('I2')
-    I3 = request.form.get('I3')
+    AphaseCurrent = request.form.get('AphaseCurrent')
+    BphaseCurrent = request.form.get('BphaseCurrent')
+    CphaseCurrent = request.form.get('CphaseCurrent')
 
-    J1 = request.form.get('J1')
-
-    T1 = request.form.get('T1')
-    T2 = request.form.get('T2')
-    T3 = request.form.get('T3')
-    T4 = request.form.get('T4')
-
-    L1 = request.form.get('L1')
+    TotalActivePowerHigh = request.form.get('TotalActivePowerHigh')
+    AphaseActivePower = request.form.get('AphaseActivePower')
+    BphaseActivePower = request.form.get('BphaseActivePower')
+    CphaseActivePpwer = request.form.get('CphaseActivePpwer')
 
     data = {
-        'describe': describe,
-        # 电压
-        'U1': U1,
-        'U2': U2,
-        'U3': U3,
-        # 电流
-        'I1': I1,
-        'I2': I2,
-        'I3': I3,
-        # 设备用电
-        'J1': J1,
-        # 温度
-        'T1': T1,
-        'T2': T2,
-        'T3': T3,
-        'T4': T4,
-        # 剩余电流，漏电
-        'L1': L1,
+        'HighPositiveActiveTotalElectricEnergy': HighPositiveActiveTotalElectricEnergy,
+        'HighPositiveTotalReactivePower': HighPositiveTotalReactivePower,
+
+        'AphaseVoltage': AphaseVoltage,
+        'BphaseVoltage': BphaseVoltage,
+        'CphaseVoltage': CphaseVoltage,
+
+        'AphaseCurrent': AphaseCurrent,
+        'BphaseCurrent': BphaseCurrent,
+        'CphaseCurrent': CphaseCurrent,
+
+        'TotalActivePowerHigh': TotalActivePowerHigh,
+        'AphaseActivePower': AphaseActivePower,
+        'BphaseActivePower': BphaseActivePower,
+        'CphaseActivePpwer': CphaseActivePpwer,
     }
 
     codeDict = {
@@ -367,15 +363,15 @@ def UIReport(eid):
         '001': '正常',
         '101': '故障',
         '102': '电压报警',
-        '103': '电流报警',
-        '104': '漏电报警',
-        '105': '温度报警'
+        '103': '电流报警'
     }
     if code == '000':
         equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
         ip = request.form.get('ip')
         if not (ip and equipment):
-            return 'fail, zhuce mei you ip'
+            return jsonify({
+                "msg": "Please enter ip."
+            })
         try:
             equipment.ip = ip
             equipment.status = '正常'
@@ -383,93 +379,86 @@ def UIReport(eid):
         except Exception as e:
             print(e)
             return 'error when commit db'
-        return 'regist success'
+        return jsonify({
+            "msg": "success"
+        })
 
     class_ = codeDict.get(code, None)
     class_ = class_ if class_ else code
 
-    try:
-        equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
-        equipment.status = class_
-        db.session.commit()
-    except Exception as e:
-        print(e)
-
     # 日志
     if code[0] == '0':
         try:
-            reportData = {
-                'equipment_id': eid,
-                'class_': class_,
-                'describe': data['describe'],
-                # 电压
-                'U1': data['U1'],
-                'U2': data['U2'],
-                'U3': data['U3'],
-                # 电流
-                'I1': data['I1'],
-                'I2': data['I2'],
-                'I3': data['I3'],
-                # 设备用电
-                'J1': data['J1'],
-                # 温度
-                'T1': data['T1'],
-                'T2': data['T2'],
-                'T3': data['T3'],
-                'T4': data['T4'],
-                # 剩余电流，漏电
-                'L1': data['L1'],
+            isAlarm = redis_cli.get(eid)
+            isAlarm = isAlarm.decode() if isAlarm else None
+            if isAlarm:
+                alarmId = isAlarm.split(",")[0]
+                equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
+                equipment.status = '正常'
+                alarmRecord = Alarm_record.query.filter(Alarm_record.id == alarmId).first()
+                alarmRecord.end_time = datetime.now()
+                db.session.commit()
 
-                'report_time': datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
-            }
-            report = UI_report_log(**reportData)
+            data["equipment_id"] = eid
+            data["class_"] = class_
+            data["report_time"] = datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
+
+            report = UI_report_log(**data)
             db.session.add(report)
             db.session.commit()
+            redis_cli.delete(eid)
         except Exception as e:
             print(e)
     # 报警
     elif code[0] == '1':
         try:
             # 报警
+            isAlarm = redis_cli.get(eid)
+            isAlarm = isAlarm.decode() if isAlarm else None
+            oldAlarmClass = isAlarm.split(",")[1] if isAlarm else None
+            alarmId = isAlarm.split(",")[0] if isAlarm else None
+
+            if not isAlarm:
+                equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
+                equipment.status = class_
+                db.session.commit()
+                emailMsg = f"警报！ 设备报警！\n 设备id：{eid}\n 设备名称：{equipment.name}\n 设备位置：{equipment.location}\n 所属部门：{equipment.use_department}\n 报警时间：{alarmData['alarm_time']}\n 请及时检查！"
+                all_alert(equipment.admin, msg=emailMsg, subject="警报！设备报警！请及时查看！")
+
+            elif oldAlarmClass != class_:
+                equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
+                equipment.status = class_
+                # 将原来的报警结束
+                alarmRecord = Alarm_record.query.filter(Alarm_record.id == alarmId).first()
+                alarmRecord.end_time = datetime.now()
+                redis_cli.delete(eid)
+                db.session.commit()
+                emailMsg = f"警报！ 设备报警！\n 设备id：{eid}\n 设备名称：{equipment.name}\n 设备位置：{equipment.location}\n 所属部门：{equipment.use_department}\n 报警时间：{alarmData['alarm_time']}\n 请及时检查！"
+                all_alert(equipment.admin, msg=emailMsg, subject="警报！设备报警！请及时查看！")
+
             alarmData = {
                 'equipment_id': eid,
                 'class_': class_,
-                'describe': data['describe'],
                 'alarm_time': datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
             }
+
+
+
             alarm = Alarm_record(**alarmData)
             # 日志
-            reportData = {
-                'equipment_id': eid,
-                'class_': class_,
-                'describe': data['describe'],
-                # 电压
-                'U1': data['U1'],
-                'U2': data['U2'],
-                'U3': data['U3'],
-                # 电流
-                'I1': data['I1'],
-                'I2': data['I2'],
-                'I3': data['I3'],
-                # 设备用电
-                'J1': data['J1'],
-                # 温度
-                'T1': data['T1'],
-                'T2': data['T2'],
-                'T3': data['T3'],
-                'T4': data['T4'],
-                # 剩余电流，漏电
-                'L1': data['L1'],
+            data["equipment_id"] = eid
+            data["class_"] = class_
+            data["report_time"] = datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
 
-                'report_time': datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')
-            }
-            report = UI_report_log(**reportData)
+            report = UI_report_log(**data)
 
-            db.session.add(report)
             db.session.add(alarm)
+            db.session.add(report)
+            db.session.flush()
+            redis_cli.set(eid, f"{alarm.id},{class_}")
             db.session.commit()
         except Exception as e:
-            print(e)
+            raise e
 
     socketio.emit(
         'report',
@@ -478,18 +467,6 @@ def UIReport(eid):
             'describe': class_,
             'reporter': eid,
             'datetime': dateTime,
-            'data': data
-        },
-        room=eid,
-    )
-    socketio.emit(
-        'uireport',
-        {
-            'code': code,
-            'describe': class_,
-            'reporter': eid,
-            'datetime': dateTime,
-            'data': data
         },
         room=eid,
     )

@@ -95,3 +95,67 @@ def data_record():
         'data_records': data_records
     }
     return render_template('record/data_record.html', **data)
+
+
+def ui_record():
+    user_id = session.get('id')
+
+    user = User.query.filter(User.id == user_id).first()
+    equipments = user.group.equipments
+
+    children = User.query.filter(User.parent_id == user_id, User.live == True).all()
+
+    ui_records = []
+
+    for e in equipments:
+        for r in e.ui_report_logs:
+            ui_records.append({
+                'e_id': e.id,
+                'e_name': e.name,
+                'admin_id': e.admin.id,
+                'admin_name': e.admin.name,
+                'contact': e.admin.contact,
+                'contact_tel': e.admin.contact_tel,
+                'use_department': e.use_department,
+                'e_class': e.class_,
+                'record_id': r.id,
+                'data': {
+                    'HighPositiveActiveTotalElectricEnergy': r.HighPositiveActiveTotalElectricEnergy,
+                    'HighPositiveTotalReactivePower': r.HighPositiveTotalReactivePower,
+
+                    'AphaseVoltage': r.AphaseVoltage,
+                    'BphaseVoltage': r.BphaseVoltage,
+                    'CphaseVoltage': r.CphaseVoltage,
+
+                    'AphaseCurrent': r.AphaseCurrent,
+                    'BphaseCurrent': r.BphaseCurrent,
+                    'CphaseCurrent': r.CphaseCurrent,
+
+                    'TotalActivePowerHigh': r.TotalActivePowerHigh,
+                    'AphaseActivePower': r.AphaseActivePower,
+                    'BphaseActivePower': r.BphaseActivePower,
+                    'CphaseActivePpwer': r.CphaseActivePpwer,
+                },
+                'class_': r.class_,
+                'report_time': datetime.strftime(r.report_time, "%Y-%m-%d %H:%M:%S")
+            })
+        ui_records.sort(key=lambda a: a['report_time'], reverse=True)
+    data = {
+        'base': {
+            'pageTitle': '电气数据记录-云安服务',
+            'pageNow': '电气数据记录',
+            'avatarImgUrl': '/static/img/yunan_logo_1.png',
+            'username': session.get('username'),
+            'name': session.get('name'),
+            'userid': session.get('id'),
+            'children': [
+                {
+                    'id': c.id,
+                    'name': c.name
+                }
+                for c in children
+            ],
+        },
+        'ui_records': ui_records
+    }
+    return render_template('record/ui_record.html', **data)
