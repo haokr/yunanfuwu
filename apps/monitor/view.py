@@ -422,7 +422,7 @@ def UIReport(eid):
                 equipment = Equipment.query.filter(Equipment.id == eid, Equipment.live == True).first()
                 equipment.status = class_
                 db.session.commit()
-                emailMsg = f"警报！ 设备报警！\n 设备id：{eid}\n 设备名称：{equipment.name}\n 设备位置：{equipment.location}\n 所属部门：{equipment.use_department}\n 报警时间：{alarmData['alarm_time']}\n 请及时检查！"
+                emailMsg = f"警报！ 设备报警！\n 设备id：{eid}\n 设备名称：{equipment.name}\n 设备位置：{equipment.location}\n 所属部门：{equipment.use_department}\n 报警时间：{datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')}\n 请及时检查！"
                 all_alert(equipment.admin, msg=emailMsg, subject="警报！设备报警！请及时查看！")
 
             elif oldAlarmClass != class_:
@@ -433,7 +433,7 @@ def UIReport(eid):
                 alarmRecord.end_time = datetime.now()
                 redis_cli.delete(eid)
                 db.session.commit()
-                emailMsg = f"警报！ 设备报警！\n 设备id：{eid}\n 设备名称：{equipment.name}\n 设备位置：{equipment.location}\n 所属部门：{equipment.use_department}\n 报警时间：{alarmData['alarm_time']}\n 请及时检查！"
+                emailMsg = f"警报！ 设备报警！\n 设备id：{eid}\n 设备名称：{equipment.name}\n 设备位置：{equipment.location}\n 所属部门：{equipment.use_department}\n 报警时间：{datetime.strptime(dateTime, '%Y-%m-%d %H:%M:%S')}\n 请及时检查！"
                 all_alert(equipment.admin, msg=emailMsg, subject="警报！设备报警！请及时查看！")
 
             alarmData = {
