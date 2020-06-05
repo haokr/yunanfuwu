@@ -186,7 +186,7 @@ class UI_report_log(db.Model):
     TotalActivePowerHigh = db.Column(db.Float(), nullable=False, comment="总有功功率")
     AphaseActivePower = db.Column(db.Float(), nullable=False, comment="A相有功功率")
     BphaseActivePower = db.Column(db.Float(), nullable=False, comment="B相有功功率")
-    CphaseActivePpwer = db.Column(db.Float(), nullable=False, comment="C相有功功率")
+    CphaseActivePower = db.Column(db.Float(), nullable=False, comment="C相有功功率")
 
     report_time = db.Column(db.DateTime, nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)

@@ -338,7 +338,7 @@ def UIReport(eid):
     TotalActivePowerHigh = request.form.get('TotalActivePowerHigh')
     AphaseActivePower = request.form.get('AphaseActivePower')
     BphaseActivePower = request.form.get('BphaseActivePower')
-    CphaseActivePpwer = request.form.get('CphaseActivePpwer')
+    CphaseActivePower = request.form.get('CphaseActivePower')
 
     data = {
         'HighPositiveActiveTotalElectricEnergy': HighPositiveActiveTotalElectricEnergy,
@@ -355,7 +355,7 @@ def UIReport(eid):
         'TotalActivePowerHigh': TotalActivePowerHigh,
         'AphaseActivePower': AphaseActivePower,
         'BphaseActivePower': BphaseActivePower,
-        'CphaseActivePpwer': CphaseActivePpwer,
+        'CphaseActivePower': CphaseActivePower,
     }
 
     codeDict = {
