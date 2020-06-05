@@ -29,7 +29,7 @@ def before_request():
     ignore = ['/user/login', '/user/register', '/gov/regist', '/gov/login', '/user/wxlogin', '/monitor/wxshow', '/monitor/reportonphone', '']
     isReport = request.path.startswith('/monitor/report/') or request.path.startswith('/monitor/uireport/')
     isStatic = request.path.startswith('/static')
-    isGetHeartbeat = "/equipment/heartbeat/e_"
+    isGetHeartbeat = request.path.startswith("/equipment/heartbeat/e_")
 
     if request.path == '/favicon.ico':
         return redirect('/static/img/yunan_logo_3.png')
