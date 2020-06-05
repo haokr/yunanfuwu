@@ -445,16 +445,11 @@ def getUserEquipments():
     return jsonify(data)
 
 def getHeartbeat(eid):
-    user_id = session.get('id')
-    equipments = User.query.filter(User.id == user_id).first().group.equipments
-    equipment = None
-    for e in equipments:
-        if e.id == eid:
-            equipment = e
-            break
-    else:
+    equipment = Equipment.query.filter(Equipment.id == eid).first()
+
+    if not equipment:
         return jsonify({
-            "msg": "fail: 设备id错误"
+            "msg": "fail, Without this equipment."
         })
 
     return jsonify({
